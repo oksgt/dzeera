@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('level');
+            $table->boolean('is_email_verified')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
