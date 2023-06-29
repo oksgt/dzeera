@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('product_bundleds', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_product_bundled')->references('id')->on('products');
+            $table->foreignId('product_id')->references('id')->on('products');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

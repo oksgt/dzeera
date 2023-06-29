@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('gifts', function (Blueprint $table) {
             $table->id();
+            $table->string('gift_name');
+            $table->string('gift_description');
+            $table->integer('is_for_first_purchase');
+            $table->decimal('min_purchase_value', 10, 2);
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->foreignId('color_opt_id')->references('id')->on('product_color_options');
+            $table->foreignId('size_opt_id')->references('id')->on('product_size_options');
+            $table->enum('is_active', ['y', 'n'])->default('y');
             $table->timestamps();
         });
     }

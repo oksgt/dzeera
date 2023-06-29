@@ -15,7 +15,16 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
+            $table->string("voucher_name", 100);
+            $table->string("voucher_desc")->nullable();
+            $table->string("code", 10);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('is_percent', ['y', 'n'])->default('y');
+            $table->integer('value');
+            $table->enum('is_active', ['y', 'n'])->default('y');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

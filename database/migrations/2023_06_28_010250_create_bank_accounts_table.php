@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->id();
+            $table->string('bank_name');
+            $table->string('account_number');
+            $table->string('account_name');
+            $table->enum('is_active', ['y', 'n'])->default('y');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

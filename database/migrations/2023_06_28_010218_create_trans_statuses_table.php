@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('trans_statuses', function (Blueprint $table) {
+        Schema::create('trans_status', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

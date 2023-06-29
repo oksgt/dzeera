@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->string('file_name');
+            $table->string('file_type');
+            $table->string('file_path');
             $table->timestamps();
         });
     }

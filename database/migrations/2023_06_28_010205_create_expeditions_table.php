@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('expeditions', function (Blueprint $table) {
             $table->id();
+            $table->string('expedition_name', 100);
+            $table->text('expedition_description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

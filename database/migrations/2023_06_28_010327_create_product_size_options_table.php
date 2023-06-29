@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('product_size_options', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->string('size');
+            $table->string('dimension');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

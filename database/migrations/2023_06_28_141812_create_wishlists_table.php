@@ -14,18 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_details', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->string('trans_number');
             $table->foreignIdFor(User::class, 'user_id');
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('color_opt_id')->references('id')->on('product_color_options');
             $table->foreignId('size_opt_id')->references('id')->on('product_size_options');
-            $table->integer('qty');
-            $table->decimal('price', 10, 2);
-            $table->enum('is_gift', ['y', 'n'])->default('y');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -36,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_details');
+        Schema::dropIfExists('wishlists');
     }
 };

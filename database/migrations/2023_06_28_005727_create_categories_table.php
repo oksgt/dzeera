@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('brand_id')->references('id')->on('brands');
+            $table->string('category_name', 100);
+            $table->string('slug', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

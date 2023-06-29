@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('payment_options', function (Blueprint $table) {
             $table->id();
+            $table->string('payment_opt_name', 100);
+            $table->string('payment_opt_desc')->nullable();
+            $table->enum('is_active', ['y', 'n'])->default('y');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
