@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('gifts', function (Blueprint $table) {
             $table->id();
-            $table->string('gift_name');
+            $table->string('gift_name')->unique();
             $table->string('gift_description');
             $table->integer('is_for_first_purchase');
             $table->decimal('min_purchase_value', 10, 2);

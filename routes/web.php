@@ -24,6 +24,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
 
+    Route::get('brands', [\App\Http\Controllers\BrandController::class, 'index'])->name('brands.index');
+    Route::get('brands/create', [\App\Http\Controllers\BrandController::class, 'create'])->name('brands.create');
+    Route::post('brands/save', [\App\Http\Controllers\BrandController::class, 'save'])->name('brands.save');
+    Route::get('brands/{brand}/edit', [\App\Http\Controllers\BrandController::class, 'edit'])->name('brands.edit');
+    Route::put('brands/{brand}', [\App\Http\Controllers\BrandController::class, 'update'])->name('brands.update');
+    Route::get('brands/{brand}/delete', [\App\Http\Controllers\BrandController::class, 'delete'])->name('brands.delete');
+    Route::delete('brands/remove', [\App\Http\Controllers\BrandController::class, 'remove'])->name('brands.remove');
+
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

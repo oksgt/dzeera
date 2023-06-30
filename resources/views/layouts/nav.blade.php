@@ -1,7 +1,10 @@
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
     <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-        <img class="navbar-brand-dark" src="{{ asset('images/brand/light.svg') }}" alt="Volt logo" />
-        <img class="navbar-brand-light" src="{{ asset('images/brand/dark.svg') }}" alt="Volt logo" />
+        <img class="navbar-brand-dark" src="{{ asset('images/brand/dzeera-icon.png') }}" alt="Dzeera logo" />
+        <img class="navbar-brand-light" src="{{ asset('images/brand/dzeera-icon.png') }}" alt="Dzeera logo" />
+        <span class="mt-1 ms-1 sidebar-text">
+            D'zeera Administrator
+        </span>
     </a>
     <div class="d-flex align-items-center">
         <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse"

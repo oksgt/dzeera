@@ -2,10 +2,10 @@
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
             <span class="sidebar-icon me-3">
-                <img src="{{ asset('images/brand/light.svg') }}" height="20" width="20" alt="Volt Logo">
+                <img src="{{ asset('images/brand/dzeera-icon.png') }}" height="20" width="20" alt="Volt Logo">
             </span>
             <span class="mt-1 ms-1 sidebar-text">
-                Volt Laravel
+                D'zeera Administrator
             </span>
         </a>
     </li>
@@ -23,7 +23,97 @@
         </a>
     </li>
 
-    <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('brands.index') ? 'active' : '' }}">
+        <a href="{{ route('brands.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-tag fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Brands') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Categories') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Products') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Orders') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Expeditions') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Payments') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Payment Options') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Bank Accounts') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Vouchers') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-user-alt fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Gifts') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-user-alt fa-fw"></i>

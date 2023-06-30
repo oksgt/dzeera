@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("voucher_name", 100);
             $table->string("voucher_desc")->nullable();
-            $table->string("code", 10);
+            $table->string("code", 10)->unique();
             $table->date('start_date');
             $table->date('end_date');
             $table->enum('is_percent', ['y', 'n'])->default('y');

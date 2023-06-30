@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->enum('product_type', ['single', 'bundle'])->default('single');
             $table->foreignId('category_id')->references('id')->on('categories');
-            $table->string('product_sku');
-            $table->string('product_name');
+            $table->string('product_sku')->unique();
+            $table->string('product_name')->unique();
             $table->string('product_desc')->nullable();
-            $table->string('slug', 100);
+            $table->string('slug', 100)->nullable();
             $table->enum('product_status', ['ready', 'po'])->default('ready');
             $table->string('image_thumb')->nullable();
             $table->enum('product_availability', ['y', 'n'])->default('y');

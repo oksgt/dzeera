@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>D'Zeera</title>
+    <link rel="icon" href="{{ asset('images/brand/dzeera-icon.png') }}" />
 
     <!-- Styles -->
     @vite('resources/sass/app.scss')
@@ -27,6 +28,7 @@
     </main>
 
     @yield('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

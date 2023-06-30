@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('brand_id')->references('id')->on('brands');
             $table->string('category_name', 100);
-            $table->string('slug', 100);
+            $table->string('slug', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
