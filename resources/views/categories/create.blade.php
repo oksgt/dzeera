@@ -16,10 +16,11 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('brands.index') }}">Brands</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('brands.create') }}">Create</a></li>
                 </ol>
             </nav>
-            <h2 class="h4 text-danger">Delete brand "{{$brand->brand_name}}"</h2>
-            <p class="mb-0">Delete brand confirmation</p>
+            <h2 class="h4">Add New Category</h2>
+            <p class="mb-0">Category data form</p>
         </div>
     </div>
 
@@ -41,18 +42,33 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('brands.remove', ['brand' => $brand->id]) }}" method="post">
+                            <form action="{{ route('category.save') }}" method="post">
                                 @csrf
-                                @method('delete')
+                                <div class="mb-3 p-1">
+                                    <label for="brand_id">Brand Name</label>
+                                    <select class="form-select @error('brand_id') is-invalid @enderror" id="brand_id" name="brand_id" aria-label="Default select example">
+                                        <option value="default">Open this select menu</option>
+                                        @foreach ($brands as $item)
+                                            <option value="{{ $item->id }}">{{$item->brand_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('brand_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="mb-0 p-1">
-                                    <label for="brand_name">Type 'delete' on field below to confirm your delete action</label>
-                                    <input type="text" class="form-control"
-                                    id="action_text" name="action_text" aria-describedby="action_textHelp">
+                                    <label for="category_name">Category Name</label>
+                                    <input type="text" class="form-control @error('category_name') is-invalid @enderror"
+                                    value="{{ old('category_name') }}"
+                                    id="category_name" name="category_name" aria-describedby="category_nameHelp">
+                                    @error('category_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-0 p-1 d-flex justify-content-between">
-                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ route('brands.index') }}">Back</a>
+                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ route('category.index') }}">Back</a>
 
-                                    <button class="btn btn-sm btn-danger float-end" type="submit" id="button-save">Proceed</button>
+                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Save</button>
                                   </div>
                             </form>
                             <!-- End of Form -->

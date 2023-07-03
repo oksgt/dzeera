@@ -3,15 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+// use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
 {
-    public function index()
+
+    private $perPage = 10;
+
+    public function index(Request $request)
     {
-        $brands = Brand::paginate(10);
-        return view('brands.index', compact('brands'));
+        $column = $request->input('sort', 'brand_name');
+        $direction = $request->input('dir', 'asc');
+
+        $query = $request->input('q', '');
+
+        $brands = Brand::where('brand_name', 'LIKE', "%$query%")
+                    ->orderBy($column, $direction)
+                    ->paginate($this->perPage);
+
+        $page = $request->input('page', 1);
+        $perPage = $request->input('perPage', $this->perPage);
+        $counter = ($page - 1) * $perPage + 1;
+
+        return view('brands.index', compact('brands', 'column', 'direction', 'counter', 'query'));
     }
 
     public function create(){
@@ -20,7 +37,13 @@ class BrandController extends Controller
 
     public function save(Request $request){
         $validator = Validator::make($request->all(), [
-            'brand_name' => 'required|string|max:255|unique:brands',
+            'brand_name' => [
+                'required',
+                'string',
+                Rule::unique('brands')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +67,13 @@ class BrandController extends Controller
 
     public function update(Request $request, Brand $brand){
         $validateData = $request->validate([
-            'brand_name' => 'required|string|max:255|unique:brands',
+            'brand_name' => [
+                'required',
+                'string',
+                Rule::unique('brands')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ]);
 
         $brand = Brand::where('id', $brand->id);

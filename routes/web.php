@@ -32,6 +32,15 @@ Route::middleware('auth')->group(function () {
     Route::get('brands/{brand}/delete', [\App\Http\Controllers\BrandController::class, 'delete'])->name('brands.delete');
     Route::delete('brands/remove', [\App\Http\Controllers\BrandController::class, 'remove'])->name('brands.remove');
 
+    Route::get('category', [\App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+    Route::get('category/getData', [\App\Http\Controllers\CategoryController::class, 'getData'])->name('category.list');
+    Route::get('category/create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+    Route::post('category/save', [\App\Http\Controllers\CategoryController::class, 'save'])->name('category.save');
+    Route::get('category/{category}/edit', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
+    Route::put('category/{category}', [\App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
+    Route::get('category/{category}/delete', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete');
+    Route::delete('category/remove', [\App\Http\Controllers\CategoryController::class, 'remove'])->name('category.remove');
+
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

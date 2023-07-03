@@ -18,16 +18,16 @@
                     <li class="breadcrumb-item"><a href="{{ route('brands.index') }}">Brands</a></li>
                 </ol>
             </nav>
-            <h2 class="h4">Brands</h2>
+            <h2 class="h4">Category</h2>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('brands.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route('category.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                     </path>
                 </svg>
-                New Brand
+                New Category
             </a>
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="card card-body border-0 shadow table-wrapper ">
         <div class="card-header border-0 d-flex flex-column flex-lg-row align-items-center justify-content-start">
             <div class="mb-0">
-                <form action="{{ route('brands.index') }}" method="GET">
+                <form action="{{ route('category.index') }}" method="GET">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">
                         <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
@@ -63,13 +63,18 @@
             </div>
         </div>
         <div class="card-body table-responsive">
-            <table class="table table-hover table-auto">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
                         <th class="border-gray-200">
-                            <a href="{{ route('brands.index', ['sort' => 'brand_name', 'dir' => ($column == 'brand_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                            <a href="{{ route('category.index', ['sort' => 'brand_name', 'dir' => ($column == 'brand_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
                                 Brand Name {!! ($column == 'brand_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('category.index', ['sort' => 'category_name', 'dir' => ($column == 'category_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Category Name {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">{{ __('Slug') }}</th>
@@ -77,18 +82,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($brands as $brand)
+                    @foreach ($category as $row)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
-                            <td><span class="fw-normal">{{ $brand->brand_name }}</span></td>
-                            <td><span class="fw-normal">{{ $brand->slug }}</span></td>
+                            <td><span class="fw-normal">{{ $row->brand_name }}</span></td>
+                            <td><span class="fw-normal">{{ $row->category_name }}</span></td>
+                            <td><span class="fw-normal">{{ $row->slug }}</span></td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('brands.edit', ['brand' => $brand]) }}">
+                                    href="{{ route('category.edit', ['category' => $row]) }}">
                                     Edit
                                 </a>
                                 <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                    href="{{ route('brands.delete', ['brand' => $brand]) }}">
+                                    href="{{ route('category.delete', ['category' => $row]) }}">
                                     Delete
                                 </a>
                             </td>
@@ -97,8 +103,29 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
-            {{ $brands->links() }}
+        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            {{ $category->links() }}
         </div>
     </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var table = $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('category.list') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'category_name', name: 'category_name'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: true
+                },
+            ]
+        });
+    });
+</script>
