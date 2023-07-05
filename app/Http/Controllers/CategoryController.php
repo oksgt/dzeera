@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
 
 class CategoryController extends Controller
 {
@@ -52,7 +51,7 @@ class CategoryController extends Controller
         }
 
         $category = new Category;
-        $category->brand_id      = $request->input('input_brand');
+        $category->brand_id      = $request->input('brand_id');
         $category->category_name = $request->input('category_name');
         $saved = $category->save();
 
@@ -98,4 +97,10 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('category.index')->with('success', 'Category deleted successfully!');
     }
+
+    public function listByBrand($brand_id){
+        $category = Category::where('brand_id', $brand_id)->get();
+        return response()->json($category);
+    }
+
 }

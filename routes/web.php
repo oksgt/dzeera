@@ -33,13 +33,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('brands/remove', [\App\Http\Controllers\BrandController::class, 'remove'])->name('brands.remove');
 
     Route::get('category', [\App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
-    Route::get('category/getData', [\App\Http\Controllers\CategoryController::class, 'getData'])->name('category.list');
     Route::get('category/create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
     Route::post('category/save', [\App\Http\Controllers\CategoryController::class, 'save'])->name('category.save');
     Route::get('category/{category}/edit', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
     Route::put('category/{category}', [\App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
     Route::get('category/{category}/delete', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete');
     Route::delete('category/remove', [\App\Http\Controllers\CategoryController::class, 'remove'])->name('category.remove');
+    Route::get('category/list/{brand_id}', [\App\Http\Controllers\CategoryController::class, 'listByBrand']);
+
+    Route::get('product', [\App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
+    Route::get('product/create', [\App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
+    Route::post('product/save', [\App\Http\Controllers\ProductController::class, 'save'])->name('product.save');
+    Route::get('product/{product}/edit', [\App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
+    Route::put('product/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
+    Route::get('product/{product}/delete', [\App\Http\Controllers\ProductController::class, 'delete'])->name('product.delete');
+    Route::delete('product/remove', [\App\Http\Controllers\ProductController::class, 'remove'])->name('product.remove');
+    Route::get('product/{product}/view', [\App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
+    Route::get('product/{product}/detail', [\App\Http\Controllers\ProductController::class, 'detail'])->name('product.detail');
+    // Route::get('product/{product}/success', [\App\Http\Controllers\ProductController::class, 'test']);
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 

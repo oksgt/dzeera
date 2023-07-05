@@ -15,7 +15,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('brands.index') }}">Brands</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Category</a></li>
                 </ol>
             </nav>
             <h2 class="h4">Category</h2>
@@ -110,22 +110,4 @@
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('#myTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('category.list') }}",
-            columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'category_name', name: 'category_name'},
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: true,
-                    searchable: true
-                },
-            ]
-        });
-    });
-</script>
+

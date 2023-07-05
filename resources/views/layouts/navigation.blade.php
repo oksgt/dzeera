@@ -5,7 +5,7 @@
                 <img src="{{ asset('images/brand/dzeera-icon.png') }}" height="20" width="20" alt="Volt Logo">
             </span>
             <span class="mt-1 ms-1 sidebar-text">
-                D'zeera Administrator
+                D'Zeera Administrator
             </span>
         </a>
     </li>
@@ -42,7 +42,7 @@
     </li>
 
     <li class="nav-item ">
-        <a href="{{ route('users.index') }}" class="nav-link">
+        <a href="{{ route('product.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-user-alt fa-fw"></i>
             </span>

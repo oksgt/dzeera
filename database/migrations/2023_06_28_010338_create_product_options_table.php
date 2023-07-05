@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('product_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->references('id')->on('products');
-            $table->foreignId('color_opt_id')->references('id')->on('product_color_options');
-            $table->foreignId('size_opt_id')->references('id')->on('product_size_options');
-            $table->integer('stock');
+            $table->string('color');
+            $table->string('size');
+            $table->integer('stock')->nullable();
             $table->decimal('base_price', 10, 2);
             $table->integer('disc');
             $table->decimal('price', 10, 2);
