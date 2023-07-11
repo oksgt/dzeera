@@ -16,10 +16,11 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.create') }}">Create</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.create') }}">Create</a>
+                    </li>
                 </ol>
             </nav>
-            <h2 class="h4">Add New Product</h2>
+            <h2 class="h4">Create Product</h2>
             <p class="mb-0">Product data form</p>
         </div>
     </div>
@@ -36,119 +37,142 @@
     </div>
 
     <div class="row">
-        <div class="col-12 mb-4">
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3 p-1">
+
+                        <form action="{{ route('product.save') }}" method="post">
+                            @csrf
+
+                            <label for="product_name">Name</label>
+                            <input type="text" class="form-control @error('product_name') is-invalid @enderror"
+                            value = "{{old('product_name')}}"  id="product_name" name="product_name" aria-describedby="product_nameHelp">
+                            @error('product_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_sku">SKU</label>
+                        <input type="text" class="form-control @error('product_sku') is-invalid @enderror"
+                        value = "{{old('product_sku')}}" id="product_sku" name="product_sku" aria-describedby="product_skuHelp">
+                        @error('product_sku')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_type">Type</label>
+                        <select class="form-select @error('product_type') is-invalid @enderror" id="product_type"
+                            name="product_type" aria-label="Product type">
+
+                            <option value="single">Single</option>
+                            <option value="bundle">Bundle</option>
+
+                        </select>
+                        @error('product_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3 p-1">
+                        <label for="brand_id">Brand</label>
+                        <select class="form-select @error('brand_id') is-invalid @enderror" id="brand_id" name="brand_id"
+                            aria-label="Default select example">
+                            <option value="0">Select brand</option>
+                            @foreach ($brands as $item)
+                                <option value="{{ $item->id }}">{{$item->brand_name}}</option>
+                            @endforeach
+                        </select>
+                        @error('brand_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="category_id">Category</label>
+                        <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
+                            name="category_id" aria-label="Default select example">
+                            <option value="0">Please select brand first</option>
+                        </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Status
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 p-1">
+                        <label for="product_status">Order Status</label>
+                        <select class="form-select @error('product_status') is-invalid @enderror" id="product_status"
+                            name="product_status" aria-label="Default select example">
+                            <option value="ready" selected>Ready</option>
+                            <option value="po">Pre Order</option>
+                        </select>
+                        @error('product_status')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_availability">Availability</label>
+                        <select class="form-select @error('product_availability') is-invalid @enderror"
+                            id="product_availability" name="product_availability" aria-label="Default select example">
+                            <option value="y" selected>Available</option>
+                            <option value="n">Not Available</option>
+                        </select>
+                        @error('product_availability')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-8 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
                     <div class="row mb-4">
-                        <div class="col-lg-4 col-sm-6">
-                            <!-- Form -->
-                            <form action="{{ route('product.save') }}" method="post">
-                                @csrf
-
-                                <div class="mb-3 p-1">
-                                    <label for="product_name">Product Name</label>
-                                    <input type="text" class="form-control @error('product_name') is-invalid @enderror"
-                                        value="{{ old('product_name') }}" id="product_name" name="product_name"
-                                        aria-describedby="product_nameHelp">
-                                    @error('product_name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3 p-1">
-                                    <label for="product_sku">SKU</label>
-                                    <input type="text" class="form-control @error('product_sku') is-invalid @enderror"
-                                        value="{{ old('product_sku') }}" id="product_sku" name="product_sku"
-                                        aria-describedby="product_skuHelp">
-                                    @error('product_sku')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3 p-1">
-                                    <label for="product_type">Type</label>
-                                    <select class="form-select @error('product_type') is-invalid @enderror" id="product_type"
-                                        name="product_type" aria-label="Product type">
-                                        <option value="single" selected>Single</option>
-                                        <option value="bundle" selected>Bundle</option>
-                                    </select>
-                                    @error('product_type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 p-1">
-                                    <label for="brand_id">Brand</label>
-                                    <select class="form-select @error('brand_id') is-invalid @enderror" id="brand_id" name="brand_id" aria-label="Default select example">
-                                        <option value="0">Select brand</option>
-                                        @foreach ($brands as $item)
-                                            <option value="{{ $item->id }}">{{$item->brand_name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('brand_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 p-1">
-                                    <label for="category_id">Category</label>
-                                    <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
-                                        name="category_id" aria-label="Default select example">
-                                        <option value="0">Please select brand first</option>
-                                    </select>
-                                    @error('category_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3 p-1">
-                                    <label for="product_status">Status</label>
-                                    <select class="form-select @error('product_status') is-invalid @enderror" id="product_status"
-                                        name="product_status" aria-label="Default select example">
-                                        <option value="ready" selected>Ready</option>
-                                        <option value="po" >Pre Order</option>
-                                    </select>
-                                    @error('product_status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3 p-1">
-                                    <label for="product_availability">Availability</label>
-                                    <select class="form-select @error('product_availability') is-invalid @enderror" id="product_availability"
-                                        name="product_availability" aria-label="Default select example">
-                                        <option value="y" selected>Available</option>
-                                        <option value="n" >Not Available</option>
-                                    </select>
-                                    @error('product_availability')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-
-
-                                <!-- End of Form -->
-                        </div>
-                        <div class="col-lg-8 col-sm-6">
+                        <div class="col-12">
 
                             <div class="mb-3 p-1">
                                 <label for="product_desc">Product Desc</label>
-                                <textarea class="form-control" name="product_desc" id="product_desc" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="product_desc" id="product_desc"></textarea>
                             </div>
 
-                            <div class="mb-0 p-1 d-flex justify-content-between">
-                                <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back"
-                                    href="{{ route('product.index') }}">Back</a>
-                                <button class="btn btn-sm btn-primary float-end" type="submit"
-                                    id="button-save">Save</button>
-                            </div>
-
-                            </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-sm btn-gray-100 " type="button" id="button-back"
+                            href="{{ route('product.index') }}">Back</a>
+                        &nbsp;
+                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-
 

@@ -94,13 +94,28 @@ class ProductController extends Controller
         return view($this->view_folder.'.success');
     }
 
+    // public function detail(Product $product){
+    //     $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
+    //             ->join('categories', 'products.brand_id', '=', 'categories.id')
+    //             ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+    //             ->where('products.id', $product->id)->first();
+
+    //     return view($this->view_folder.'.detail', ['product' => $product]);
+    // }
+
     public function detail(Product $product){
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
                 ->join('categories', 'products.brand_id', '=', 'categories.id')
                 ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
                 ->where('products.id', $product->id)->first();
 
-        return view($this->view_folder.'.detail', ['product' => $product]);
+        $brands = Brand::all();
+
+        return view($this->view_folder.'.detail', [
+            'product' => $product,
+            'action'  => 'edit',
+            'brands'  => $brands
+        ]);
     }
 
 }

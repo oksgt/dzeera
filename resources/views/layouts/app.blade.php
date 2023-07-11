@@ -34,7 +34,7 @@
     <script>
         tinymce.init({
             selector: 'textarea',
-            height: 610,
+            height: 400,
             plugins: 'lists link image imagetools media code',
             toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code'
         });

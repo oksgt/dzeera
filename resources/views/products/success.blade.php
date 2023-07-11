@@ -16,7 +16,7 @@
                     <p class="card-text">Continue to set price, variant, image and other option ?</p>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-gray-100 float-start">No, maybe later</a>
+                    <a href="{{ route('product.index') }}" class="btn btn-gray-100 float-start">No, maybe later</a>
                     <a class="btn btn-primary float-end">Yes</a>
                 </div>
               </div>

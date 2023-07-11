@@ -16,11 +16,12 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product->id]) }}">Detail</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Edit</a>
+                    </li>
                 </ol>
             </nav>
-            <h2 class="h4">Product "{{ $product->product_name }}"</h2>
-            <p class="mb-0">Brand "{{ $product->brand_name }}" > Category "{{ $product->category_name }}"</p>
+            <h2 class="h4">Detail Product</h2>
+            <p class="mb-0">Product data form</p>
         </div>
     </div>
 
@@ -35,38 +36,181 @@
         </div>
     </div>
 
+    <div class="row ">
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3 p-1">
+
+                        <form action="{{ route('product.save') }}" method="post">
+                            @csrf
+
+                            <label for="product_name">Name</label>
+                            <input type="text" class="form-control @error('product_name') is-invalid @enderror"
+
+                            value = @if(empty(old('product_name')))
+                                            "{{ $product->product_name }}"
+                                    @else
+                                            "{{ old('product_name') }}"
+                                    @endif
+
+                            id="product_name" name="product_name"
+                                aria-describedby="product_nameHelp">
+                            @error('product_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_sku">SKU</label>
+                        <input type="text" class="form-control @error('product_sku') is-invalid @enderror"
+
+                        value = @if(empty(old('product_sku')))
+                                        "{{ $product->product_sku }}"
+                                @else
+                                        "{{ old('product_sku') }}"
+                                @endif
+
+                            id="product_sku" name="product_sku"
+                            aria-describedby="product_skuHelp">
+                        @error('product_sku')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_type">Type</label>
+                        <select class="form-select @error('product_type') is-invalid @enderror" id="product_type"
+                            name="product_type" aria-label="Product type">
+
+                            <option value="single" {{ $product->gender == 'single' ? 'selected' : '' }}>Single</option>
+                            <option value="bundle" {{ $product->gender == 'bundle' ? 'selected' : '' }}>Bundle</option>
+
+                        </select>
+                        @error('product_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3 p-1">
+                        <label for="brand_id">Brand</label>
+                        <select class="form-select @error('brand_id') is-invalid @enderror" id="brand_id" name="brand_id"
+                            aria-label="Default select example">
+                            <option value="0">Select brand</option>
+                            @foreach ($brands as $item)
+                                <option {{ ($item->id == $product->brand_id ? "selected": "") }}
+                                    value="{{ $item->id }}">{{$item->brand_name}}</option>
+                            @endforeach
+                        </select>
+                        @error('brand_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="category_id">Category</label>
+                        <input type="hidden" name="category_id_selected" id="category_id_selected" value="{{ $product->category_id }}">
+                        <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
+                            name="category_id" aria-label="Default select example">
+                            <option value="0">Please select brand first</option>
+                        </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Status
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 p-1">
+                        <label for="product_status">Order Status</label>
+                        <select class="form-select @error('product_status') is-invalid @enderror" id="product_status"
+                            name="product_status" aria-label="Default select example">
+                            <option value="ready" selected>Ready</option>
+                            <option value="po">Pre Order</option>
+                        </select>
+                        @error('product_status')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 p-1">
+                        <label for="product_availability">Availability</label>
+                        <select class="form-select @error('product_availability') is-invalid @enderror"
+                            id="product_availability" name="product_availability" aria-label="Default select example">
+                            <option value="y" selected>Available</option>
+                            <option value="n">Not Available</option>
+                        </select>
+                        @error('product_availability')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-center mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Variant & Image</h5>
+                    <a href="#" class="btn btn-primary ">
+                        Manage variant
+                    </a>
+                    <a href="#" class="btn btn-primary ">
+                        Manage images
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-        <div class="col-12 mb-0">
+        <div class="col-md-12 col-lg-8 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
-                    <!-- Tab Nav -->
-                    <div class="nav-wrapper position-relative mb-2">
-                        <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-text" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-text-1-tab"
-                                data-bs-toggle="tab" href="#tab-desc" role="tab" aria-controls="tab-desc" aria-selected="true">Desc</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-text-2-tab"
-                                data-bs-toggle="tab" href="#option-tab" role="tab" aria-controls="option-tab" aria-selected="false">Options</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-sm-3 mb-md-0" id="tabs-text-3-tab"
-                                data-bs-toggle="tab" href="#image-tab" role="tab" aria-controls="image-tab" aria-selected="false">Images</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End of Tab Nav -->
-                    <div class="card border-0">
-                        <div class="card-body p-0">
-                            <div class="tab-content" id="tabcontent1">
+                    <div class="row mb-4">
+                        <div class="col-12">
 
-                                @include('products.desc')
-                                @include('products.option')
-                                @include('products.image')
-
+                            <div class="mb-3 p-1">
+                                <label for="product_desc">Product Desc</label>
+                                <textarea class="form-control" name="product_desc" id="product_desc"> {{ $product->product_desc }}</textarea>
                             </div>
+
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-4 mb-4">
+            <div class="card border-0 shadow components-section">
+                <div class="card-header">
+                    Comments
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="justify-content-start">
+                        <a class="btn btn-sm btn-gray-100 " type="button" id="button-back"
+                            href="{{ route('product.index') }}">Back</a>
+                        &nbsp;
+                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
+                        <a href="#" class="btn btn-outline-danger border-0 float-end">
+                            Delete product
+                        </a>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -74,5 +218,9 @@
     </div>
 @endsection
 
-
-
+@push('scripts')
+    <script>
+        // var product_desc = {{ $product->product_desc }};
+        tinymce.get('product_desc').setContent('ss');
+    </script>
+@endpush

@@ -50,23 +50,26 @@
     </div>
 
     <div class="card card-body border-0 shadow table-wrapper ">
-        <div class="card-header border-0 d-flex flex-column flex-lg-row align-items-center justify-content-start p-0">
-            <div class="mb-0">
-                <form action="{{ route('product.index') }}" method="GET">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">
-                        <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                        </span>
-                        <input type="text" class="form-control" name="q" value="{{ $query }}" placeholder="Search" aria-label="Search">
-                    </div>
-                </form>
-            </div>
+        <div class="card-header border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end p-0 mb-2">
+            <form action="{{ route('product.index') }}" method="GET">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                    <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                    </span>
+                    <input type="text" class="form-control" name="q" value="{{ $query }}" placeholder="Search" aria-label="Search">
+                </div>
+            </form>
         </div>
         <div class="card-body table-responsive p-0">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('product.index', ['sort' => 'category_name', 'dir' => ($column == 'category_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Name {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
                         <th class="border-gray-200">
                             <a href="{{ route('product.index', ['sort' => 'brand_name', 'dir' => ($column == 'brand_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
                                 Brand {!! ($column == 'brand_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
@@ -75,11 +78,6 @@
                         <th class="border-gray-200">
                             <a href="{{ route('product.index', ['sort' => 'category_name', 'dir' => ($column == 'category_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
                                 Category {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
-                            </a>
-                        </th>
-                        <th class="border-gray-200">
-                            <a href="{{ route('product.index', ['sort' => 'category_name', 'dir' => ($column == 'category_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Product Name {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">
@@ -99,17 +97,9 @@
                             <td><span class="fw-normal">{{ $product->product_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->product_sku }}</span></td>
                             <td>
-                                <a type="button" class="btn btn-sm btn-info d-inline-flex align-items-center"
+                                <a type="button" class="btn btn-sm btn-warning border-0 float-end align-items-center"
                                     href="{{ route('product.detail', ['product' => $product->id]) }}">
                                     Detail
-                                </a>
-                                <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('product.edit', ['product' => $product]) }}">
-                                    Edit
-                                </a>
-                                <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                    href="{{ route('product.delete', ['product' => $product]) }}">
-                                    Delete
                                 </a>
                             </td>
                         </tr>
