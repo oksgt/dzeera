@@ -15,11 +15,14 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('brands.index') }}">Brands</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.color', ['product' => $product]) }}">Color</a>
+                    <li class="breadcrumb-item"><a href="#">Delete</a>
                 </ol>
             </nav>
-            <h2 class="h4 text-danger">Delete brand "{{$brand->brand_name}}"</h2>
-            <p class="mb-0">Delete brand confirmation</p>
+            <h2 class="h4 text-danger">Delete Color "{{$ProductColorOption->color_name}}"</h2>
+            <p class="mb-0">Delete color option for {{ $product->product_name }}</p>
         </div>
     </div>
 
@@ -41,16 +44,17 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('brands.remove', ['brand' => $brand->id]) }}" method="post">
+                            <form action="{{ route('product.color.create.remove') }}" method="post">
                                 @csrf
-                                @method('delete')
+                                <input type="hidden" name="id" value="{{$ProductColorOption->id}}">
+                                <input type="hidden" name="product_id" value="{{$ProductColorOption->product_id}}">
                                 <div class="mb-0 p-1">
                                     <label for="brand_name">Type 'delete' on field below to confirm your delete action</label>
                                     <input type="text" class="form-control"
                                     id="action_text" name="action_text" aria-describedby="action_textHelp">
                                 </div>
                                 <div class="mb-0 p-1 d-flex justify-content-between">
-                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ route('brands.index') }}">Back</a>
+                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
 
                                     <button class="btn btn-sm btn-danger float-end" type="submit" id="button-save">Proceed</button>
                                   </div>

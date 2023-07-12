@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Edit</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
                     </li>
                 </ol>
             </nav>
@@ -155,14 +155,19 @@
             </div>
 
             <div class="card text-center mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Variant & Image</h5>
-                    <a href="#" class="btn btn-primary ">
-                        Manage variant
-                    </a>
-                    <a href="#" class="btn btn-primary ">
-                        Manage images
-                    </a>
+                <div class="card-body ">
+                    <h5 class="card-title">Manage Options</h5>
+                    <div class="btn-group-vertical d-block">
+                        <a href="{{ route('product.color', ['product' => $product])}}" class="btn btn-outline-primary ">
+                            Color Options
+                        </a>
+                        <a href="#" class="btn btn-outline-primary ">
+                            Images
+                        </a>
+                        <a href="{{ route('product.variant', ['product' => $product])}}" class="btn btn-outline-primary ">
+                            Variant & Price
+                        </a>
+                    </div>
                 </div>
 
             </div>

@@ -51,6 +51,15 @@ Route::middleware('auth')->group(function () {
     Route::get('product/{product}/view', [\App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
     Route::get('product/{product}/detail', [\App\Http\Controllers\ProductController::class, 'detail'])->name('product.detail');
     // Route::get('product/{product}/success', [\App\Http\Controllers\ProductController::class, 'test']);
+    Route::get('product/{product}/variant', [\App\Http\Controllers\ProductController::class, 'variant'])->name('product.variant');
+
+    Route::get('product/{product}/color', [\App\Http\Controllers\ProductController::class, 'color'])->name('product.color');
+    Route::get('product/{product}/colorCreate', [\App\Http\Controllers\ProductController::class, 'colorCreate'])->name('product.color.create');
+    Route::post('product/colorSave', [\App\Http\Controllers\ProductController::class, 'colorSave'])->name('product.color.create.save');
+    Route::post('product/colorUpdate', [\App\Http\Controllers\ProductController::class, 'color_update'])->name('product.color.create.update');
+    Route::post('product/colorRemove', [\App\Http\Controllers\ProductController::class, 'color_remove'])->name('product.color.create.remove');
+    Route::get('product/{product}/{ProductColorOption}/colorEdit', [\App\Http\Controllers\ProductController::class, 'colorEdit'])->name('product.color.edit');
+    Route::get('product/{product}/{ProductColorOption}/colorDelete', [\App\Http\Controllers\ProductController::class, 'colorDelete'])->name('product.color.delete');
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 

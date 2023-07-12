@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('brand_name', 100)->unique();
             $table->string('slug', 100)->nullable();
-            $table->longtext('slug', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

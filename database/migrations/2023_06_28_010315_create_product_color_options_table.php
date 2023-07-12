@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product_color_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->references('id')->on('products');
-            $table->string('color_name')->unique();
+            $table->string('color_name');
             $table->timestamps();
             $table->softDeletes();
         });

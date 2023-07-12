@@ -81,8 +81,8 @@
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.index', ['sort' => 'category_name', 'dir' => ($column == 'category_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                SKU {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('product.index', ['sort' => 'product_sku', 'dir' => ($column == 'product_sku' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                SKU {!! ($column == 'product_sku') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">{{ __('#') }}</th>
@@ -92,9 +92,9 @@
                     @foreach ($products as $product)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
+                            <td><span class="fw-normal">{{ $product->product_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->category_name }}</span></td>
-                            <td><span class="fw-normal">{{ $product->product_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->product_sku }}</span></td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-warning border-0 float-end align-items-center"
