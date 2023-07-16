@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductColorOption;
+use App\Models\ProductSizeOption;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use Illuminate\Validation\Rule;
@@ -85,7 +86,6 @@ class ProductController extends Controller
         $saved = $product->save();
 
         if ($saved) {
-            // return redirect()->route('product.index')->with('success', 'Product created successfully!');
             return view($this->view_folder.'.success', ['product' => $product]);
         } else {
             return back()->with('error', 'Error creating product');
@@ -210,4 +210,77 @@ class ProductController extends Controller
         return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color name deleted successfully!');
     }
 
+    public function sizeCreate(Request $request, Product $product){
+        $product = Product::where('id', $product->id)->first();
+        return view($this->view_folder.'.size_create', compact('product'));
+    }
+
+    public function sizeSave(Request $request){
+        $product_id = $request->input('product_id');
+        $validator = Validator::make($request->all(), [
+            'size' => [
+                'required',
+                'string',
+                Rule::unique('product_size_options')->where(function ($query) use ($product_id) {
+                    $query->whereNull('deleted_at')->where('product_id', $product_id);
+                }),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $model = new ProductSizeOption;
+        $model->size = $request->input('size');
+        $model->dimension = $request->input('dimension');
+        $model->product_id = $request->input('product_id');
+        $saved = $model->save();
+        if ($saved) {
+            return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Size option created successfully!');
+        } else {
+            return back()->with('error', 'Error size option brand');
+        }
+    }
+
+    public function sizeEdit(Product $product, ProductSizeOption $ProductSizeOption){
+        return view($this->view_folder.'.size_edit',
+        ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]);
+    }
+
+    public function sizeDelete(Product $product, ProductSizeOption $ProductSizeOption){
+        return view($this->view_folder.'.size_delete',
+        ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]);
+    }
+
+    public function size_update(Request $request){
+
+        $validateData = $request->validate([
+            'size' => [
+                'required',
+                'string',
+                Rule::unique('product_size_options')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
+        ]);
+
+        $model = ProductSizeOption::where('id', $request->input('id'));
+        $model->slug = "";
+        $model->update($validateData);
+        return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color name updated successfully!');
+    }
+
+    public function size_remove(Request $request){
+        $action_ = 'delete';
+        if($action_ !== $request->input('action_text')){
+            return redirect()->back()->with('error', 'Delete size failed due to wrong proceed text value');
+        }
+
+        $product_size_options = ProductSizeOption::find($request->input('id'));
+        $product_size_options->delete();
+
+        return redirect()->route('product.color',
+         ['product' => $request->input('product_id')])->with('success', 'Size deleted successfully!');
+    }
 }

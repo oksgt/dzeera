@@ -162,7 +162,7 @@
                             Color Options
                         </a>
                         <a href="#" class="btn btn-outline-primary ">
-                            Images
+                            Size Options
                         </a>
                         <a href="{{ route('product.variant', ['product' => $product])}}" class="btn btn-outline-primary ">
                             Variant & Price
@@ -194,7 +194,7 @@
         <div class="col-md-12 col-lg-4 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-header">
-                    Comments
+                    Images
                 </div>
                 <div class="card-body">
 

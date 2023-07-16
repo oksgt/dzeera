@@ -25,14 +25,7 @@
             <p class="mb-0">Product color option for {{ $product->product_name }}</p>
         </div>
         <div class="btn-toolbar mb-md-0">
-            <a href="{{ route('product.color.create',['product' => $product]) }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                    </path>
-                </svg>
-                New Color
-            </a>
+
         </div>
     </div>
 
@@ -55,45 +48,111 @@
 
 
     <div class="row">
-        <div class="col-md-12 col-lg-12 mb-4">
-            <div class="card">
-                <div class="card-body d-flex justify-content-center">
-                    <div class="col-md-12 col-lg-8 table-responsive">
-                        <table class="table ">
-                            <thead>
-                                <tr>
-                                    <th class="border-gray-200">{{ __('No') }}</th>
-                                    <th>
-                                        Color Name
-                                    </th>
-                                    <th class="border-gray-200">{{ __('#') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (!empty($ProductColorOption))
-                                    @foreach ($ProductColorOption as $row)
-                                        <tr>
-                                            <td><span class="fw-normal">{{ $counter++ }}</span></td>
-                                            <td><span class="fw-normal">{{ $row->color_name }}</span></td>
-                                            <td>
-                                                <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
-                                                    href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
-                                                    Edit
-                                                </a>
-                                                <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                                    href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
-                                                    Delete
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+        <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card ">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title">Color</h6>
+                    <a href="{{ route('product.color.create', ['product' => $product]) }}"
+                        class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                            </path>
+                        </svg>
+                        New Color
+                    </a>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="border-gray-200">{{ __('No') }}</th>
+                                <th>
+                                    Color Name
+                                </th>
+                                <th class="border-gray-200">{{ __('#') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!empty($ProductColorOption))
+                                @foreach ($ProductColorOption as $row)
+                                    <tr>
+                                        <td><span class="fw-normal">{{ $counter++ }}</span></td>
+                                        <td><span class="fw-normal">{{ $row->color_name }}</span></td>
+                                        <td>
+                                            <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
+                                                href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                Edit
+                                            </a>
+                                            <a type="button"
+                                                class="btn btn-sm btn-secondary d-inline-flex align-items-center"
+                                                href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card ">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="card-title">Size</h6>
+                    <a href="{{ route('product.color.create', ['product' => $product]) }}"
+                        class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                            </path>
+                        </svg>
+                        New Size
+                    </a>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="border-gray-200">{{ __('No') }}</th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    Dimension
+                                </th>
+                                <th class="border-gray-200">{{ __('#') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!empty($ProductColorOption))
+                                @foreach ($ProductColorOption as $row)
+                                    <tr>
+                                        <td><span class="fw-normal">{{ $counter++ }}</span></td>
+                                        <td><span class="fw-normal">{{ $row->color_name }}</span></td>
+                                        <td>
+                                            <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
+                                                href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                Edit
+                                            </a>
+                                            <a type="button"
+                                                class="btn btn-sm btn-secondary d-inline-flex align-items-center"
+                                                href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
