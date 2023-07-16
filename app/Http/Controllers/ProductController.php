@@ -23,7 +23,7 @@ class ProductController extends Controller
         $direction = $request->input('dir', 'asc');
         $query = $request->input('q', '');
         $products = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-                    ->join('categories', 'products.brand_id', '=', 'categories.id')
+                    ->join('categories', 'products.category_id', '=', 'categories.id')
                     ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
                     ->where('category_name', 'LIKE', "%$query%")
                     ->orWhere('brand_name', 'LIKE', "%$query%")
@@ -103,7 +103,6 @@ class ProductController extends Controller
                 ->where('products.id', $product->id)->first();
 
         $brands = Brand::all();
-
         return view($this->view_folder.'.detail', [
             'product' => $product,
             'action'  => 'edit',

@@ -47,15 +47,10 @@
 
                             <label for="product_name">Name</label>
                             <input type="text" class="form-control @error('product_name') is-invalid @enderror"
-
-                            value = @if(empty(old('product_name')))
-                                            "{{ $product->product_name }}"
+                                value=@if (empty(old('product_name'))) "{{ $product->product_name }}"
                                     @else
-                                            "{{ old('product_name') }}"
-                                    @endif
-
-                            id="product_name" name="product_name"
-                                aria-describedby="product_nameHelp">
+                                            "{{ old('product_name') }}" @endif
+                                id="product_name" name="product_name" aria-describedby="product_nameHelp">
                             @error('product_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -64,15 +59,10 @@
                     <div class="mb-3 p-1">
                         <label for="product_sku">SKU</label>
                         <input type="text" class="form-control @error('product_sku') is-invalid @enderror"
-
-                        value = @if(empty(old('product_sku')))
-                                        "{{ $product->product_sku }}"
+                            value=@if (empty(old('product_sku'))) "{{ $product->product_sku }}"
                                 @else
-                                        "{{ old('product_sku') }}"
-                                @endif
-
-                            id="product_sku" name="product_sku"
-                            aria-describedby="product_skuHelp">
+                                        "{{ old('product_sku') }}" @endif
+                            id="product_sku" name="product_sku" aria-describedby="product_skuHelp">
                         @error('product_sku')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -97,8 +87,8 @@
                             aria-label="Default select example">
                             <option value="0">Select brand</option>
                             @foreach ($brands as $item)
-                                <option {{ ($item->id == $product->brand_id ? "selected": "") }}
-                                    value="{{ $item->id }}">{{$item->brand_name}}</option>
+                                <option {{ $item->id == $product->brand_id ? 'selected' : '' }}
+                                    value="{{ $item->id }}">{{ $item->brand_name }}</option>
                             @endforeach
                         </select>
                         @error('brand_id')
@@ -108,7 +98,8 @@
 
                     <div class="mb-3 p-1">
                         <label for="category_id">Category</label>
-                        <input type="hidden" name="category_id_selected" id="category_id_selected" value="{{ $product->category_id }}">
+                        <input type="hidden" name="category_id_selected" id="category_id_selected"
+                            value="{{ $product->category_id }}">
                         <select class="form-select @error('category_id') is-invalid @enderror" id="category_id"
                             name="category_id" aria-label="Default select example">
                             <option value="0">Please select brand first</option>
@@ -158,13 +149,15 @@
                 <div class="card-body ">
                     <h5 class="card-title">Manage Options</h5>
                     <div class="btn-group-vertical d-block">
-                        <a href="{{ route('product.options', ['product' => $product])}}" class="btn btn-outline-primary ">
+                        <a href="{{ route('product.options', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
                             Color & Size Options
                         </a>
                         <a href="#" class="btn btn-outline-primary ">
                             Size Options
                         </a>
-                        <a href="{{ route('product.variant', ['product' => $product])}}" class="btn btn-outline-primary ">
+                        <a href="{{ route('product.variant', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
                             Variant & Price
                         </a>
                     </div>
@@ -224,8 +217,58 @@
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // var product_desc = {{ $product->product_desc }};
-        tinymce.get('product_desc').setContent('ss');
+        $(document).ready(function() {
+
+            var brand_id = $('#brand_id').val();
+            if (brand_id > 0) {
+                $.ajax({
+                    url: "{{ url('category/list') }}/" + brand_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#category_id').empty();
+                        $.each(data, function(key, value) {
+                            var selected = "";
+                            if({{ $product->category_id }} == value.id){
+                                selected = "selected";
+                            } else {
+                                selected = "";
+                            }
+                            $('#category_id').append('<option '+selected+' value="' + value.id + '">' +
+                                value.category_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#category_id').empty();
+                $('#category_id').append('<option value="">Please select brand first</option>');
+            }
+
+            $('#brand_id').on('change', function() {
+                var brand_id = $(this).val();
+                if (brand_id > 0) {
+                    $.ajax({
+                        url: "{{ url('category/list') }}/" + brand_id,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#category_id').empty();
+                            $.each(data, function(key, value) {
+                                $('#category_id').append('<option value="' + value.id +
+                                    '">' +
+                                    value.category_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#category_id').empty();
+                    $('#category_id').append('<option value="">Please select brand first</option>');
+                }
+            });
+
+        });
     </script>
 @endpush
+@stack('scripts')

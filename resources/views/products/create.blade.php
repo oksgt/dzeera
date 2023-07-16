@@ -176,3 +176,32 @@
     </div>
 @endsection
 
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#brand_id').on('change', function() {
+                var brand_id = $(this).val();
+                if (brand_id > 0) {
+                    $.ajax({
+                        url: "{{ url('category/list') }}/" + brand_id,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#category_id').empty();
+                            $.each(data, function(key, value) {
+                                $('#category_id').append('<option value="' + value.id +
+                                    '">' +
+                                    value.category_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#category_id').empty();
+                    $('#category_id').append('<option value="">Please select brand first</option>');
+                }
+            });
+        });
+    </script>
+@endpush
+@stack('scripts')
