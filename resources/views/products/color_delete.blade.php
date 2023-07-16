@@ -17,8 +17,8 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a href="{{ route('product.color', ['product' => $product]) }}">Color</a>
-                    <li class="breadcrumb-item"><a href="#">Delete</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.options', ['product' => $product]) }}">Options</a>
+                    <li class="breadcrumb-item"><a href="#">Delete Color</a>
                 </ol>
             </nav>
             <h2 class="h4 text-danger">Delete Color "{{$ProductColorOption->color_name}}"</h2>

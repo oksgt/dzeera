@@ -18,11 +18,11 @@
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
                     <li class="breadcrumb-item"><a href="{{ route('product.options', ['product' => $product]) }}">Options</a>
-                    <li class="breadcrumb-item"><a href="#">Edit Color</a>
+                    <li class="breadcrumb-item"><a href="#">Delete Size</a>
                 </ol>
             </nav>
-            <h2 class="h4">Edit Color Option</h2>
-            <p class="mb-0">Edit color option for {{ $product->product_name }}</p>
+            <h2 class="h4 text-danger">Delete Size Option "{{$ProductSizeOption->size}}"</h2>
+            <p class="mb-0">Delete size option for {{ $product->product_name }}</p>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         <div class="col-12">
             @if (session()->has('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('errors') }}
+                    {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
@@ -44,30 +44,19 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('product.color.create.update') }}" method="post">
+                            <form action="{{ route('product.size.create.remove') }}" method="post">
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $ProductColorOption->id }}">
-                                <input type="hidden" name="product_id" value="{{ $ProductColorOption->product_id }}">
+                                <input type="hidden" name="id" value="{{$ProductSizeOption->id}}">
+                                <input type="hidden" name="product_id" value="{{$ProductSizeOption->product_id}}">
                                 <div class="mb-0 p-1">
-                                    <label for="color_name">Color Name</label>
-                                    <input type="text" class="form-control @error('color_name') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('color_name')))
-                                            "{{ $ProductColorOption->color_name }}"
-                                        @else
-                                            "{{ old('color_name') }}"
-                                        @endif
-
-                                    id="color_name" name="color_name" aria-describedby="brandNameHelp">
-                                    @error('color_name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label for="brand_name">Type 'delete' on field below to confirm your delete action</label>
+                                    <input type="text" class="form-control"
+                                    id="action_text" name="action_text" aria-describedby="action_textHelp">
                                 </div>
-
                                 <div class="mb-0 p-1 d-flex justify-content-between">
                                     <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
 
-                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Save</button>
+                                    <button class="btn btn-sm btn-danger float-end" type="submit" id="button-save">Proceed</button>
                                   </div>
                             </form>
                             <!-- End of Form -->

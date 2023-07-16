@@ -17,8 +17,8 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a href="{{ route('product.color', ['product' => $product]) }}">Color</a>
-                        <li class="breadcrumb-item"><a href="{{ route('product.color.create', ['product' => $product]) }}">Create</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.options', ['product' => $product]) }}">Options</a>
+                        <li class="breadcrumb-item"><a href="{{ route('product.color.create', ['product' => $product]) }}">Create Color</a>
                 </ol>
             </nav>
             <h2 class="h4">Add Color Option</h2>
@@ -57,7 +57,8 @@
                                     @enderror
                                 </div>
                                 <div class="mb-0 p-1 d-flex justify-content-between">
-                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ route('product.color', ['product' => $product]) }}">Back</a>
+                                    <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back"
+                                    href="{{ url()->previous() }}">Back</a>
 
                                     <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Save</button>
                                   </div>

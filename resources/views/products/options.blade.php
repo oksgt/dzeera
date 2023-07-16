@@ -17,12 +17,12 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a href="{{ route('product.color', ['product' => $product]) }}">Color</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.options', ['product' => $product]) }}">Options</a>
                     </li>
                 </ol>
             </nav>
-            <h2 class="h4">Product Color Management</h2>
-            <p class="mb-0">Product color option for {{ $product->product_name }}</p>
+            <h2 class="h4">Product Color and Size Options</h2>
+            <p class="mb-0">Product color & size options for {{ $product->product_name }}</p>
         </div>
         <div class="btn-toolbar mb-md-0">
 
@@ -103,7 +103,7 @@
             <div class="card ">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h6 class="card-title">Size</h6>
-                    <a href="{{ route('product.color.create', ['product' => $product]) }}"
+                    <a href="{{ route('product.size.create', ['product' => $product]) }}"
                         class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                         <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -128,19 +128,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!empty($ProductColorOption))
-                                @foreach ($ProductColorOption as $row)
+                            @if (!empty($ProductSizeOption))
+                                @foreach ($ProductSizeOption as $row)
                                     <tr>
-                                        <td><span class="fw-normal">{{ $counter++ }}</span></td>
-                                        <td><span class="fw-normal">{{ $row->color_name }}</span></td>
+                                        <td><span class="fw-normal">{{ $counter_size++ }}</span></td>
+                                        <td><span class="fw-normal">{{ $row->size }}</span></td>
+                                        <td><span class="fw-normal">{{ $row->dimension }}</span></td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
-                                                href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                href="{{ route('product.size.edit', ['product' => $product, 'ProductSizeOption' => $row]) }}">
                                                 Edit
                                             </a>
                                             <a type="button"
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                                href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                href="{{ route('product.size.delete', ['product' => $product, 'ProductSizeOption' => $row]) }}">
                                                 Delete
                                             </a>
                                         </td>

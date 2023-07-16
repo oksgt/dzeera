@@ -18,11 +18,11 @@
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
                     <li class="breadcrumb-item"><a href="{{ route('product.options', ['product' => $product]) }}">Options</a>
-                    <li class="breadcrumb-item"><a href="#">Edit Color</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.size.create', ['product' => $product]) }}">Create Size</a>
                 </ol>
             </nav>
-            <h2 class="h4">Edit Color Option</h2>
-            <p class="mb-0">Edit color option for {{ $product->product_name }}</p>
+            <h2 class="h4">Add Size Option</h2>
+            <p class="mb-0">New size option for {{ $product->product_name }}</p>
         </div>
     </div>
 
@@ -44,26 +44,27 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('product.color.create.update') }}" method="post">
+                            <form action="{{ route('product.size.create.save') }}" method="post">
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $ProductColorOption->id }}">
-                                <input type="hidden" name="product_id" value="{{ $ProductColorOption->product_id }}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="mb-0 p-1">
-                                    <label for="color_name">Color Name</label>
-                                    <input type="text" class="form-control @error('color_name') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('color_name')))
-                                            "{{ $ProductColorOption->color_name }}"
-                                        @else
-                                            "{{ old('color_name') }}"
-                                        @endif
-
-                                    id="color_name" name="color_name" aria-describedby="brandNameHelp">
-                                    @error('color_name')
+                                    <label for="size">Size Name</label>
+                                    <input type="text" class="form-control @error('size') is-invalid @enderror"
+                                    value="{{ old('size') }}"
+                                    id="size" name="size" aria-describedby="sizeHelp">
+                                    @error('size')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-
+                                <div class="mb-0 p-1">
+                                    <label for="dimension">Dimension</label>
+                                    <input type="text" class="form-control @error('dimension') is-invalid @enderror"
+                                    value="{{ old('dimension') }}"
+                                    id="dimension" name="dimension" aria-describedby="dimensionHelp">
+                                    @error('dimension')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="mb-0 p-1 d-flex justify-content-between">
                                     <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
 

@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('product/{product}/success', [\App\Http\Controllers\ProductController::class, 'test']);
     Route::get('product/{product}/variant', [\App\Http\Controllers\ProductController::class, 'variant'])->name('product.variant');
 
-    Route::get('product/{product}/color', [\App\Http\Controllers\ProductController::class, 'color'])->name('product.color');
+    Route::get('product/{product}/options', [\App\Http\Controllers\ProductController::class, 'options'])->name('product.options');
 
     Route::get('product/{product}/colorCreate', [\App\Http\Controllers\ProductController::class, 'colorCreate'])->name('product.color.create');
     Route::post('product/colorSave', [\App\Http\Controllers\ProductController::class, 'colorSave'])->name('product.color.create.save');

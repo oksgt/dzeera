@@ -158,8 +158,8 @@
                 <div class="card-body ">
                     <h5 class="card-title">Manage Options</h5>
                     <div class="btn-group-vertical d-block">
-                        <a href="{{ route('product.color', ['product' => $product])}}" class="btn btn-outline-primary ">
-                            Color Options
+                        <a href="{{ route('product.options', ['product' => $product])}}" class="btn btn-outline-primary ">
+                            Color & Size Options
                         </a>
                         <a href="#" class="btn btn-outline-primary ">
                             Size Options

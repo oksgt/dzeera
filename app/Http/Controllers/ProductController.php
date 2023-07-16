@@ -122,13 +122,15 @@ class ProductController extends Controller
         ]);
     }
 
-    public function color(Request $request, Product $product){
+    public function options(Request $request, Product $product){
+
+        // data product colot
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
         ->select('product_color_options.*', 'products.product_name')
         ->where('product_color_options.product_id', $product->id)->get();
 
         $page = $request->input('page', 1);
-        $perPage = $request->input('perPage', $this->perPage);
+        $perPage = $request->input('perPage', 100);
         $counter = ($page - 1) * $perPage + 1;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
@@ -136,7 +138,16 @@ class ProductController extends Controller
         ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
         ->where('products.id', $product->id)->first();
 
-        return view($this->view_folder.'.color', compact('product', 'ProductColorOption', 'counter'));
+        // data size option
+        $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
+        ->select('product_size_options.*', 'products.product_name')
+        ->where('product_size_options.product_id', $product->id)->get();
+
+        $page_size = $request->input('page', 1);
+        $perPage_size = $request->input('perPage', 100);
+        $counter_size = ($page_size - 1) * $perPage_size + 1;
+
+        return view($this->view_folder.'.options', compact('product', 'ProductColorOption', 'counter', 'ProductSizeOption', 'counter_size'));
 
     }
 
@@ -166,7 +177,7 @@ class ProductController extends Controller
         $model->product_id = $request->input('product_id');
         $saved = $model->save();
         if ($saved) {
-            return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color option created successfully!');
+            return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Color option created successfully!');
         } else {
             return back()->with('error', 'Error color option brand');
         }
@@ -181,13 +192,13 @@ class ProductController extends Controller
     }
 
     public function color_update(Request $request){
-
+        $product_id = $request->input('product_id');
         $validateData = $request->validate([
             'color_name' => [
                 'required',
                 'string',
-                Rule::unique('product_color_options')->where(function ($query) {
-                    $query->whereNull('deleted_at');
+                Rule::unique('product_color_options')->where(function ($query) use ($product_id) {
+                    $query->whereNull('deleted_at')->where('product_id', $product_id);
                 }),
             ],
         ]);
@@ -195,7 +206,7 @@ class ProductController extends Controller
         $model = ProductColorOption::where('id', $request->input('id'));
         $model->slug = "";
         $model->update($validateData);
-        return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color name updated successfully!');
+        return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Color name updated successfully!');
     }
 
     public function color_remove(Request $request){
@@ -207,7 +218,7 @@ class ProductController extends Controller
         $ProductColorOption = ProductColorOption::find($request->input('id'));
         $ProductColorOption->delete();
 
-        return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color name deleted successfully!');
+        return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Color name deleted successfully!');
     }
 
     public function sizeCreate(Request $request, Product $product){
@@ -237,7 +248,7 @@ class ProductController extends Controller
         $model->product_id = $request->input('product_id');
         $saved = $model->save();
         if ($saved) {
-            return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Size option created successfully!');
+            return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Size option created successfully!');
         } else {
             return back()->with('error', 'Error size option brand');
         }
@@ -254,21 +265,20 @@ class ProductController extends Controller
     }
 
     public function size_update(Request $request){
-
+        $product_id = $request->input('product_id');
         $validateData = $request->validate([
             'size' => [
                 'required',
                 'string',
-                Rule::unique('product_size_options')->where(function ($query) {
-                    $query->whereNull('deleted_at');
+                Rule::unique('product_size_options')->where(function ($query) use ($product_id) {
+                    $query->whereNull('deleted_at')->where('product_id', $product_id);
                 }),
             ],
+            'dimension' => []
         ]);
-
         $model = ProductSizeOption::where('id', $request->input('id'));
-        $model->slug = "";
-        $model->update($validateData);
-        return redirect()->route('product.color', ['product' => $request->input('product_id')])->with('success', 'Color name updated successfully!');
+        $result = $model->update($validateData);
+        return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Size option updated successfully!');
     }
 
     public function size_remove(Request $request){
@@ -280,7 +290,7 @@ class ProductController extends Controller
         $product_size_options = ProductSizeOption::find($request->input('id'));
         $product_size_options->delete();
 
-        return redirect()->route('product.color',
+        return redirect()->route('product.options',
          ['product' => $request->input('product_id')])->with('success', 'Size deleted successfully!');
     }
 }
