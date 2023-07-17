@@ -154,7 +154,7 @@
                             Color & Size Options
                         </a>
                         <a href="#" class="btn btn-outline-primary ">
-                            Size Options
+                            Images
                         </a>
                         <a href="{{ route('product.variant', ['product' => $product]) }}"
                             class="btn btn-outline-primary ">

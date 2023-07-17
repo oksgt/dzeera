@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->string('file_type');
             $table->string('file_path');
+            $table->integer('is_thumbnail');
             $table->timestamps();
         });
     }
