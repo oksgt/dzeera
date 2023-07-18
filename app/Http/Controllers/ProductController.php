@@ -10,6 +10,7 @@ use App\Models\ProductColorOption;
 use App\Models\ProductSizeOption;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -44,7 +45,6 @@ class ProductController extends Controller
     }
 
     public function save(Request $request){
-        // dd($request);
         $validator = Validator::make($request->all(), [
             'brand_id' => 'required|not_in:0',
             'product_name' => 'required|string|max:255',
@@ -73,8 +73,54 @@ class ProductController extends Controller
             return back()->with('error', 'Product already exist')->withInput();
         }
 
-
         $product = new Product();
+        $product->product_type  = $request->input('product_type');
+        $product->brand_id      = $request->input('brand_id');
+        $product->category_id   = $request->input('category_id');
+        $product->product_sku   = $request->input('product_sku');
+        $product->product_name  = $request->input('product_name');
+        $product->product_desc  = $request->input('product_desc');
+        $product->product_status= $request->input('product_status');
+        $product->product_availability  = $request->input('product_availability');
+        $saved = $product->save();
+
+        if ($saved) {
+            return view($this->view_folder.'.success', ['product' => $product]);
+        } else {
+            return back()->with('error', 'Error creating product');
+        }
+    }
+
+    public function updateProduct(Request $request, Product $product){
+        $validator = Validator::make($request->all(), [
+            'brand_id' => 'required|not_in:0',
+            'product_name' => 'required|string|max:255',
+            'category_id' => 'required|not_in:0',
+        ],[
+            'brand_id.not_in' => "Please choose brand",
+            'category_id.not_in' => "Please choose category"
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        //check existing product name, brand and category
+        $brand_id = $request->input('brand_id');
+        $category_id = $request->input('category_id');
+        $product_name = $request->input('product_name');
+        $sku = $request->input('product_sku');
+        $exist = Product::where(function ($query) use ($brand_id, $category_id, $product_name, $sku) {
+            $query->where('brand_id', $brand_id)
+                  ->where('category_id', $category_id)
+                  ->where('product_name', $product_name)
+                  ->where('deleted_at', null);
+        })->exists();
+        if($exist){
+            return back()->with('error', 'Product already exist')->withInput();
+        }
+
+        $product = Product::where('id', $product->id);
         $product->product_type  = $request->input('product_type');
         $product->brand_id      = $request->input('brand_id');
         $product->category_id   = $request->input('category_id');
@@ -98,10 +144,9 @@ class ProductController extends Controller
 
     public function detail(Product $product){
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-                ->join('categories', 'products.brand_id', '=', 'categories.id')
+                ->join('categories', 'products.category_id', '=', 'categories.id')
                 ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
                 ->where('products.id', $product->id)->first();
-
         $brands = Brand::all();
         return view($this->view_folder.'.detail', [
             'product' => $product,

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('brand_id')->references('id')->on('brands');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->string('product_sku')->nullable();
-            $table->string('product_name')->unique();
+            $table->string('product_name');
             $table->mediumText('product_desc')->nullable();
             $table->string('slug', 100)->nullable();
             $table->enum('product_status', ['ready', 'po'])->default('ready');

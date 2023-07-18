@@ -71,7 +71,7 @@ class BrandController extends Controller
                 'string',
                 Rule::unique('brands')->where(function ($query) {
                     $query->whereNull('deleted_at');
-                }),
+                })->ignore($brand->id),
             ],
         ]);
 

@@ -42,9 +42,9 @@
                 <div class="card-body">
                     <div class="mb-3 p-1">
 
-                        <form action="{{ route('product.save') }}" method="post">
+                        <form action="{{ route('product.update', ['product' => $product->id]) }}" method="post">
                             @csrf
-
+                            @method('POST')
                             <label for="product_name">Name</label>
                             <input type="text" class="form-control @error('product_name') is-invalid @enderror"
                                 value=@if (empty(old('product_name'))) "{{ $product->product_name }}"
