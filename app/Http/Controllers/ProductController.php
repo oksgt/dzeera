@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -92,49 +93,60 @@ class ProductController extends Controller
     }
 
     public function updateProduct(Request $request, Product $product){
-        $validator = Validator::make($request->all(), [
-            'brand_id' => 'required|not_in:0',
-            'product_name' => 'required|string|max:255',
-            'category_id' => 'required|not_in:0',
-        ],[
-            'brand_id.not_in' => "Please choose brand",
-            'category_id.not_in' => "Please choose category"
-        ]);
+        try {
+            $brand_id = $request->input('brand_id');
+            $category_id = $request->input('category_id');
+            $product_name = $request->input('product_name');
+            $sku = $request->input('product_sku');
+            $productId = $product->id;
+            $rules = [
+                'brand_id' => [
+                    'required',
+                    'not_in:0',
+                ],
+                'category_id' => [
+                    'required',
+                    'not_in:0',
+                ],
+                'product_name' => [
+                    'required',
+                    Rule::unique('products')
+                        ->where('category_id', $category_id)
+                        ->where('brand_id', $brand_id)
+                        ->where(function ($query) use ($productId) {
+                            if ($productId) {
+                                $query->where('id', '!=', $productId);
+                            }
+                        }),
+                ],
+            ];
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+            $validateData = $request->validate($rules);
 
-        //check existing product name, brand and category
-        $brand_id = $request->input('brand_id');
-        $category_id = $request->input('category_id');
-        $product_name = $request->input('product_name');
-        $sku = $request->input('product_sku');
-        $exist = Product::where(function ($query) use ($brand_id, $category_id, $product_name, $sku) {
-            $query->where('brand_id', $brand_id)
-                  ->where('category_id', $category_id)
-                  ->where('product_name', $product_name)
-                  ->where('deleted_at', null);
-        })->exists();
-        if($exist){
-            return back()->with('error', 'Product already exist')->withInput();
-        }
+            $product = Product::where('id', $product->id);
+            if($product){
+                $updated = $product->update([
+                    'product_type'  => $request->input('product_type'),
+                    'brand_id'      => $request->input('brand_id'),
+                    'category_id'   => $request->input('category_id'),
+                    'product_sku'   => $request->input('product_sku'),
+                    'product_name'  => $request->input('product_name'),
+                    'product_desc'  => $request->input('product_desc'),
+                    'product_status' => $request->input('product_status'),
+                    'product_availability'  => $request->input('product_availability'),
+                ]);
+                if ($updated) {
+                    return view($this->view_folder.'.success_update', ['product_name' => $request->input('product_name')]);
+                } else {
+                    return back()->with('error', 'Error updating product');
+                }
+            } else {
+                return back()->with('error', 'Error updating product');
+            }
 
-        $product = Product::where('id', $product->id);
-        $product->product_type  = $request->input('product_type');
-        $product->brand_id      = $request->input('brand_id');
-        $product->category_id   = $request->input('category_id');
-        $product->product_sku   = $request->input('product_sku');
-        $product->product_name  = $request->input('product_name');
-        $product->product_desc  = $request->input('product_desc');
-        $product->product_status= $request->input('product_status');
-        $product->product_availability  = $request->input('product_availability');
-        $saved = $product->save();
-
-        if ($saved) {
-            return view($this->view_folder.'.success', ['product' => $product]);
-        } else {
-            return back()->with('error', 'Error creating product');
+        }  catch (ValidationException $e) {
+            // If validation fails, handle the exception
+            return redirect()->back()->withErrors($e->errors())->withInput();
         }
     }
 
