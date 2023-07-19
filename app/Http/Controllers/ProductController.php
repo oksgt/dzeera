@@ -195,31 +195,31 @@ class ProductController extends Controller
 
     public function options(Request $request, Product $product){
 
-        // data product colot
+        $productId = $product->id;
+
+        // data product color
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
         ->select('product_color_options.*', 'products.product_name')
-        ->where('product_color_options.product_id', $product->id)->get();
+        ->where('product_color_options.product_id', $productId)->get();
 
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', 100);
         $counter = ($page - 1) * $perPage + 1;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.brand_id', '=', 'categories.id')
+        ->join('categories', 'products.category_id', '=', 'categories.id')
         ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $product->id)->first();
+        ->where('products.id', $productId)->first();
 
         // data size option
         $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
         ->select('product_size_options.*', 'products.product_name')
-        ->where('product_size_options.product_id', $product->id)->get();
+        ->where('product_size_options.product_id', $productId)->get();
 
         $page_size = $request->input('page', 1);
         $perPage_size = $request->input('perPage', 100);
         $counter_size = ($page_size - 1) * $perPage_size + 1;
-
         return view($this->view_folder.'.options', compact('product', 'ProductColorOption', 'counter', 'ProductSizeOption', 'counter_size'));
-
     }
 
     public function colorCreate(Request $request, Product $product){

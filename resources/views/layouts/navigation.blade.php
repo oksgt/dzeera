@@ -35,7 +35,7 @@
     <li class="nav-item ">
         <a href="{{ route('category.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
+                <i class="fas fa-bookmark fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Category') }}</span>
         </a>
@@ -44,7 +44,7 @@
     <li class="nav-item ">
         <a href="{{ route('product.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
+                <i class="fas fa-boxes fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Products') }}</span>
         </a>

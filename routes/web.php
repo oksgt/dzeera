@@ -54,20 +54,24 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('product/{product}/success', [\App\Http\Controllers\ProductController::class, 'test']);
     Route::get('product/{product}/variant', [\App\Http\Controllers\ProductController::class, 'variant'])->name('product.variant');
-
     Route::get('product/{product}/options', [\App\Http\Controllers\ProductController::class, 'options'])->name('product.options');
 
+    Route::post('product/color/save', [\App\Http\Controllers\ProductController::class, 'colorSave'])->name('product.color.create.save');
+    Route::post('product/color/update', [\App\Http\Controllers\ProductController::class, 'color_update'])->name('product.color.create.update');
+    Route::post('product/color/remove', [\App\Http\Controllers\ProductController::class, 'color_remove'])->name('product.color.create.remove');
+
     Route::get('product/{product}/colorCreate', [\App\Http\Controllers\ProductController::class, 'colorCreate'])->name('product.color.create');
-    Route::post('product/colorSave', [\App\Http\Controllers\ProductController::class, 'colorSave'])->name('product.color.create.save');
-    Route::post('product/colorUpdate', [\App\Http\Controllers\ProductController::class, 'color_update'])->name('product.color.create.update');
-    Route::post('product/colorRemove', [\App\Http\Controllers\ProductController::class, 'color_remove'])->name('product.color.create.remove');
     Route::get('product/{product}/{ProductColorOption}/colorEdit', [\App\Http\Controllers\ProductController::class, 'colorEdit'])->name('product.color.edit');
     Route::get('product/{product}/{ProductColorOption}/colorDelete', [\App\Http\Controllers\ProductController::class, 'colorDelete'])->name('product.color.delete');
 
+
+
+
+
     Route::get('product/{product}/sizeCreate', [\App\Http\Controllers\ProductController::class, 'sizeCreate'])->name('product.size.create');
-    Route::post('product/sizeSave', [\App\Http\Controllers\ProductController::class, 'sizeSave'])->name('product.size.create.save');
-    Route::post('product/sizeUpdate', [\App\Http\Controllers\ProductController::class, 'size_update'])->name('product.size.create.update');
-    Route::post('product/sizeRemove', [\App\Http\Controllers\ProductController::class, 'size_remove'])->name('product.size.create.remove');
+    Route::post('product/size/save', [\App\Http\Controllers\ProductController::class, 'sizeSave'])->name('product.size.create.save');
+    Route::post('product/size/update', [\App\Http\Controllers\ProductController::class, 'size_update'])->name('product.size.create.update');
+    Route::post('product/size/remove', [\App\Http\Controllers\ProductController::class, 'size_remove'])->name('product.size.create.remove');
     Route::get('product/{product}/{ProductSizeOption}/sizeEdit', [\App\Http\Controllers\ProductController::class, 'sizeEdit'])->name('product.size.edit');
     Route::get('product/{product}/{ProductSizeOption}/sizeDelete', [\App\Http\Controllers\ProductController::class, 'sizeDelete'])->name('product.size.delete');
 

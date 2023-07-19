@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->references('id')->on('products');
             $table->string('size');
-            $table->string('dimension');
+            $table->string('dimension')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

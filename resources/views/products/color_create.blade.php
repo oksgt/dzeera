@@ -46,6 +46,7 @@
                             <!-- Form -->
                             <form action="{{ route('product.color.create.save') }}" method="post">
                                 @csrf
+                                @method('post')
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="mb-0 p-1">
                                     <label for="color_name">Color Name</label>

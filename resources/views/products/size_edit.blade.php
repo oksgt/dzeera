@@ -46,6 +46,7 @@
                             <!-- Form -->
                             <form action="{{ route('product.size.create.update') }}" method="post">
                                 @csrf
+                                @method('post')
                                 <input type="hidden" name="id" value="{{ $ProductSizeOption->id }}">
                                 <input type="hidden" name="product_id" value="{{ $ProductSizeOption->product_id }}">
                                 <div class="mb-0 p-1">
