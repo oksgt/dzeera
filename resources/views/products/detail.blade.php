@@ -205,7 +205,8 @@
                             href="{{ route('product.index') }}">Back</a>
                         &nbsp;
                         <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
-                        <a href="#" class="btn btn-outline-danger border-0 float-end">
+                        <a href="{{ route('product.delete', ['product' => $product]) }}"
+                            class="btn btn-outline-danger border-0 float-end">
                             Delete product
                         </a>
                         </form>

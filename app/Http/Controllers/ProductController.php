@@ -167,6 +167,21 @@ class ProductController extends Controller
         ]);
     }
 
+    public function delete(Product $product){
+        return view($this->view_folder.'.delete', ['product' => $product]);
+    }
+
+    public function remove(Request $request, Product $product){
+        $action_ = 'delete';
+        if($action_ !== $request->input('action_text')){
+            return redirect()->route('product.index')->with('error', 'Delete product failed due to wrong proceed text value');
+        }
+
+        $product = Product::find($request->input('product'));
+        $product->delete();
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully!');
+    }
+
     public function variant(Product $product){
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
         ->join('categories', 'products.brand_id', '=', 'categories.id')

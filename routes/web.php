@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('product/remove', [\App\Http\Controllers\ProductController::class, 'remove'])->name('product.remove');
     Route::get('product/{product}/view', [\App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
     Route::get('product/{product}/detail', [\App\Http\Controllers\ProductController::class, 'detail'])->name('product.detail');
+
     // Route::get('product/{product}/success', [\App\Http\Controllers\ProductController::class, 'test']);
     Route::get('product/{product}/variant', [\App\Http\Controllers\ProductController::class, 'variant'])->name('product.variant');
 
