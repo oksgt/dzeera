@@ -122,11 +122,11 @@
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('product.variant.edit', ['product' => $product]) }}">
+                                    href="{{ route('product.variant.edit', ['product' => $product, 'ProductOption' => $row->id]) }}">
                                     Edit
                                 </a>
                                 <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                    href="{{ route('product.variant.delete', ['product' => $product]) }}">
+                                    href="{{ route('product.variant.delete', ['product' => $product, 'ProductOption' => $row->id]) }}">
                                     Delete
                                 </a>
                             </td>

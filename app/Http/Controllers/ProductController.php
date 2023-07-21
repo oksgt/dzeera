@@ -145,7 +145,6 @@ class ProductController extends Controller
             }
 
         }  catch (ValidationException $e) {
-            // If validation fails, handle the exception
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
     }
@@ -292,10 +291,77 @@ class ProductController extends Controller
         return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product saved successfully.');
     }
 
-    public function options(Request $request, Product $product){
+    public function variant_edit(Product $product, ProductOption $ProductOption){
 
         $productId = $product->id;
 
+        $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
+        ->select('product_color_options.*', 'products.product_name')
+        ->where('product_color_options.product_id', $productId)->get();
+
+        $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
+        ->select('product_size_options.*', 'products.product_name')
+        ->where('product_size_options.product_id', $productId)->get();
+
+        $ProductOption = ProductOption::where('id', $ProductOption->id)->first();
+
+        $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
+        ->join('categories', 'products.category_id', '=', 'categories.id')
+        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+        ->where('products.id', $productId)->first();
+
+        return view($this->view_folder.'.variant_edit', [
+            'product'            => $product,
+            'ProductOption'      => $ProductOption,
+            'ProductColorOption' => $ProductColorOption,
+            'ProductSizeOption'  => $ProductSizeOption
+        ]);
+    }
+
+    public function variant_update(Request $request,  Product $product){
+
+        $product_color_opt = ProductColorOption::find($request->input('id'));
+        dd($product_color_opt);
+        if (!$product_color_opt->isClean()) {
+            $validatedData = $request->validate([
+                'color' => 'required|not_in:0',
+                'size_opt_id' => 'required|not_in:0',
+                'stock' => 'required|integer',
+                'weight' => 'required|numeric',
+                'base_price' => 'required|numeric',
+                'disc' => 'required|numeric',
+                'price' => 'required|numeric',
+                'option_availability' => 'required',
+            ]);
+
+            if (!isset($validatedData)) {
+                return back()->withInput();
+            }
+
+            $count = DB::table('product_options')
+                ->where('product_id', $product->id)
+                ->where('color', $validatedData['color'])
+                ->where('size_opt_id', $validatedData['size_opt_id'])
+                ->whereNull('deleted_at')
+                ->count();
+
+            if ($count > 0) {
+                return back()->withInput()->with('error', 'This option is already exist.')->withErrors([
+                    'color' => 'Already exist',
+                    'size_opt_id' => 'Already exist',
+                ]);;
+            }
+
+            $model = ProductOption::where('id', $request->input('id'));
+            $result = $model->update($validatedData);
+
+            $ProductOption->save();
+            return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product saved successfully.');
+        }
+    }
+
+    public function options(Request $request, Product $product){
+        $productId = $product->id;
         // data product color
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
         ->select('product_color_options.*', 'products.product_name')

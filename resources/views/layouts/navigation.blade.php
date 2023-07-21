@@ -1,5 +1,5 @@
 <ul class="nav flex-column pt-3 pt-md-0">
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
         <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
             <span class="sidebar-icon me-3">
                 <img src="{{ asset('images/brand/dzeera-icon.png') }}" height="20" width="20" alt="Volt Logo">
@@ -32,7 +32,7 @@
         </a>
     </li>
 
-    <li class="nav-item ">
+    <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}"">
         <a href="{{ route('category.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-bookmark fa-fw"></i>
@@ -41,7 +41,7 @@
         </a>
     </li>
 
-    <li class="nav-item ">
+    <li class="nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}"">
         <a href="{{ route('product.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-boxes fa-fw"></i>

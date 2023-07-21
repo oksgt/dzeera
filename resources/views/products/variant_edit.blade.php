@@ -49,7 +49,7 @@
                     <form action="{{ route('product.variant.save', ['product' => $product->id]) }}" method="post">
                         @csrf
                         @method('POST')
-
+                        <input type="hidden" name="id" value="{{$ProductOption->id}}">
                         <div class="mb-3 p-1">
                             <label for="color">Color</label>
                             <select class="form-select @error('color') is-invalid @enderror" id="color"
@@ -57,10 +57,11 @@
                                 <option value="0">Select Color</option>
                                 @foreach ($ProductColorOption as $item)
                                     <option
-                                    {{ ($item->id == old('color')) ? 'selected' : '' }}
+                                    {{ ($item->id == old('color') || $item->id == $ProductOption->color) ? 'selected' : '' }}
                                         value="{{ $item->id }}">{{ $item->color_name }}</option>
                                 @endforeach
                             </select>
+
                             @error('color')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -73,7 +74,7 @@
                                 <option value="0">Select Size</option>
                                 @foreach ($ProductSizeOption as $item)
                                     <option
-                                    {{ ($item->id == old('size_opt_id'))  ? 'selected' : '' }}
+                                    {{ ($item->id == old('size_opt_id') || $item->id == $ProductOption->size_opt_id)  ? 'selected' : '' }}
                                         value="{{ $item->id }}">{{ $item->size }}</option>
                                 @endforeach
                             </select>
@@ -85,7 +86,7 @@
                         <div class="mb-3 p-1">
                             <label for="stock">Stock</label>
                             <input type="text" class="form-control input-number-only @error('stock') is-invalid @enderror"
-                                value=@if (empty(old('stock'))) "{{ $product->stock }}"
+                                value=@if ( empty(old('stock')) || $ProductOption->stock ) "{{ $ProductOption->stock }}"
                                     @else
                                             "{{ old('stock') }}" @endif
                                 id="stock" name="stock" aria-describedby="stockHelp">
@@ -97,7 +98,7 @@
                         <div class="mb-3 p-1">
                             <label for="weight">Weight</label>
                             <input type="text" class="form-control input-number-only @error('weight') is-invalid @enderror"
-                                value=@if (empty(old('weight'))) "{{ $product->weight }}"
+                                value=@if (empty(old('weight'))) "{{ $ProductOption->weight }}"
                                 @else
                                         "{{ old('weight') }}" @endif
                                 id="weight" name="weight" aria-describedby="weightHelp">
@@ -116,7 +117,7 @@
                         <div class="mb-3 p-1">
                             <label for="base_price">Base Price</label>
                             <input type="text" class="form-control input-number-only @error('base_price') is-invalid @enderror"
-                                value=@if (empty(old('base_price'))) "{{ $product->base_price }}"
+                                value=@if (empty(old('base_price'))) "{{ $ProductOption->base_price }}"
                                 @else
                                         "{{ old('base_price') }}" @endif
                                 id="base_price" name="base_price" aria-describedby="base_priceHelp">
@@ -128,7 +129,7 @@
                         <div class="mb-3 p-1">
                             <label for="disc">Disc (%)</label>
                             <input type="text" class="form-control input-number-only @error('disc') is-invalid @enderror"
-                                value=@if (empty(old('disc'))) "{{ $product->disc }}"
+                                value=@if (empty(old('disc'))) "{{ $ProductOption->disc }}"
                                 @else
                                         "{{ old('disc') }}" @endif
                                 id="disc" name="disc" aria-describedby="discHelp">
@@ -140,7 +141,7 @@
                         <div class="mb-3 p-1">
                             <label for="price">Price</label>
                             <input type="text" class="form-control input-number-only @error('price') is-invalid @enderror" readonly
-                                value=@if (empty(old('price'))) "{{ $product->price }}"
+                                value=@if (empty(old('price'))) "{{ $ProductOption->price }}"
                                 @else
                                         "{{ old('price') }}" @endif
                                 id="price" name="price" aria-describedby="priceHelp">
@@ -153,8 +154,8 @@
                             <label for="option_availability">Availability</label>
                             <select class="form-select @error('option_availability') is-invalid @enderror"
                                 id="option_availability" name="option_availability" aria-label="Default select example">
-                                <option value="y" selected>Available</option>
-                                <option value="n">Not Available</option>
+                                <option value="y" {{ $ProductOption->option_availability == 'y' ? 'selected' : '' }}>Available</option>
+                                <option value="n" {{ $ProductOption->option_availability == 'n' ? 'selected' : '' }}>Not Available</option>
                             </select>
                             @error('option_availability')
                                 <div class="invalid-feedback">{{ $message }}</div>
