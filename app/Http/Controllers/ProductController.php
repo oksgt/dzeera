@@ -288,7 +288,7 @@ class ProductController extends Controller
         ]);
 
         $ProductOption->save();
-        return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product saved successfully.');
+        return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product option saved successfully.');
     }
 
     public function variant_edit(Product $product, ProductOption $ProductOption){
@@ -318,46 +318,129 @@ class ProductController extends Controller
         ]);
     }
 
-    public function variant_update(Request $request,  Product $product){
+    public function variant_update(Request $request, ProductOption $ProductOption){
 
-        $product_color_opt = ProductColorOption::find($request->input('id'));
-        dd($product_color_opt);
-        if (!$product_color_opt->isClean()) {
-            $validatedData = $request->validate([
-                'color' => 'required|not_in:0',
-                'size_opt_id' => 'required|not_in:0',
-                'stock' => 'required|integer',
-                'weight' => 'required|numeric',
-                'base_price' => 'required|numeric',
-                'disc' => 'required|numeric',
-                'price' => 'required|numeric',
-                'option_availability' => 'required',
-            ]);
+        $model = ProductOption::findOrFail($ProductOption->id);
 
-            if (!isset($validatedData)) {
-                return back()->withInput();
-            }
+        $requestData  = $request->all();
+        $originalData = $model->toArray();
 
-            $count = DB::table('product_options')
-                ->where('product_id', $product->id)
-                ->where('color', $validatedData['color'])
-                ->where('size_opt_id', $validatedData['size_opt_id'])
-                ->whereNull('deleted_at')
-                ->count();
-
-            if ($count > 0) {
-                return back()->withInput()->with('error', 'This option is already exist.')->withErrors([
-                    'color' => 'Already exist',
-                    'size_opt_id' => 'Already exist',
-                ]);;
-            }
-
-            $model = ProductOption::where('id', $request->input('id'));
-            $result = $model->update($validatedData);
-
-            $ProductOption->save();
-            return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product saved successfully.');
+        $keysToRemove = ['_token', '_method'];
+        foreach ($keysToRemove as $key) {
+            unset($requestData[$key]);
         }
+
+        $keysToRemove = ['id', 'created_at', 'updated_at', 'deleted_at'];
+        foreach ($keysToRemove as $key) {
+            unset($originalData[$key]);
+        }
+
+        $validator = Validator::make($requestData, [
+            'color' => 'required|not_in:0',
+            'size_opt_id' => 'required|not_in:0',
+            'stock' => 'required|integer',
+            'weight' => 'required|numeric',
+            'base_price' => 'required|numeric',
+            'disc' => 'required|numeric',
+            'price' => 'required|numeric',
+            'option_availability' => 'required',
+        ]);
+
+        $validator->sometimes('color', 'required|not_in:0,', function ($input) use ($originalData) {
+            return $input['color'] !== $originalData['color'];
+        });
+
+        $validator->sometimes('size_opt_id', 'required|not_in:0', function ($input) use ($originalData) {
+            return $input['size_opt_id'] !== $originalData['size_opt_id'];
+        });
+
+        $validator->sometimes('stock', 'required|integer', function ($input) use ($originalData) {
+            return $input['stock'] !== $originalData['stock'];
+        });
+
+        $validator->sometimes('weight', 'required|numeric', function ($input) use ($originalData) {
+            return $input['weight'] !== $originalData['weight'];
+        });
+
+        $validator->sometimes('base_price', 'required|numeric', function ($input) use ($originalData) {
+            return $input['base_price'] !== $originalData['base_price'];
+        });
+
+        $validator->sometimes('disc', 'required|numeric', function ($input) use ($originalData) {
+            return $input['disc'] !== $originalData['disc'];
+        });
+
+        $validator->sometimes('price', 'required|numeric', function ($input) use ($originalData) {
+            return $input['price'] !== $originalData['price'];
+        });
+
+        $validator->sometimes('option_availability', 'required', function ($input) use ($originalData) {
+            return $input['option_availability'] !== $originalData['option_availability'];
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($requestData == $originalData) {
+            return redirect()->route('product.variant', ['product' => $ProductOption->product_id]);
+        }
+
+        if ($requestData['color'] == $originalData['color'] || $requestData['size_opt_id'] == $originalData['size_opt_id']) {
+            $existing_data = ProductOption::where([
+                'product_id'  => $ProductOption->product_id,
+                'color'       => $ProductOption->color,
+                'size_opt_id' => $ProductOption->size_opt_id,
+            ])->first();
+
+            if($existing_data){
+
+                $errorMessages = 'A product option with the same size already exists.';
+
+                if (!empty($errorMessages)) {
+                    return redirect()->back()->withErrors([
+                        'color' => ' ',
+                        'size_opt_id' => ' ',
+                    ])->withInput()->with('error', 'A product option with the same product and color already exists.');;
+                }
+            }
+        }
+
+        // update the model with the input data
+        $model->fill($requestData);
+        $model->save();
+        return redirect()->route('product.variant', ['product' => $ProductOption->product_id])->with('success', 'Product option updated successfully.');
+    }
+
+    public function variant_delete(ProductOption $ProductOption){
+        $ProductOptionId = $ProductOption->id;
+
+        $ProductOption = ProductOption::join('products as p', 'p.id', '=', 'product_options.product_id')
+        ->join('product_color_options as pco', function ($join) {
+            $join->on('pco.id', '=', 'product_options.color')
+                 ->on('pco.product_id', '=', 'p.id');
+        })
+        ->join('product_size_options as pso', function ($join) {
+            $join->on('pso.id', '=', 'product_options.size_opt_id')
+                 ->on('pso.product_id', '=', 'p.id');
+        })
+        ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
+        ->where('product_options.id', $ProductOptionId)
+        ->first();
+
+        return view($this->view_folder.'.variant_delete', ['ProductOption' => $ProductOption]);
+    }
+
+    public function variant_remove(Request $request){
+        $action_ = 'delete';
+        if($action_ !== $request->input('action_text')){
+            return redirect()->back()->with('error', 'Delete variant option failed due to wrong proceed text value')->withInput($request->all());
+        }
+
+        $ProductOption = ProductOption::find($request->input('id'));
+        $ProductOption->delete();
+
+        return redirect()->route('product.variant', ['product' => $ProductOption->product_id])->with('success', 'Product option deleted successfully.');
     }
 
     public function options(Request $request, Product $product){

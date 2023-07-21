@@ -57,8 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::post('product/{product}/variant/save', [\App\Http\Controllers\ProductController::class, 'variant_save'])->name('product.variant.save');
 
     Route::get('product/{product}/{ProductOption}/variant/edit', [\App\Http\Controllers\ProductController::class, 'variant_edit'])->name('product.variant.edit');
-    Route::post('product/{product}/{ProductOption}/variant/update', [\App\Http\Controllers\ProductController::class, 'variant_update'])->name('product.variant.update');
-    Route::get('product/{product}/{ProductOption}/variant/delete', [\App\Http\Controllers\ProductController::class, 'variant_delete'])->name('product.variant.delete');
+    Route::post('product/{ProductOption}/variant/update', [\App\Http\Controllers\ProductController::class, 'variant_update'])->name('product.variant.update');
+    Route::get('product/{ProductOption}/variant/delete', [\App\Http\Controllers\ProductController::class, 'variant_delete'])->name('product.variant.delete');
+    Route::post('product/variant/remove', [\App\Http\Controllers\ProductController::class, 'variant_remove'])->name('product.variant.remove');
 
     Route::get('product/{product}/options', [\App\Http\Controllers\ProductController::class, 'options'])->name('product.options');
 

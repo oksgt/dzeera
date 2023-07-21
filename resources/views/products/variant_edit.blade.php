@@ -21,8 +21,8 @@
                             href="{{ route('product.variant', ['product' => $product]) }}">Variant</a>
                     </li>
                     <li class="breadcrumb-item"><a
-                        href="#">Add Variant</a>
-                </li>
+                        href="#">Edit Variant</a>
+                    </li>
                 </ol>
             </nav>
             <h2 class="h4">Add Product Variant</h2>
@@ -46,13 +46,13 @@
         <div class="col-md-6 col-lg-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('product.variant.save', ['product' => $product->id]) }}" method="post">
+                    <form action="{{ route('product.variant.update', ['ProductOption' => $ProductOption]) }}" method="post">
                         @csrf
                         @method('POST')
-                        <input type="hidden" name="id" value="{{$ProductOption->id}}">
+                        <input type="hidden" name="product_id" value="{{$ProductOption->product_id}}">
                         <div class="mb-3 p-1">
                             <label for="color">Color</label>
-                            <select class="form-select @error('color') is-invalid @enderror" id="color"
+                            <select class="form-select {{ $errors->has('color') ? ' is-invalid' : '' }}" id="color"
                                 name="color" aria-label="Default select example">
                                 <option value="0">Select Color</option>
                                 @foreach ($ProductColorOption as $item)
@@ -69,7 +69,7 @@
 
                         <div class="mb-3 p-1">
                             <label for="size_opt_id">Size</label>
-                            <select class="form-select @error('size_opt_id') is-invalid @enderror" id="size_opt_id"
+                            <select class="form-select {{ $errors->has('size_opt_id') ? ' is-invalid' : '' }}" id="size_opt_id"
                                 name="size_opt_id" aria-label="Default select example">
                                 <option value="0">Select Size</option>
                                 @foreach ($ProductSizeOption as $item)
