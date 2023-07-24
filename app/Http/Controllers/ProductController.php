@@ -215,11 +215,6 @@ class ProductController extends Controller
         $counter = ($page - 1) * $perPage + 1;
 
         return view($this->view_folder.'.variant', compact('ProductOption', 'product', 'column', 'direction', 'counter', 'query'));
-
-        // return view($this->view_folder.'.variant', [
-        //     'product' => $product,
-        //     'ProductOption' => $ProductOption
-        // ]);
     }
 
     public function variant_add(Product $product){
@@ -611,5 +606,16 @@ class ProductController extends Controller
 
         return redirect()->route('product.options',
          ['product' => $request->input('product_id')])->with('success', 'Size deleted successfully!');
+    }
+
+    public function images(Product $product){
+        $productId = $product->id;
+
+        $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
+        ->join('categories', 'products.category_id', '=', 'categories.id')
+        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+        ->where('products.id', $productId)->first();
+
+        return view($this->view_folder.'.images', compact('product'));
     }
 }

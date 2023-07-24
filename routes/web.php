@@ -61,6 +61,11 @@ Route::middleware('auth')->group(function () {
     Route::get('product/{ProductOption}/variant/delete', [\App\Http\Controllers\ProductController::class, 'variant_delete'])->name('product.variant.delete');
     Route::post('product/variant/remove', [\App\Http\Controllers\ProductController::class, 'variant_remove'])->name('product.variant.remove');
 
+
+
+    Route::get('product/{product}/images', [\App\Http\Controllers\ProductController::class, 'images'])->name('product.images');
+
+
     Route::get('product/{product}/options', [\App\Http\Controllers\ProductController::class, 'options'])->name('product.options');
 
     Route::post('product/color/save', [\App\Http\Controllers\ProductController::class, 'colorSave'])->name('product.color.create.save');

@@ -153,7 +153,8 @@
                             class="btn btn-outline-primary ">
                             Color & Size Options
                         </a>
-                        <a href="#" class="btn btn-outline-primary ">
+                        <a href="{{ route('product.images', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
                             Images
                         </a>
                         <a href="{{ route('product.variant', ['product' => $product]) }}"
@@ -187,7 +188,7 @@
         <div class="col-md-12 col-lg-4 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-header">
-                    Images
+                    Comments
                 </div>
                 <div class="card-body">
 
