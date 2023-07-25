@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('product/{product}/images', [\App\Http\Controllers\ProductController::class, 'images'])->name('product.images');
+    Route::post('product/images/upload', [\App\Http\Controllers\ProductController::class, 'images_upload'])->name('product.images.upload');
 
 
     Route::get('product/{product}/options', [\App\Http\Controllers\ProductController::class, 'options'])->name('product.options');

@@ -7,12 +7,14 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Models\ProductColorOption;
+use App\Models\ProductImage;
 use App\Models\ProductSizeOption;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -25,32 +27,34 @@ class ProductController extends Controller
         $direction = $request->input('dir', 'asc');
         $query = $request->input('q', '');
         $products = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-                    ->join('categories', 'products.category_id', '=', 'categories.id')
-                    ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-                    ->where('category_name', 'LIKE', "%$query%")
-                    ->orWhere('brand_name', 'LIKE', "%$query%")
-                    ->orWhere('product_name', 'LIKE', "%$query%")
-                    ->orderBy($column, $direction)
-                    ->paginate($this->perPage);
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('category_name', 'LIKE', "%$query%")
+            ->orWhere('brand_name', 'LIKE', "%$query%")
+            ->orWhere('product_name', 'LIKE', "%$query%")
+            ->orderBy($column, $direction)
+            ->paginate($this->perPage);
 
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', $this->perPage);
         $counter = ($page - 1) * $perPage + 1;
 
-        return view($this->view_folder.'.index', compact('products', 'column', 'direction', 'counter', 'query'));
+        return view($this->view_folder . '.index', compact('products', 'column', 'direction', 'counter', 'query'));
     }
 
-    public function create(){
+    public function create()
+    {
         $brands = Brand::all();
-        return view($this->view_folder.'.create', compact('brands'));
+        return view($this->view_folder . '.create', compact('brands'));
     }
 
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'brand_id' => 'required|not_in:0',
             'product_name' => 'required|string|max:255',
             'category_id' => 'required|not_in:0',
-        ],[
+        ], [
             'brand_id.not_in' => "Please choose brand",
             'category_id.not_in' => "Please choose category"
         ]);
@@ -66,11 +70,11 @@ class ProductController extends Controller
         $sku = $request->input('product_sku');
         $exist = Product::where(function ($query) use ($brand_id, $category_id, $product_name, $sku) {
             $query->where('brand_id', $brand_id)
-                  ->where('category_id', $category_id)
-                  ->where('product_name', $product_name)
-                  ->where('deleted_at', null);
+                ->where('category_id', $category_id)
+                ->where('product_name', $product_name)
+                ->where('deleted_at', null);
         })->exists();
-        if($exist){
+        if ($exist) {
             return back()->with('error', 'Product already exist')->withInput();
         }
 
@@ -81,18 +85,19 @@ class ProductController extends Controller
         $product->product_sku   = $request->input('product_sku');
         $product->product_name  = $request->input('product_name');
         $product->product_desc  = $request->input('product_desc');
-        $product->product_status= $request->input('product_status');
+        $product->product_status = $request->input('product_status');
         $product->product_availability  = $request->input('product_availability');
         $saved = $product->save();
 
         if ($saved) {
-            return view($this->view_folder.'.success', ['product' => $product]);
+            return view($this->view_folder . '.success', ['product' => $product]);
         } else {
             return back()->with('error', 'Error creating product');
         }
     }
 
-    public function updateProduct(Request $request, Product $product){
+    public function updateProduct(Request $request, Product $product)
+    {
         try {
             $brand_id = $request->input('brand_id');
             $category_id = $request->input('category_id');
@@ -124,7 +129,7 @@ class ProductController extends Controller
             $validateData = $request->validate($rules);
 
             $product = Product::where('id', $product->id);
-            if($product){
+            if ($product) {
                 $updated = $product->update([
                     'product_type'  => $request->input('product_type'),
                     'brand_id'      => $request->input('brand_id'),
@@ -136,43 +141,46 @@ class ProductController extends Controller
                     'product_availability'  => $request->input('product_availability'),
                 ]);
                 if ($updated) {
-                    return view($this->view_folder.'.success_update', ['product_name' => $request->input('product_name')]);
+                    return view($this->view_folder . '.success_update', ['product_name' => $request->input('product_name')]);
                 } else {
                     return back()->with('error', 'Error updating product');
                 }
             } else {
                 return back()->with('error', 'Error updating product');
             }
-
-        }  catch (ValidationException $e) {
+        } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
     }
 
-    public function test(){
-        return view($this->view_folder.'.success');
+    public function test()
+    {
+        return view($this->view_folder . '.success');
     }
 
-    public function detail(Product $product){
+    public function detail(Product $product)
+    {
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-                ->join('categories', 'products.category_id', '=', 'categories.id')
-                ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-                ->where('products.id', $product->id)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $product->id)->first();
         $brands = Brand::all();
-        return view($this->view_folder.'.detail', [
+        return view($this->view_folder . '.detail', [
             'product' => $product,
             'action'  => 'edit',
             'brands'  => $brands
         ]);
     }
 
-    public function delete(Product $product){
-        return view($this->view_folder.'.delete', ['product' => $product]);
+    public function delete(Product $product)
+    {
+        return view($this->view_folder . '.delete', ['product' => $product]);
     }
 
-    public function remove(Request $request, Product $product){
+    public function remove(Request $request, Product $product)
+    {
         $action_ = 'delete';
-        if($action_ !== $request->input('action_text')){
+        if ($action_ !== $request->input('action_text')) {
             return redirect()->route('product.index')->with('error', 'Delete product failed due to wrong proceed text value');
         }
 
@@ -181,66 +189,69 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', 'Product deleted successfully!');
     }
 
-    public function variant(Request $request, Product $product){
+    public function variant(Request $request, Product $product)
+    {
         $productId = $product->id;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $productId)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
 
         $column = $request->input('sort', 'color_name');
         $direction = $request->input('dir', 'asc');
         $query = $request->input('q', '');
 
         $ProductOption = ProductOption::join('products as p', 'p.id', '=', 'product_options.product_id')
-        ->join('product_color_options as pco', function ($join) {
-            $join->on('pco.id', '=', 'product_options.color')
-                 ->on('pco.product_id', '=', 'p.id');
-        })
-        ->join('product_size_options as pso', function ($join) {
-            $join->on('pso.id', '=', 'product_options.size_opt_id')
-                 ->on('pso.product_id', '=', 'p.id');
-        })
-        ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
-        ->where('p.id', $productId)
-        ->where('p.product_name', 'LIKE', "%$query%")
-        ->orWhere('pso.size', 'LIKE', "%$query%")
-        ->orWhere('pco.color_name', 'LIKE', "%$query%")
-        ->orderBy($column, $direction)
-        ->paginate($this->perPage);
+            ->join('product_color_options as pco', function ($join) {
+                $join->on('pco.id', '=', 'product_options.color')
+                    ->on('pco.product_id', '=', 'p.id');
+            })
+            ->join('product_size_options as pso', function ($join) {
+                $join->on('pso.id', '=', 'product_options.size_opt_id')
+                    ->on('pso.product_id', '=', 'p.id');
+            })
+            ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
+            ->where('p.id', $productId)
+            ->where('p.product_name', 'LIKE', "%$query%")
+            ->orWhere('pso.size', 'LIKE', "%$query%")
+            ->orWhere('pco.color_name', 'LIKE', "%$query%")
+            ->orderBy($column, $direction)
+            ->paginate($this->perPage);
 
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', 10);
         $counter = ($page - 1) * $perPage + 1;
 
-        return view($this->view_folder.'.variant', compact('ProductOption', 'product', 'column', 'direction', 'counter', 'query'));
+        return view($this->view_folder . '.variant', compact('ProductOption', 'product', 'column', 'direction', 'counter', 'query'));
     }
 
-    public function variant_add(Product $product){
+    public function variant_add(Product $product)
+    {
         $productId = $product->id;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $productId)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
 
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
-        ->select('product_color_options.*', 'products.product_name')
-        ->where('product_color_options.product_id', $productId)->get();
+            ->select('product_color_options.*', 'products.product_name')
+            ->where('product_color_options.product_id', $productId)->get();
 
         $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
-        ->select('product_size_options.*', 'products.product_name')
-        ->where('product_size_options.product_id', $productId)->get();
+            ->select('product_size_options.*', 'products.product_name')
+            ->where('product_size_options.product_id', $productId)->get();
 
-        return view($this->view_folder.'.variant_add', [
+        return view($this->view_folder . '.variant_add', [
             'product' => $product,
             'ProductColorOption' => $ProductColorOption,
             'ProductSizeOption'  => $ProductSizeOption
         ]);
     }
 
-    public function variant_save(Request $request,  Product $product){
+    public function variant_save(Request $request,  Product $product)
+    {
         $validatedData = $request->validate([
             'color' => 'required|not_in:0',
             'size_opt_id' => 'required|not_in:0',
@@ -286,26 +297,27 @@ class ProductController extends Controller
         return redirect()->route('product.variant', ['product' => $product])->with('success', 'Product option saved successfully.');
     }
 
-    public function variant_edit(Product $product, ProductOption $ProductOption){
+    public function variant_edit(Product $product, ProductOption $ProductOption)
+    {
 
         $productId = $product->id;
 
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
-        ->select('product_color_options.*', 'products.product_name')
-        ->where('product_color_options.product_id', $productId)->get();
+            ->select('product_color_options.*', 'products.product_name')
+            ->where('product_color_options.product_id', $productId)->get();
 
         $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
-        ->select('product_size_options.*', 'products.product_name')
-        ->where('product_size_options.product_id', $productId)->get();
+            ->select('product_size_options.*', 'products.product_name')
+            ->where('product_size_options.product_id', $productId)->get();
 
         $ProductOption = ProductOption::where('id', $ProductOption->id)->first();
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $productId)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
 
-        return view($this->view_folder.'.variant_edit', [
+        return view($this->view_folder . '.variant_edit', [
             'product'            => $product,
             'ProductOption'      => $ProductOption,
             'ProductColorOption' => $ProductColorOption,
@@ -313,7 +325,8 @@ class ProductController extends Controller
         ]);
     }
 
-    public function variant_update(Request $request, ProductOption $ProductOption){
+    public function variant_update(Request $request, ProductOption $ProductOption)
+    {
 
         $model = ProductOption::findOrFail($ProductOption->id);
 
@@ -388,7 +401,7 @@ class ProductController extends Controller
                 'size_opt_id' => $ProductOption->size_opt_id,
             ])->first();
 
-            if($existing_data){
+            if ($existing_data) {
 
                 $errorMessages = 'A product option with the same size already exists.';
 
@@ -407,28 +420,30 @@ class ProductController extends Controller
         return redirect()->route('product.variant', ['product' => $ProductOption->product_id])->with('success', 'Product option updated successfully.');
     }
 
-    public function variant_delete(ProductOption $ProductOption){
+    public function variant_delete(ProductOption $ProductOption)
+    {
         $ProductOptionId = $ProductOption->id;
 
         $ProductOption = ProductOption::join('products as p', 'p.id', '=', 'product_options.product_id')
-        ->join('product_color_options as pco', function ($join) {
-            $join->on('pco.id', '=', 'product_options.color')
-                 ->on('pco.product_id', '=', 'p.id');
-        })
-        ->join('product_size_options as pso', function ($join) {
-            $join->on('pso.id', '=', 'product_options.size_opt_id')
-                 ->on('pso.product_id', '=', 'p.id');
-        })
-        ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
-        ->where('product_options.id', $ProductOptionId)
-        ->first();
+            ->join('product_color_options as pco', function ($join) {
+                $join->on('pco.id', '=', 'product_options.color')
+                    ->on('pco.product_id', '=', 'p.id');
+            })
+            ->join('product_size_options as pso', function ($join) {
+                $join->on('pso.id', '=', 'product_options.size_opt_id')
+                    ->on('pso.product_id', '=', 'p.id');
+            })
+            ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
+            ->where('product_options.id', $ProductOptionId)
+            ->first();
 
-        return view($this->view_folder.'.variant_delete', ['ProductOption' => $ProductOption]);
+        return view($this->view_folder . '.variant_delete', ['ProductOption' => $ProductOption]);
     }
 
-    public function variant_remove(Request $request){
+    public function variant_remove(Request $request)
+    {
         $action_ = 'delete';
-        if($action_ !== $request->input('action_text')){
+        if ($action_ !== $request->input('action_text')) {
             return redirect()->back()->with('error', 'Delete variant option failed due to wrong proceed text value')->withInput($request->all());
         }
 
@@ -438,39 +453,42 @@ class ProductController extends Controller
         return redirect()->route('product.variant', ['product' => $ProductOption->product_id])->with('success', 'Product option deleted successfully.');
     }
 
-    public function options(Request $request, Product $product){
+    public function options(Request $request, Product $product)
+    {
         $productId = $product->id;
         // data product color
         $ProductColorOption = ProductColorOption::join('products', 'products.id', '=', 'product_color_options.product_id')
-        ->select('product_color_options.*', 'products.product_name')
-        ->where('product_color_options.product_id', $productId)->get();
+            ->select('product_color_options.*', 'products.product_name')
+            ->where('product_color_options.product_id', $productId)->get();
 
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', 100);
         $counter = ($page - 1) * $perPage + 1;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $productId)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
 
         // data size option
         $ProductSizeOption = ProductSizeOption::join('products', 'products.id', '=', 'product_size_options.product_id')
-        ->select('product_size_options.*', 'products.product_name')
-        ->where('product_size_options.product_id', $productId)->get();
+            ->select('product_size_options.*', 'products.product_name')
+            ->where('product_size_options.product_id', $productId)->get();
 
         $page_size = $request->input('page', 1);
         $perPage_size = $request->input('perPage', 100);
         $counter_size = ($page_size - 1) * $perPage_size + 1;
-        return view($this->view_folder.'.options', compact('product', 'ProductColorOption', 'counter', 'ProductSizeOption', 'counter_size'));
+        return view($this->view_folder . '.options', compact('product', 'ProductColorOption', 'counter', 'ProductSizeOption', 'counter_size'));
     }
 
-    public function colorCreate(Request $request, Product $product){
+    public function colorCreate(Request $request, Product $product)
+    {
         $product = Product::where('id', $product->id)->first();
-        return view($this->view_folder.'.color_create', compact('product'));
+        return view($this->view_folder . '.color_create', compact('product'));
     }
 
-    public function colorSave(Request $request){
+    public function colorSave(Request $request)
+    {
         $product_id = $request->input('product_id');
         $validator = Validator::make($request->all(), [
             'color_name' => [
@@ -497,15 +515,18 @@ class ProductController extends Controller
         }
     }
 
-    public function colorEdit(Product $product, ProductColorOption $ProductColorOption){
-        return view($this->view_folder.'.color_edit', ['product' => $product, 'ProductColorOption' => $ProductColorOption]);
+    public function colorEdit(Product $product, ProductColorOption $ProductColorOption)
+    {
+        return view($this->view_folder . '.color_edit', ['product' => $product, 'ProductColorOption' => $ProductColorOption]);
     }
 
-    public function colorDelete(Product $product, ProductColorOption $ProductColorOption){
-        return view($this->view_folder.'.color_delete', ['product' => $product, 'ProductColorOption' => $ProductColorOption]);
+    public function colorDelete(Product $product, ProductColorOption $ProductColorOption)
+    {
+        return view($this->view_folder . '.color_delete', ['product' => $product, 'ProductColorOption' => $ProductColorOption]);
     }
 
-    public function color_update(Request $request){
+    public function color_update(Request $request)
+    {
         $product_id = $request->input('product_id');
         $validateData = $request->validate([
             'color_name' => [
@@ -523,9 +544,10 @@ class ProductController extends Controller
         return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Color name updated successfully!');
     }
 
-    public function color_remove(Request $request){
+    public function color_remove(Request $request)
+    {
         $action_ = 'delete';
-        if($action_ !== $request->input('action_text')){
+        if ($action_ !== $request->input('action_text')) {
             return redirect()->back()->with('error', 'Delete color failed due to wrong proceed text value');
         }
 
@@ -535,12 +557,14 @@ class ProductController extends Controller
         return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Color name deleted successfully!');
     }
 
-    public function sizeCreate(Request $request, Product $product){
+    public function sizeCreate(Request $request, Product $product)
+    {
         $product = Product::where('id', $product->id)->first();
-        return view($this->view_folder.'.size_create', compact('product'));
+        return view($this->view_folder . '.size_create', compact('product'));
     }
 
-    public function sizeSave(Request $request){
+    public function sizeSave(Request $request)
+    {
         $product_id = $request->input('product_id');
         $validator = Validator::make($request->all(), [
             'size' => [
@@ -568,17 +592,24 @@ class ProductController extends Controller
         }
     }
 
-    public function sizeEdit(Product $product, ProductSizeOption $ProductSizeOption){
-        return view($this->view_folder.'.size_edit',
-        ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]);
+    public function sizeEdit(Product $product, ProductSizeOption $ProductSizeOption)
+    {
+        return view(
+            $this->view_folder . '.size_edit',
+            ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]
+        );
     }
 
-    public function sizeDelete(Product $product, ProductSizeOption $ProductSizeOption){
-        return view($this->view_folder.'.size_delete',
-        ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]);
+    public function sizeDelete(Product $product, ProductSizeOption $ProductSizeOption)
+    {
+        return view(
+            $this->view_folder . '.size_delete',
+            ['product' => $product, 'ProductSizeOption' => $ProductSizeOption]
+        );
     }
 
-    public function size_update(Request $request){
+    public function size_update(Request $request)
+    {
         $product_id = $request->input('product_id');
         $validateData = $request->validate([
             'size' => [
@@ -595,27 +626,62 @@ class ProductController extends Controller
         return redirect()->route('product.options', ['product' => $request->input('product_id')])->with('success', 'Size option updated successfully!');
     }
 
-    public function size_remove(Request $request){
+    public function size_remove(Request $request)
+    {
         $action_ = 'delete';
-        if($action_ !== $request->input('action_text')){
+        if ($action_ !== $request->input('action_text')) {
             return redirect()->back()->with('error', 'Delete size failed due to wrong proceed text value');
         }
 
         $product_size_options = ProductSizeOption::find($request->input('id'));
         $product_size_options->delete();
 
-        return redirect()->route('product.options',
-         ['product' => $request->input('product_id')])->with('success', 'Size deleted successfully!');
+        return redirect()->route(
+            'product.options',
+            ['product' => $request->input('product_id')]
+        )->with('success', 'Size deleted successfully!');
     }
 
-    public function images(Product $product){
+    public function images(Product $product)
+    {
         $productId = $product->id;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
-        ->join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
-        ->where('products.id', $productId)->first();
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
 
-        return view($this->view_folder.'.images', compact('product'));
+        return view($this->view_folder . '.images', compact('product'));
+    }
+
+
+    public function images_upload(Request $request)
+    {
+        // dd($request->all());
+        $validateData = $request->validate([
+            'file' => 'required|file|mimes:jpeg,png|max:2048',
+        ]);
+
+        $file = $request->file('file');
+        $product_id = $request->input('product_id');
+        $is_thumbnail = $request->input('is_thumbnail') ?? false;
+
+        $product = Product::find($product_id)->first();
+
+        $filename = $product->slug . '_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+        $fileType = $file->getClientOriginalExtension();
+        $filePath = $file->storeAs('public/img_product', $filename);
+
+        $productImage = new ProductImage([
+            'product_id' => $product_id,
+            'file_name' => $filename,
+            'file_type' => $fileType,
+            'file_path' => $filePath,
+        ]);
+
+        $productImage->save();
+
+        return redirect()->back()->with('success', 'File uploaded successfully.');
     }
 }

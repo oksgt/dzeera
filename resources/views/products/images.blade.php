@@ -122,17 +122,6 @@
             <p class="mb-0" style="font-weight: 500">{{ $product->brand_name }} > {{ $product->category_name }} >
                 {{ $product->product_name }}</p>
         </div>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('product.variant.add', ['product' => $product]) }}"
-                class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                    </path>
-                </svg>
-                New Variant
-            </a>
-        </div>
     </div>
 
     <div class="row">
@@ -154,16 +143,44 @@
 
     <div class="card card-body border-0 shadow table-wrapper ">
 
-        <div class="card-body table-responsive">
-            <div class="file-drop-area">
-                <span class="fake-btn">Choose files</span>
-                <span class="file-msg">or drop files here</span>
-                <input class="file-input" type="file" multiple>
-                <div class="item-delete"></div>
+        <div class="col-12 mb-4">
+            <form action="{{ route('product.images.upload') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('post')
+                <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+                <div class="mb-3">
+                    <label for="file" class="form-label">Upload Image</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="file" name="file" accept="image/*">
+                        <button class="btn btn-primary" type="submit">Upload</button>
+                    </div>
+                    @error('file')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-0 p-1 d-flex justify-content-between">
+                    <a class="btn btn-sm btn-gray-100 float-end" type="button" id="button-back"
+                        href="{{ url()->previous() }}">
+                        Back</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12">
+            <div class="card" style="width: 15rem;">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Button</a>
+                </div>
             </div>
         </div>
+
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
-            {{-- {{ $ProductOption->links() }} --}}
+
         </div>
     </div>
 @endsection
