@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -164,11 +165,16 @@ class ProductController extends Controller
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
             ->where('products.id', $product->id)->first();
+
+        $product_image = ProductImage::where('product_id', $product->id)
+            ->where('is_thumbnail', 1)->first();
+
         $brands = Brand::all();
         return view($this->view_folder . '.detail', [
             'product' => $product,
             'action'  => 'edit',
-            'brands'  => $brands
+            'brands'  => $brands,
+            'product_image' => $product_image
         ]);
     }
 
@@ -651,13 +657,14 @@ class ProductController extends Controller
             ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
             ->where('products.id', $productId)->first();
 
-        return view($this->view_folder . '.images', compact('product'));
+        $product_image = ProductImage::where('product_id', $productId)->get();
+
+        return view($this->view_folder . '.images', compact('product', 'product_image'));
     }
 
 
     public function images_upload(Request $request)
     {
-        // dd($request->all());
         $validateData = $request->validate([
             'file' => 'required|file|mimes:jpeg,png|max:2048',
         ]);
@@ -683,5 +690,42 @@ class ProductController extends Controller
         $productImage->save();
 
         return redirect()->back()->with('success', 'File uploaded successfully.');
+    }
+
+    public function set_thumbnail(Request $request)
+    {
+        // Get the ID of the image to set as the thumbnail
+        $imageId = $request->input('image_id');
+
+        // Find the product image in the database
+        $productImage = ProductImage::findOrFail($imageId);
+
+        // Set the is_thumbnail column for the selected image to 1
+        $productImage->is_thumbnail = 1;
+        $productImage->save();
+
+        // Set the is_thumbnail column for all other images of the product to 0
+        ProductImage::where('product_id', $productImage->product_id)
+            ->where('id', '<>', $productImage->id)
+            ->update(['is_thumbnail' => 0]);
+
+        // Return a success response
+        return redirect()->back()->with('success', 'Set thumbnail success.');
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $imageId = $request->input('image_id');
+        // Find the product image in the database
+        $productImage = ProductImage::findOrFail($imageId);
+
+        // Delete the associated uploaded file
+        File::delete(asset('storage/img_product/'.$productImage->file_name));
+
+        // Delete the product image from the database
+        $productImage->delete();
+
+        // Return a success response
+        return redirect()->back()->with('success', 'Image deleted successfully.');
     }
 }

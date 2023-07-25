@@ -167,60 +167,71 @@
             </form>
         </div>
 
-        <div class="col-12">
-            <div class="card" style="width: 15rem;">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Button</a>
+        <div class="row">
+            @foreach ($product_image as $product_image)
+                <div class="col-3">
+                    <div class="card" >
+                        <form action="{{ route('product.images.delete') }}" method="post">
+                            @csrf
+                            @method('post')
+                            <input type="hidden" name="image_id" value="{{$product_image->id}}">
+                            <button type="submit" class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close"></button>
+                        </form>
+
+                        <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img src="<?= asset('storage/img_product/'.$product_image->file_name) ?>" class="card-img-top"
+                            style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                @if ($product_image->is_thumbnail == null)
+                                    <form action="{{ route('product.images.setThumbnail') }}" method="post">
+                                    @csrf
+                                    @method('post')
+                                    <input type="hidden" name="image_id" value="{{$product_image->id}}">
+                                    <button class="btn btn-primary btn-sm" type="submit">Set as Thumbnail</button>
+                                    </form>
+                                @else
+                                    <h6>Product Thumbnail</h6>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
+
         </div>
+
 
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
 
         </div>
     </div>
 @endsection
-@push('script')
+
+{{-- @push('scripts') --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const $fileInput = $('.file-input');
-        const $droparea = $('.file-drop-area');
-        const $delete = $('.item-delete');
-
-        $fileInput.on('dragenter focus click', function() {
-            $droparea.addClass('is-active');
-        });
-
-        $fileInput.on('dragleave blur drop', function() {
-            $droparea.removeClass('is-active');
-        });
-
-        $fileInput.on('change', function() {
-            let filesCount = $(this)[0].files.length;
-            let $textContainer = $(this).prev();
-
-            if (filesCount === 1) {
-                let fileName = $(this).val().split('\\').pop();
-                $textContainer.text(fileName);
-                $('.item-delete').css('display', 'inline-block');
-            } else if (filesCount === 0) {
-                $textContainer.text('or drop files here');
-                $('.item-delete').css('display', 'none');
-            } else {
-                $textContainer.text(filesCount + ' files selected');
-                $('.item-delete').css('display', 'inline-block');
+        $(document).ready(function() {
+            function set_thumbnail(imageId) {
+                $.ajax({
+                    url: '{{ url('product/images/setThumbnail') }}',
+                    type: 'POST',
+                    data: {
+                    image_id: imageId
+                    },
+                    success: function (response) {
+                    console.log(response.message);
+                    // Do something on success, such as updating the UI or reloading the page
+                    },
+                    error: function (xhr, status, error) {
+                    console.error(error);
+                    // Do something on error, such as displaying an error message
+                    }
+                });
             }
         });
 
-        $delete.on('click', function() {
-            $('.file-input').val(null);
-            $('.file-msg').text('or drop files here');
-            $('.item-delete').css('display', 'none');
-        });
     </script>
-@endpush
-@stack('script')
+{{-- @endpush
+@stack('scripts') --}}

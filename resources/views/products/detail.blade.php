@@ -188,10 +188,15 @@
         <div class="col-md-12 col-lg-4 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-header">
-                    Comments
+                    Image Thumbnail
                 </div>
                 <div class="card-body">
-
+                    <div class="card" >
+                        <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img src="<?= asset('storage/img_product/'.$product_image->file_name) ?>" class="card-img-top"
+                            style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
