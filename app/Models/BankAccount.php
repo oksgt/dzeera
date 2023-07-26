@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BankAccount extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $fillable = ['bank_name', 'account_number', 'account_name', 'is_active'];
 

@@ -98,6 +98,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/bank-accounts/{bankAccount}/edit', [\App\Http\Controllers\BankAccountController::class, 'edit'])->name('bank-accounts.edit');
     Route::post('/bank-accounts/{bankAccount}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank-accounts.update');
 
-    Route::get('/bank-accounts/{bankAccount}/delete', [\App\Http\Controllers\BankAccountController::class, 'edit'])->name('bank-accounts.delete');
-    Route::delete('/bank-accounts/{bankAccount}', [\App\Http\Controllers\ankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
+    Route::get('/bank-accounts/{bankAccount}/delete', [\App\Http\Controllers\BankAccountController::class, 'delete'])->name('bank-accounts.delete');
+    Route::delete('/bank-accounts/{bankAccount}', [\App\Http\Controllers\bankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
 });
