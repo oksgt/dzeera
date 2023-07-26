@@ -51,6 +51,15 @@
     </li>
 
     <li class="nav-item ">
+        <a href="{{ route('bank-accounts.index') }}" class="nav-link">
+            <span class="sidebar-icon me-3">
+                <i class="fas fa-building fa-fw"></i>
+            </span>
+            <span class="sidebar-text">{{ __('Bank Accounts') }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-user-alt fa-fw"></i>
@@ -86,14 +95,7 @@
         </a>
     </li>
 
-    <li class="nav-item ">
-        <a href="{{ route('users.index') }}" class="nav-link">
-            <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
-            </span>
-            <span class="sidebar-text">{{ __('Bank Accounts') }}</span>
-        </a>
-    </li>
+
 
     <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">

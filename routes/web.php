@@ -79,9 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::get('product/{product}/{ProductColorOption}/colorDelete', [\App\Http\Controllers\ProductController::class, 'colorDelete'])->name('product.color.delete');
 
 
-
-
-
     Route::get('product/{product}/sizeCreate', [\App\Http\Controllers\ProductController::class, 'sizeCreate'])->name('product.size.create');
     Route::post('product/size/save', [\App\Http\Controllers\ProductController::class, 'sizeSave'])->name('product.size.create.save');
     Route::post('product/size/update', [\App\Http\Controllers\ProductController::class, 'size_update'])->name('product.size.create.update');
@@ -93,4 +90,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+
+    Route::get('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'index'])->name('bank-accounts.index');
+    Route::get('/bank-accounts/create', [\App\Http\Controllers\BankAccountController::class, 'create'])->name('bank-accounts.create');
+    Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'store'])->name('bank-accounts.store');
+    Route::get('/bank-accounts/{bankAccount}/edit', [\App\Http\Controllers\BankAccountController::class, 'edit'])->name('bank-accounts.edit');
+    Route::post('/bank-accounts/{bankAccount}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank-accounts.update');
+
+    Route::get('/bank-accounts/{bankAccount}/delete', [\App\Http\Controllers\BankAccountController::class, 'edit'])->name('bank-accounts.delete');
+    Route::delete('/bank-accounts/{bankAccount}', [\App\Http\Controllers\ankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
 });
