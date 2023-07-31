@@ -97,7 +97,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'store'])->name('bank-accounts.store');
     Route::get('/bank-accounts/{bankAccount}/edit', [\App\Http\Controllers\BankAccountController::class, 'edit'])->name('bank-accounts.edit');
     Route::post('/bank-accounts/{bankAccount}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank-accounts.update');
-
     Route::get('/bank-accounts/{bankAccount}/delete', [\App\Http\Controllers\BankAccountController::class, 'delete'])->name('bank-accounts.delete');
     Route::delete('/bank-accounts/{bankAccount}', [\App\Http\Controllers\bankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
+
+    Route::get('/vouchers', [\App\Http\Controllers\VoucherController::class, 'index'])->name('vouchers.index');
+    Route::get('/vouchers/create', [\App\Http\Controllers\VoucherController::class, 'create'])->name('vouchers.create');
+    Route::post('/vouchers', [\App\Http\Controllers\VoucherController::class, 'store'])->name('vouchers.store');
+    Route::get('/vouchers/{voucher}/edit', [\App\Http\Controllers\VoucherController::class, 'edit'])->name('vouchers.edit');
+    Route::post('/vouchers/{voucher}', [\App\Http\Controllers\VoucherController::class, 'update'])->name('vouchers.update');
+    Route::get('/vouchers/{voucher}/delete', [\App\Http\Controllers\VoucherController::class, 'delete'])->name('vouchers.delete');
+    Route::delete('/vouchers/{voucher}', [\App\Http\Controllers\VoucherController::class, 'destroy'])->name('vouchers.destroy');
 });

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="//cdn.ckeditor.com/4.16.2/standard/ckeditor.css">
     <!-- Styles -->
     @vite('resources/sass/app.scss')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" crossorigin="anonymous" />
     <!-- Scripts -->
     @vite('resources/js/app.js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -32,6 +32,7 @@
     @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" crossorigin="anonymous"></script>
     <script>
         if (document.getElementById('product_desc') !== null) {
             CKEDITOR.replace('product_desc');

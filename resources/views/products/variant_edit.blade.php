@@ -187,15 +187,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.input-number-only').on('input', function() {
-                $(this).val($(this).val().replace(/[^0-9]/g, ''));
-            });
+            $('#base_price').val(formatCurrency($('#base_price').val()));
+            $('#disc').val(formatCurrency($('#disc').val()));
+            $('#price').val(formatCurrency($('#price').val()));
 
             $('.input-number-only').keyup(function(event) {
-                // skip for arrow keys
                 if(event.which >= 37 && event.which <= 40) return;
-
-                // format number
                 $(this).val(function(index, value) {
                     return value
                     .replace(/\D/g, "")
@@ -220,6 +217,12 @@
             });
         });
 
+        function formatCurrency(value) {
+            return value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                    ;
+        }
 
     </script>
 @endpush

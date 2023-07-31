@@ -98,7 +98,7 @@
 
 
     <li class="nav-item ">
-        <a href="{{ route('users.index') }}" class="nav-link">
+        <a href="{{ route('vouchers.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-user-alt fa-fw"></i>
             </span>

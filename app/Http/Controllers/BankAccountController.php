@@ -26,11 +26,13 @@ class BankAccountController extends Controller
                     ->orderBy($column, $direction)
                     ->paginate($this->perPage);
 
+        // $Brand = Brand::paginate(2);
+
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', $this->perPage);
         $counter = ($page - 1) * $perPage + 1;
+        // dd($bankAccounts->links());
         return view('bank-accounts.index', compact('bankAccounts', 'column', 'direction', 'counter', 'query'));
-
     }
 
     public function create()
@@ -91,7 +93,6 @@ class BankAccountController extends Controller
             $validatedData['is_active'] = 'required|in:y,n';
         }
 
-        // Skip validation if nothing has changed
         if (empty($validatedData)) {
             return redirect()->route('bank-accounts.index')
                 ->with('warning', 'No changes made to the bank account.');

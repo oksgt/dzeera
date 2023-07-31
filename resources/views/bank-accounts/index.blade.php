@@ -87,15 +87,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bankAccounts as $bankAccounts)
+                    @foreach ($bankAccounts as $row)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
-                            <td><span class="fw-normal">{{ $bankAccounts->bank_name }}</span></td>
-                            <td><span class="fw-normal">{{ $bankAccounts->account_name }}</span></td>
-                            <td><span class="fw-normal">{{ $bankAccounts->account_number }}</span></td>
+                            <td><span class="fw-normal">{{ $row->bank_name }}</span></td>
+                            <td><span class="fw-normal">{{ $row->account_name }}</span></td>
+                            <td><span class="fw-normal">{{ $row->account_number }}</span></td>
                             <td>
-                                <span class="badge bg-{{ $bankAccounts->is_active == 'y' ? 'success' : 'danger' }}">
-                                    {{ $bankAccounts->is_active == 'y' ? 'Available' : 'Not Available' }}
+                                <span class="badge bg-{{ $row->is_active == 'y' ? 'success' : 'danger' }}">
+                                    {{ $row->is_active == 'y' ? 'Available' : 'Not Available' }}
                                 </span>
                             </td>
                             <td>
@@ -113,8 +113,9 @@
                 </tbody>
             </table>
         </div>
+
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
-            {{-- {{ $bankAccounts->links() }} --}}
+            {{$bankAccounts->links()}}
         </div>
     </div>
 @endsection

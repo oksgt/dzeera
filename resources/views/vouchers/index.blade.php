@@ -15,25 +15,19 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a
-                            href="{{ route('product.variant', ['product' => $product]) }}">Variant</a>
-                    </li>
+                    <li class="breadcrumb-item"><a href="{{ route('vouchers.index') }}">Vouchers</a></li>
                 </ol>
             </nav>
-            <h2 class="h4">Product Variant</h2>
-            <p class="mb-0" style="font-weight: 500">{{ $product->brand_name }} > {{ $product->category_name }} >
-                {{ $product->product_name }}</p>
+            <h2 class="h4">Vouchers</h2>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('product.variant.add', ['product' => $product]) }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route('vouchers.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                     </path>
                 </svg>
-                New Variant
+                New Voucher
             </a>
         </div>
     </div>
@@ -58,12 +52,12 @@
     <div class="card card-body border-0 shadow table-wrapper ">
         <div class="card-header border-0 d-flex flex-column flex-lg-row align-items-center justify-content-start">
             <div class="mb-0">
-                <form action="{{ route('product.variant', ['product' => $product]) }}" method="GET">
+                <form action="{{ route('vouchers.index') }}" method="GET">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">
                         <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                         </span>
-                        <input type="text" class="form-control" name="q" value="{{ $query }}" placeholder="Type and press enter" aria-label="Search">
+                        <input type="text" class="form-control" name="q" value="{{ $query }}" placeholder="Search" aria-label="Search">
                     </div>
                 </form>
             </div>
@@ -74,59 +68,66 @@
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'color_name', 'dir' => ($column == 'color_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Color {!! ($column == 'color_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('vouchers.index', ['sort' => 'voucher_name', 'dir' => ($column == 'voucher_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Voucher Name {!! ($column == 'voucher_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'size', 'dir' => ($column == 'size' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Size {!! ($column == 'size') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('vouchers.index', ['sort' => 'code', 'dir' => ($column == 'code' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Code {!! ($column == 'code') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        {{-- <th class="border-gray-200">
+                            <a href="{{ route('vouchers.index', ['sort' => 'voucher_desc', 'dir' => ($column == 'voucher_desc' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Voucher Desc {!! ($column == 'voucher_desc') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th> --}}
+                        <th class="border-gray-200">
+                            <a href="{{ route('vouchers.index', ['sort' => 'start_date', 'dir' => ($column == 'start_date' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Periode {!! ($column == 'start_date') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'base_price', 'dir' => ($column == 'base_price' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Base Price {!! ($column == 'base_price') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('vouchers.index', ['sort' => 'is_percent', 'dir' => ($column == 'is_percent' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Is Percentage {!! ($column == 'is_percent') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'disc', 'dir' => ($column == 'disc' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Disc (%) {!! ($column == 'disc') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('vouchers.index', ['sort' => 'value', 'dir' => ($column == 'value' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Value {!! ($column == 'value') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
-                        <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'price', 'dir' => ($column == 'price' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Price {!! ($column == 'price') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
-                            </a>
-                        </th>
-                        <th class="border-gray-200">
-                            <a href="{{ route('product.variant', ['product' => $product, 'sort' => 'option_availability', 'dir' => ($column == 'option_availability' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Status {!! ($column == 'option_availability') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
-                            </a>
-                        </th>
+                        <th class="border-gray-200">{{ __('Status') }}</th>
                         <th class="border-gray-200">{{ __('#') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($ProductOption as $row)
+                    @foreach ($vouchers as $row)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
-                            <td><span class="fw-normal">{{ $row->color_name }}</span></td>
-                            <td><span class="fw-normal">{{ $row->size }}</span></td>
-                            <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->base_price)) }}</span></td>
-                            <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->disc)) }}</span></td>
-                            <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->price)) }}</span></td>
+                            <td><span class="fw-normal">{{ $row->voucher_name }}</span></td>
+                            <td><span class="fw-normal">{{ $row->code }}</span></td>
+                            {{-- <td><span class="fw-normal">{{ $row->voucher_desc }}</span></td> --}}
+                            <td><span class="fw-normal">{{ date('d-m-Y', strtotime($row->start_date)) }} s/d {{ date('d-m-Y', strtotime($row->end_date)) }}</span></td>
+
                             <td>
-                                <span class="badge bg-{{ $row->option_availability == 'y' ? 'success' : 'danger' }}">
-                                {{ $row->option_availability == 'y' ? 'Available' : 'Not Available' }}
-                              </span>
+                                <span class="badge bg-{{ $row->is_percent == 'y' ? 'success' : 'danger' }}">
+                                    {{ $row->is_percent == 'y' ? 'Yes' : 'No' }}
+                                </span>
+                            </td>
+                            <td><span class="fw-normal">{{ ($row->is_percent == 'y') ? formatCurrency(intval($row->value)) : intval($row->value)." %"}}</span></td>
+                            <td>
+                                <span class="badge bg-{{ $row->is_active == 'y' ? 'success' : 'danger' }}">
+                                    {{ $row->is_active == 'y' ? 'Available' : 'Not Available' }}
+                                </span>
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('product.variant.edit', ['product' => $product, 'ProductOption' => $row->id]) }}">
+                                    href="{{ route('vouchers.edit', ['voucher' => $row ]) }}">
                                     Edit
                                 </a>
                                 <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                    href="{{ route('product.variant.delete', ['ProductOption' => $row->id]) }}">
+                                    href="{{ route('vouchers.delete', ['voucher' =>  $row ]) }}">
                                     Delete
                                 </a>
                             </td>
@@ -135,8 +136,9 @@
                 </tbody>
             </table>
         </div>
+
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
-            {{ $ProductOption->links() }}
+            {{$vouchers->links()}}
         </div>
     </div>
 @endsection

@@ -263,9 +263,9 @@ class ProductController extends Controller
             'size_opt_id' => 'required|not_in:0',
             'stock' => 'required|integer',
             'weight' => 'required|numeric',
-            'base_price' => 'required|numeric',
-            'disc' => 'required|numeric',
-            'price' => 'required|numeric',
+            'base_price' => 'required',
+            'disc' => 'required',
+            'price' => 'required',
             'option_availability' => 'required',
         ]);
 
@@ -293,9 +293,9 @@ class ProductController extends Controller
             'size_opt_id' => $validatedData['size_opt_id'],
             'stock' => $validatedData['stock'],
             'weight' => $validatedData['weight'],
-            'base_price' => $validatedData['base_price'],
-            'disc' => $validatedData['disc'],
-            'price' => $validatedData['price'],
+            'base_price' => (int) str_replace(".", "", $validatedData['base_price']),
+            'disc' => (int) str_replace(".", "", $validatedData['disc']),
+            'price' => (int) str_replace(".", "", $validatedData['price']),
             'option_availability' => $validatedData['option_availability'],
         ]);
 
@@ -323,12 +323,18 @@ class ProductController extends Controller
             ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
             ->where('products.id', $productId)->first();
 
+        $ProductOption->base_price  = intval($ProductOption->base_price);
+        $ProductOption->disc        = intval($ProductOption->disc);
+        $ProductOption->price       = intval($ProductOption->price);
+
         return view($this->view_folder . '.variant_edit', [
             'product'            => $product,
             'ProductOption'      => $ProductOption,
             'ProductColorOption' => $ProductColorOption,
             'ProductSizeOption'  => $ProductSizeOption
         ]);
+
+
     }
 
     public function variant_update(Request $request, ProductOption $ProductOption)
@@ -354,9 +360,9 @@ class ProductController extends Controller
             'size_opt_id' => 'required|not_in:0',
             'stock' => 'required|integer',
             'weight' => 'required|numeric',
-            'base_price' => 'required|numeric',
-            'disc' => 'required|numeric',
-            'price' => 'required|numeric',
+            'base_price' => 'required',
+            'disc' => 'required',
+            'price' => 'required',
             'option_availability' => 'required',
         ]);
 
