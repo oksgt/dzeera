@@ -85,6 +85,11 @@
                                 SKU {!! ($column == 'product_sku') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('product.index', ['sort' => 'rating', 'dir' => ($column == 'rating' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Rating {!! ($column == 'rating') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
                         <th class="border-gray-200">{{ __('#') }}</th>
                     </tr>
                 </thead>
@@ -96,6 +101,7 @@
                             <td><span class="fw-normal">{{ $product->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->category_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->product_sku }}</span></td>
+                            <td><span class="fw-normal"><i class="fas fa-star text-warning"></i> {{ $product->rating }}</span></td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-warning border-0 float-end align-items-center"
                                     href="{{ route('product.detail', ['product' => $product->id]) }}">
