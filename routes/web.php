@@ -107,4 +107,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/vouchers/{voucher}', [\App\Http\Controllers\VoucherController::class, 'update'])->name('vouchers.update');
     Route::get('/vouchers/{voucher}/delete', [\App\Http\Controllers\VoucherController::class, 'delete'])->name('vouchers.delete');
     Route::delete('/vouchers/{voucher}', [\App\Http\Controllers\VoucherController::class, 'destroy'])->name('vouchers.destroy');
+
+    Route::get('/gifts', [\App\Http\Controllers\GiftController::class, 'index'])->name('gifts.index');
+    Route::get('/gifts/create', [\App\Http\Controllers\GiftController::class, 'create'])->name('gifts.create');
+    Route::get('/gifts/getProductOption/{productId}', [\App\Http\Controllers\GiftController::class, 'getProductOptions'])->name('gifts.getProductOptions');
+    Route::post('/gifts', [\App\Http\Controllers\GiftController::class, 'store'])->name('gifts.store');
+    Route::get('/gifts/{gift}/edit', [\App\Http\Controllers\GiftController::class, 'edit'])->name('gifts.edit');
+    Route::post('/gifts/{gift}', [\App\Http\Controllers\GiftController::class, 'update'])->name('gifts.update');
+    Route::get('/gifts/{gift}/delete', [\App\Http\Controllers\GiftController::class, 'delete'])->name('gifts.delete');
+    Route::delete('/gifts/{gift}', [\App\Http\Controllers\GiftController::class, 'destroy'])->name('gifts.destroy');
 });

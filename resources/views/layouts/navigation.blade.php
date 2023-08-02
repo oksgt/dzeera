@@ -50,7 +50,7 @@
         </a>
     </li>
 
-    <li class="nav-item ">
+    <li class="nav-item {{ request()->routeIs('bank-accounts.index') ? 'active' : '' }}"">
         <a href="{{ route('bank-accounts.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-building fa-fw"></i>
@@ -95,9 +95,7 @@
         </a>
     </li>
 
-
-
-    <li class="nav-item ">
+    <li class="nav-item {{ request()->routeIs('vouchers.index') ? 'active' : '' }}"">
         <a href="{{ route('vouchers.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-ticket-alt fa-fw"></i>
@@ -106,10 +104,10 @@
         </a>
     </li>
 
-    <li class="nav-item ">
-        <a href="{{ route('users.index') }}" class="nav-link">
+    <li class="nav-item {{ request()->routeIs('gifts.index') ? 'active' : '' }}"">
+        <a href="{{ route('gifts.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
+                <i class="fas fa-gift fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Gifts') }}</span>
         </a>
