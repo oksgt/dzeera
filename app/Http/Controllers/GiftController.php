@@ -39,7 +39,6 @@ class GiftController extends Controller
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', $this->perPage);
         $counter = ($page - 1) * $perPage + 1;
-
         return view('gifts.index', compact('gifts', 'column', 'direction', 'counter', 'query'));
     }
 
@@ -104,4 +103,83 @@ class GiftController extends Controller
         return redirect()->route('gifts.index')
             ->with('success', 'Gift created successfully.');
     }
+
+    public function edit(Gift $gift)
+    {
+        $products = Product::where('product_availability', '=', 'y')
+                ->where('deleted_at', '=', null)
+                ->get();
+
+        $gift = Gift::select('gifts.*', 'p.id as product_id', 'po.id as product_opt_id')
+            ->join('product_options as po', 'po.id', '=', 'gifts.product_opt_id' )
+            ->join('products as p', 'p.id', '=', 'po.product_id')
+            ->where('gifts.id', $gift->id)
+            ->first();
+
+        // dd($gift_data);
+        return view('gifts.edit', compact('products', 'gift'));
+    }
+
+    public function update(Request $request, Gift $gift)
+    {
+        $validatedData = [];
+
+        $validatedData['product_id'] = 'required';
+
+        // Check if each input value has changed
+        if ($request->input('gift_name') !== $gift->gift_name) {
+            $validatedData['gift_name'] = 'required';
+        }
+
+        if ($request->input('gift_description') !== $gift->gift_description) {
+            $validatedData['gift_description'] = 'required';
+        }
+
+        if ($request->input('product_opt_id') !== $gift->product_opt_id) {
+            $validatedData['product_opt_id'] = 'required';
+        }
+
+        if ($request->input('is_for_first_purchase') !== $gift->is_for_first_purchase) {
+            $validatedData['is_for_first_purchase'] = 'required|in:y,n';
+        }
+
+        if ($request->input('min_purchase_value') !== $gift->min_purchase_value) {
+            $validatedData['min_purchase_value'] = 'required';
+        }
+
+        if ($request->input('is_active') !== $gift->is_active) {
+            $validatedData['is_active'] = 'required|in:y,n';
+        }
+
+        if (empty($validatedData)) {
+            return redirect()->route('gifts.index')
+                ->with('warning', 'No changes made to the gift.');
+        }
+
+        $validatedData = $request->validate($validatedData);
+
+        $validatedData['min_purchase_value'] = (int) str_replace('.', '', $validatedData['min_purchase_value']);
+        $validatedData['product_opt_id']     = (int) $validatedData['product_opt_id'];
+
+        $gift->update($validatedData);
+
+        return redirect()->route('gifts.index')
+            ->with('success', 'Gift updated successfully.');
+    }
+
+    public function delete(Gift $gift){
+        return view('gifts.delete', ['gift' => $gift]);
+    }
+
+    public function destroy(Request $request, Gift $gift)
+    {
+        $action_ = 'delete';
+        if($action_ !== $request->input('action_text')){
+            return redirect()->route('gifts.index')->with('error', 'Delete gift failed due to wrong proceed text value');
+        }
+
+        $gift->delete();
+        return redirect()->route('gifts.index')->with('success', 'Gift deleted successfully!');
+    }
+
 }

@@ -101,8 +101,8 @@
                                     {{ $row->is_for_first_purchase == 'y' ? 'Yes' : 'No' }}
                                 </span>
                             </td>
-                            <td><span class="fw-normal">{{ formatCurrency(intval($row->value)) }}</span></td>
-                            <td><span class="fw-normal">{{ $row->product_name }}</span></td>
+                            <td><span class="fw-normal">{{ formatCurrency(intval($row->min_purchase_value)) }}</span></td>
+                            <td><span class="fw-normal">{{ $row->product_name . " ( " .$row->color_name . " " . $row->size . " ) "}}</span></td>
                             <td>
                                 <span class="badge bg-{{ $row->is_active == 'y' ? 'success' : 'danger' }}">
                                     {{ $row->is_active == 'y' ? 'Yes' : 'No' }}

@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('vouchers.index') }}">Vouchers</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('vouchers.create') }}">Create</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('vouchers.create') }}">Edit</a></li>
                 </ol>
             </nav>
             <h2 class="h4">Edit Voucher</h2>
@@ -130,8 +130,8 @@
                                 <label for="is_percent">Is Percentage</label>
                                 <select class="form-select @error('is_percent') is-invalid @enderror"
                                     id="is_percent" name="is_percent" aria-label="Default select example">
-                                    <option value="y" {{ $voucher->is_active == 'y' ? 'selected' : '' }}>Yes</option>
-                                    <option value="n" {{ $voucher->is_active == 'n' ? 'selected' : '' }}>No</option>
+                                    <option value="y" {{ $voucher->is_percent == 'y' ? 'selected' : '' }}>Yes</option>
+                                    <option value="n" {{ $voucher->is_percent == 'n' ? 'selected' : '' }}>No</option>
                                 </select>
                                 @error('is_percent')
                                     <div class="invalid-feedback">{{ $message }}</div>

@@ -15,12 +15,12 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('vouchers.index') }}">Vouchers</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('vouchers.create') }}">Create</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('gifts.index') }}">Gifts</a></li>
+                    <li class="breadcrumb-item"><a href="#">Edit</a></li>
                 </ol>
             </nav>
-            <h2 class="h4">Edit Voucher</h2>
-            <p class="mb-0">Voucher data form</p>
+            <h2 class="h4">Edit Gift</h2>
+            <p class="mb-0">Gift data form</p>
         </div>
     </div>
 
@@ -42,139 +42,96 @@
                     <div class="row mb-4">
                         <div class="col-lg-6 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('vouchers.update', ['voucher' => $voucher]) }}" method="post">
+                            <form action="{{ route('gifts.update', ['gift' => $gift]) }}" method="post">
                                 @csrf
                                 @method('post')
                                 <div class="mb-0 p-1">
-                                    <label for="voucher_name">Voucher Name</label>
-                                    <input type="text" class="form-control @error('voucher_name') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('voucher_name')))
-                                            "{{ $voucher->voucher_name }}"
+                                    <label for="gift_name">Gift Name</label>
+                                    <input type="text" class="form-control @error('gift_name') is-invalid @enderror"
+                                        value=@if (empty(old('gift_name'))) "{{ $gift->gift_name }}"
                                         @else
-                                            "{{ old('voucher_name') }}"
-                                        @endif
-
-                                    id="voucher_name" name="voucher_name" aria-describedby="brandNameHelp">
-                                    @error('voucher_name')
+                                            "{{ old('gift_name') }}" @endif
+                                        id="gift_name" name="gift_name" aria-describedby="gift_nameHelp">
+                                    @error('gift_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-0 p-1">
-                                    <label for="code">Code</label>
-                                    <input type="text" class="form-control @error('code') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('code')))
-                                            "{{ $voucher->code }}"
+                                    <label for="product_id">Product</label>
+                                    <select class="form-select @error('product_id') is-invalid @enderror" id="product_id"
+                                        name="product_id" aria-label="Default select example">
+                                        <option value="">--Please Choose--</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->id }}"
+                                                {{ $gift->product_id == $product->id ? 'selected' : '' }}>
+                                                {{ $product->product_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-0 p-1">
+                                    <label for="product_opt_id">Product Variant</label>
+                                    <select class="form-select @error('product_opt_id') is-invalid @enderror"
+                                        id="product_opt_id" name="product_opt_id" aria-label="Default select example">
+                                        <option value="">Select an option</option>
+                                    </select>
+                                </div>
+                                <div class="mb-0 p-1">
+                                    <label for="gift_description">Gift Desc</label>
+                                    <input type="text"
+                                        class="form-control @error('gift_description') is-invalid @enderror"
+                                        value=@if (empty(old('gift_description'))) "{{ $gift->gift_description }}"
                                         @else
-                                            "{{ old('code') }}"
-                                        @endif
-
-                                    id="code" name="code" aria-describedby="brandNameHelp">
-                                    @error('code')
+                                            "{{ old('gift_description') }}" @endif
+                                        id="gift_description" name="gift_description"
+                                        aria-describedby="gift_descriptionHelp">
+                                    @error('gift_description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <div class="mb-0 p-1">
-                                    <label for="start_date">Start Date</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
-                                                    </path>
-                                            </svg>
-                                        </span>
-                                        <input type="text" class="form-control input_date @error('start_date') is-invalid @enderror"
-                                        value=
-                                        @if(empty(old('start_date')))
-                                            "{{ $voucher->start_date }}"
-                                        @else
-                                            "{{ old('start_date') }}"
-                                        @endif
-                                        id="start_date" name="start_date" aria-describedby="start_dateHelp">
-                                        @error('start_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="mb-0 p-1">
-                                    <label for="end_date">End Date</label>
-
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
-                                                    </path>
-                                            </svg>
-                                        </span>
-                                        <input type="text" class="form-control input_date @error('end_date') is-invalid @enderror"
-                                        value=
-                                        @if(empty(old('end_date')))
-                                            "{{ $voucher->end_date }}"
-                                        @else
-                                            "{{ old('end_date') }}"
-                                        @endif
-                                        id="end_date" name="end_date" aria-describedby="end_dateHelp">
-                                        @error('end_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            {{-- </form> --}}
-                            <!-- End of Form -->
+                                {{-- </form> --}}
+                                <!-- End of Form -->
                         </div>
                         <div class="col-lg-6 col-sm-6">
+
                             <div class="mb-0 p-1">
-                                <label for="is_percent">Is Percentage</label>
-                                <select class="form-select @error('is_percent') is-invalid @enderror"
-                                    id="is_percent" name="is_percent" aria-label="Default select example">
-                                    <option value="y" {{ $voucher->is_active == 'y' ? 'selected' : '' }}>Yes</option>
-                                    <option value="n" {{ $voucher->is_active == 'n' ? 'selected' : '' }}>No</option>
+                                <label for="is_for_first_purchase">Is For First Purchase</label>
+                                <select class="form-select @error('is_for_first_purchase') is-invalid @enderror"
+                                    id="is_for_first_purchase" name="is_for_first_purchase"
+                                    aria-label="Default select example">
+                                    <option value="y" {{ $gift->is_for_first_purchase == 'y' ? 'selected' : '' }}>Yes
+                                    </option>
+                                    <option value="n" {{ $gift->is_for_first_purchase == 'n' ? 'selected' : '' }}>No
+                                    </option>
                                 </select>
-                                @error('is_percent')
+                                @error('is_for_first_purchase')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="mb-0 p-1">
-                                <label for="value">Value</label>
-                                <input type="text" class="form-control input-number-only @error('value') is-invalid @enderror"
-                                value=
-                                    @if(empty(old('value')))
-                                        "{{ $voucher->value }}"
-                                    @else
-                                        "{{ old('value') }}"
-                                    @endif
-                                id="value" name="value" aria-describedby="valueHelp">
-                                @error('value')
+                                <label for="min_purchase_value">Min Purchase Value</label>
+                                <input type="text"
+                                    class="form-control input-number-only @error('min_purchase_value') is-invalid @enderror"
+                                    value=@if (empty(old('min_purchase_value'))) "{{ $gift->min_purchase_value }}"
+                                        @else
+                                            "{{ old('min_purchase_value') }}" @endif
+                                    id="min_purchase_value" name="min_purchase_value" aria-describedby="valueHelp">
+                                @error('min_purchase_value')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="mb-0 p-1">
                                 <label for="is_active">Status</label>
-                                <select class="form-select @error('is_active') is-invalid @enderror"
-                                    id="is_active" name="is_active" aria-label="Default select example">
-                                    <option value="y" {{ $voucher->is_active == 'y' ? 'selected' : '' }}>Available</option>
-                                    <option value="n" {{ $voucher->is_active == 'n' ? 'selected' : '' }}>Not Available</option>
+                                <select class="form-select @error('is_active') is-invalid @enderror" id="is_active"
+                                    name="is_active" aria-label="Default select example">
+                                    <option value="y" {{ $gift->is_active == 'y' ? 'selected' : '' }}>Available
+                                    </option>
+                                    <option value="n" {{ $gift->is_active == 'n' ? 'selected' : '' }}>Not Available
+                                    </option>
                                 </select>
                                 @error('is_active')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-0 p-1">
-                                <label for="voucher_desc">Voucher Desc</label>
-                                <input type="text" class="form-control @error('voucher_desc') is-invalid @enderror"
-                                value=
-                                    @if(empty(old('voucher_desc')))
-                                        "{{ $voucher->voucher_desc }}"
-                                    @else
-                                        "{{ old('voucher_desc') }}"
-                                    @endif
-                                id="voucher_desc" name="voucher_desc" aria-describedby="voucher_descHelp">
-                                @error('voucher_desc')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -190,7 +147,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-sm btn-gray-100 " type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
+                        <a class="btn btn-sm btn-gray-100 " type="button" id="button-back"
+                            href="{{ url()->previous() }}">Back</a>
                         &nbsp;
                         <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
                         </form>
@@ -204,7 +162,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#value').val(formatCurrency($('#value').val()));
+            let input_value = $('#min_purchase_value').val();
+            let cleaned_value = input_value.replace('.00', '');
+            $('#min_purchase_value').val(formatCurrency(cleaned_value));
+
+            $.ajax({
+                url: '{{ route('gifts.getProductOptions', '') }}/' + {{$gift->product_id }},
+                type: 'GET',
+                dataType: 'json',
+                success: function(options) {
+                    $('#product_opt_id').empty();
+                    $.each(options, function(key, value) {
+
+                        let selected = ({{$gift->product_opt_id }} == value.id) ? "selected" : "";
+                        // console.log(selected);
+                        $('#product_opt_id').append('<option value="' + value.id + '" '+selected+'>' + value
+                            .color_name + ' size ' + value.size + '</option>');
+                    });
+                }
+            });
 
             var dateInput = $('.input_date');
             dateInput.datepicker({
@@ -214,21 +190,41 @@
             });
 
             $('.input-number-only').keyup(function(event) {
-                if(event.which >= 37 && event.which <= 40) return;
+                if (event.which >= 37 && event.which <= 40) return;
                 $(this).val(function(index, value) {
                     return value
-                    .replace(/\D/g, "")
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                    ;
+                        .replace(/\D/g, "")
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                 });
             });
 
             function formatCurrency(value) {
                 return value
                     .replace(/\D/g, "")
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                    ;
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
+
+            $('#product_id').on('change', function() {
+                var productId = $(this).val();
+                if (productId) {
+                    $.ajax({
+                        url: '{{ route('gifts.getProductOptions', '') }}/' + productId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(options) {
+                            $('#product_opt_id').empty();
+                            $.each(options, function(key, value) {
+                                $('#product_opt_id').append('<option value="' + value
+                                    .id + '">' + value.color_name + ' size ' + value
+                                    .size + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#product_opt_id').empty();
+                    $('#product_opt_id').append('<option value="">Select an option</option>');
+                }
+            });
 
         });
     </script>

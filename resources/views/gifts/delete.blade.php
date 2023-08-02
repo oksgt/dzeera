@@ -15,11 +15,11 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('vouchers.index') }}">Voucher</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('gifts.index') }}">Gift</a></li>
                 </ol>
             </nav>
-            <h2 class="h4 text-danger">Delete voucher code "{{$voucher->code}}"</h2>
-            <p class="mb-0">Delete voucher confirmation</p>
+            <h2 class="h4 text-danger">Delete gift "{{$gift->gift_name}}"</h2>
+            <p class="mb-0">Delete gift confirmation</p>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('vouchers.destroy', ['voucher' => $voucher]) }}" method="post">
+                            <form action="{{ route('gifts.destroy', ['gift' => $gift]) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <div class="mb-0 p-1">

@@ -19,4 +19,9 @@ class Gift extends Model
         'product_opt_id',
         'is_active',
     ];
+
+    public function getGiftNameAttribute()
+    {
+        return $this->attributes['gift_name'];
+    }
 }
