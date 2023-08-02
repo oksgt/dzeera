@@ -174,7 +174,7 @@
                         <a class="btn btn-sm btn-gray-100 " type="button" id="button-back"
                             href="{{ url()->previous() }}">Back</a>
                         &nbsp;
-                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
+                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Update</button>
                         </form>
                     </div>
                 </div>

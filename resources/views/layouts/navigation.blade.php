@@ -62,7 +62,7 @@
     <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
+                <i class="fas fa-shopping-cart fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Orders') }}</span>
         </a>
@@ -80,7 +80,7 @@
     <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
-                <i class="fas fa-user-alt fa-fw"></i>
+                <i class="fas fa-money-check-alt fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Payments') }}</span>
         </a>

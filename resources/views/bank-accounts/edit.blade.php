@@ -105,7 +105,7 @@
                                 <div class="mb-0 p-1 d-flex justify-content-between">
                                     <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
 
-                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Save</button>
+                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Update</button>
                                   </div>
                             </form>
                             <!-- End of Form -->

@@ -228,7 +228,7 @@
                         <a class="btn btn-sm btn-gray-100 " type="button" id="button-back"
                             href="{{ route('product.index') }}">Back</a>
                         &nbsp;
-                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Save</button>
+                        <button class="btn btn-sm btn-primary" type="submit" id="button-save">Update</button>
                         <a href="{{ route('product.delete', ['product' => $product]) }}"
                             class="btn btn-outline-danger border-0 float-end">
                             Delete product
