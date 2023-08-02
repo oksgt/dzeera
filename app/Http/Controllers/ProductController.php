@@ -140,6 +140,7 @@ class ProductController extends Controller
                     'product_desc'  => $request->input('product_desc'),
                     'product_status' => $request->input('product_status'),
                     'product_availability'  => $request->input('product_availability'),
+                    'rating'         => $request->input('rating'),
                 ]);
                 if ($updated) {
                     return view($this->view_folder . '.success_update', ['product_name' => $request->input('product_name')]);

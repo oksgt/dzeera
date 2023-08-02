@@ -13,11 +13,9 @@
                 <div class="card-body">
                     <h5 class="card-title text-success">Success update product</h5>
                     <h5 class="card-title">"{{ $product_name }}"</h5>
-                    <p class="card-text">Continue to set price, variant, image and other option ?</p>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ route('product.index') }}" class="btn btn-gray-100 float-start">No, maybe later</a>
-                    <a class="btn btn-primary float-end">Yes</a>
+                <div class="card-footer d-flex justify-content-center">
+                    <a href="{{ url()->previous() }}" class="btn btn-gray-100 float-start">Back</a>
                 </div>
               </div>
         </div>

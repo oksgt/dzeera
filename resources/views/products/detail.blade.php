@@ -115,10 +115,27 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header">
-                    Status
-                </div>
                 <div class="card-body">
+                    <div class="mb-3 p-1">
+                        <label for="rating">Rating</label>
+                        <select class="form-select @error('rating') is-invalid @enderror" id="rating"
+                            name="rating" aria-label="Default select example">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                        </select>
+                        @error('rating')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mb-3 p-1">
                         <label for="product_status">Order Status</label>
                         <select class="form-select @error('product_status') is-invalid @enderror" id="product_status"
@@ -142,6 +159,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                 </div>
             </div>
 
@@ -169,7 +187,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 col-lg-8 mb-4">
+        <div class="col-md-12 col-lg-8 mt-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
                     <div class="row mb-4">
@@ -185,7 +203,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 col-lg-4 mb-4">
+        <div class="col-md-12 col-lg-4 mt-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-header">
                     Image Thumbnail
@@ -203,7 +221,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mt-4">
             <div class="card">
                 <div class="card-body">
                     <div class="justify-content-start">
