@@ -21,9 +21,11 @@ class CategoryController extends Controller
 
         $category = Category::join('brands', 'categories.brand_id', '=', 'brands.id')
                     ->select('categories.*', 'brands.brand_name as brand_name')
+                    ->orWhere(function ($qry) use ($query) {
+                        $qry->where('categories.category_name', 'LIKE', "%$query%")
+                        ->where('brands.brand_name', 'LIKE', "%$query%");
+                    })
                     ->whereNull('brands.deleted_at')
-                    ->where('category_name', 'LIKE', "%$query%")
-                    ->orWhere('brand_name', 'LIKE', "%$query%")
                     ->orderBy($column, $direction)
                     ->paginate($this->perPage);
 
