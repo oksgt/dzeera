@@ -73,10 +73,10 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
-                        <span class="fw-normal">
+                        {{-- <span class="fw-normal">
                             {{ __('Not registered?') }}
                             <a href="{{ route('register') }}" class="fw-bold">{{ __('Create account') }}</a>
-                        </span>
+                        </span> --}}
                     </div>
                 </div>
             </div>
