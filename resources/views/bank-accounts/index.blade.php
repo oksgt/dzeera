@@ -100,11 +100,11 @@
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('bank-accounts.edit', ['bankAccount' => $bankAccounts]) }}">
+                                    href="{{ route('bank-accounts.edit', ['bankAccount' => $row]) }}">
                                     Edit
                                 </a>
                                 <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"
-                                    href="{{ route('bank-accounts.delete', ['bankAccount' => $bankAccounts]) }}">
+                                    href="{{ route('bank-accounts.delete', ['bankAccount' => $row]) }}">
                                     Delete
                                 </a>
                             </td>

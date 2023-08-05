@@ -219,10 +219,17 @@ class ProductController extends Controller
                     ->on('pso.product_id', '=', 'p.id');
             })
             ->select('product_options.*', 'p.product_name', 'pso.size', 'pso.dimension', 'pco.color_name')
-            ->where('p.id', $productId)
-            ->where('p.product_name', 'LIKE', "%$query%")
-            ->orWhere('pso.size', 'LIKE', "%$query%")
-            ->orWhere('pco.color_name', 'LIKE', "%$query%")
+
+            ->orWhere(function ($qry) use ($query) {
+                // $qry->where('categories.category_name', 'LIKE', "%$query%")
+                // ->where('brands.brand_name', 'LIKE', "%$query%");
+
+                $qry->where('p.product_name', 'LIKE', "%$query%")
+                ->orWhere('pso.size', 'LIKE', "%$query%")
+                ->orWhere('pco.color_name', 'LIKE', "%$query%");
+            })
+            ->where('product_options.product_id', $productId)
+            ->whereNull('p.deleted_at')
             ->orderBy($column, $direction)
             ->paginate($this->perPage);
 
