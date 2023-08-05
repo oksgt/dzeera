@@ -208,12 +208,18 @@
                 <div class="card-header">
                     Image Thumbnail
                 </div>
-                <div class="card-body">
-                    <div class="card" >
+                <div class="card-body ">
+                    <div class="card border-0" >
+
+                        @if ($product_image)
                         <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                             <img src="<?= asset('storage/img_product/'.$product_image->file_name) ?>" class="card-img-top"
                             style="max-height: 100%; max-width: 100%; object-fit: contain;">
                         </div>
+                        @else
+                        <span>Not Available</span>
+                        @endif
+
                     </div>
                 </div>
             </div>

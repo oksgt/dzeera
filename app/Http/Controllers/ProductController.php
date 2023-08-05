@@ -175,7 +175,7 @@ class ProductController extends Controller
             'product' => $product,
             'action'  => 'edit',
             'brands'  => $brands,
-            'product_image' => $product_image
+            'product_image' => ($product_image) ? $product_image->image : null,
         ]);
     }
 
