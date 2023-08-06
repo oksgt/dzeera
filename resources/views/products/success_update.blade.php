@@ -15,7 +15,7 @@
                     <h5 class="card-title">"{{ $product_name }}"</h5>
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a href="{{ url()->previous() }}" class="btn btn-gray-100 float-start">Back</a>
+                    <a href="{{ route('product.index') }}" class="btn btn-gray-100 float-start">Back</a>
                 </div>
               </div>
         </div>

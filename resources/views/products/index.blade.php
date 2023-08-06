@@ -61,7 +61,7 @@
             </form>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
+            <table class="table table-hover ">
                 <thead>
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
@@ -81,13 +81,23 @@
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.index', ['sort' => 'product_sku', 'dir' => ($column == 'product_sku' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                SKU {!! ($column == 'product_sku') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('product.index', ['sort' => 'rating', 'dir' => ($column == 'rating' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Rating {!! ($column == 'rating') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">
-                            <a href="{{ route('product.index', ['sort' => 'rating', 'dir' => ($column == 'rating' && $direction == 'asc') ? 'desc' : 'asc']) }}">
-                                Rating {!! ($column == 'rating') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            <a href="{{ route('product.index', ['sort' => 'highlight', 'dir' => ($column == 'highlight' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Highlight {!! ($column == 'highlight') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('product.index', ['sort' => 'product_status', 'dir' => ($column == 'product_status' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Status {!! ($column == 'product_status') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('product.index', ['sort' => 'product_availability', 'dir' => ($column == 'product_availability' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Available {!! ($column == 'product_availability') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
                         <th class="border-gray-200">{{ __('#') }}</th>
@@ -100,8 +110,22 @@
                             <td><span class="fw-normal">{{ $product->product_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $product->category_name }}</span></td>
-                            <td><span class="fw-normal">{{ $product->product_sku }}</span></td>
                             <td><span class="fw-normal"><i class="fas fa-star text-warning"></i> {{ $product->rating }}</span></td>
+                            <td>
+                                <span class="badge bg-{{ $product->highlight == 'y' ? 'success' : 'danger' }}">
+                                {{ $product->highlight == 'y' ? 'Yes' : 'No' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{{ $product->product_status == 'ready' ? 'success' : 'warning' }}">
+                                {{ $product->product_status == 'ready' ? 'Ready' : 'Pre Order' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{{ $product->product_status == 'y' ? 'success' : 'warning' }}">
+                                {{ $product->product_status == 'y' ? 'Yes' : 'No' }}
+                                </span>
+                            </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-warning border-0 float-end align-items-center"
                                     href="{{ route('product.detail', ['product' => $product->id]) }}">

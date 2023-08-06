@@ -141,6 +141,7 @@ class ProductController extends Controller
                     'product_status' => $request->input('product_status'),
                     'product_availability'  => $request->input('product_availability'),
                     'rating'         => $request->input('rating'),
+                    'highlight' => $request->input('highlight'),
                 ]);
                 if ($updated) {
                     return view($this->view_folder . '.success_update', ['product_name' => $request->input('product_name')]);
@@ -372,6 +373,7 @@ class ProductController extends Controller
             'disc' => 'required',
             'price' => 'required',
             'option_availability' => 'required',
+            'highlight' => 'required',
         ]);
 
         $validator->sometimes('color', 'required|not_in:0,', function ($input) use ($originalData) {
@@ -404,6 +406,10 @@ class ProductController extends Controller
 
         $validator->sometimes('option_availability', 'required', function ($input) use ($originalData) {
             return $input['option_availability'] !== $originalData['option_availability'];
+        });
+
+        $validator->sometimes('highlight', 'required', function ($input) use ($originalData) {
+            return $input['highlight'] !== $originalData['highlight'];
         });
 
         if ($validator->fails()) {

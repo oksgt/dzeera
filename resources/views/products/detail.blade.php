@@ -120,16 +120,16 @@
                         <label for="rating">Rating</label>
                         <select class="form-select @error('rating') is-invalid @enderror" id="rating"
                             name="rating" aria-label="Default select example">
-                            <option value="0" selected>0</option>
-                            <option value="1">1</option>
-                            <option value="1.5">1.5</option>
-                            <option value="2">2</option>
-                            <option value="2.5">2.5</option>
-                            <option value="3">3</option>
-                            <option value="3.5">3.5</option>
-                            <option value="4">4</option>
-                            <option value="4.5">4.5</option>
-                            <option value="5">5</option>
+                            <option value="0" {{ $product->rating == '0' ? 'selected' : '' }}>0</option>
+                            <option value="1" {{ $product->rating == '1' ? 'selected' : '' }}>1</option>
+                            <option value="1.5" {{ $product->rating == '1,5' ? 'selected' : '' }}>1.5</option>
+                            <option value="2" {{ $product->rating == '2' ? 'selected' : '' }}>2</option>
+                            <option value="2.5" {{ $product->rating == '2.5' ? 'selected' : '' }}>2.5</option>
+                            <option value="3" {{ $product->rating == '3' ? 'selected' : '' }}>3</option>
+                            <option value="3.5" {{ $product->rating == '3.5' ? 'selected' : '' }}>3.5</option>
+                            <option value="4" {{ $product->rating == '4' ? 'selected' : '' }}>4</option>
+                            <option value="4.5" {{ $product->rating == '4.5' ? 'selected' : '' }}>4.5</option>
+                            <option value="5" {{ $product->rating == '5' ? 'selected' : '' }}>5</option>
                         </select>
                         @error('rating')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -140,8 +140,8 @@
                         <label for="product_status">Order Status</label>
                         <select class="form-select @error('product_status') is-invalid @enderror" id="product_status"
                             name="product_status" aria-label="Default select example">
-                            <option value="ready" selected>Ready</option>
-                            <option value="po">Pre Order</option>
+                            <option value="ready" {{ $product->product_status == 'ready' ? 'selected' : '' }}>Ready</option>
+                            <option value="po" {{ $product->product_status == 'po' ? 'selected' : '' }}>Pre Order</option>
                         </select>
                         @error('product_status')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -152,36 +152,27 @@
                         <label for="product_availability">Availability</label>
                         <select class="form-select @error('product_availability') is-invalid @enderror"
                             id="product_availability" name="product_availability" aria-label="Default select example">
-                            <option value="y" selected>Available</option>
-                            <option value="n">Not Available</option>
+                            <option value="y"  {{ $product->product_availability == 'y' ? 'selected' : '' }}>Available</option>
+                            <option value="n"  {{ $product->product_availability == 'n' ? 'selected' : '' }}>Not Available</option>
                         </select>
                         @error('product_availability')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                </div>
-            </div>
-
-            <div class="card text-center mt-4">
-                <div class="card-body ">
-                    <h5 class="card-title">Manage Options</h5>
-                    <div class="btn-group-vertical d-block">
-                        <a href="{{ route('product.options', ['product' => $product]) }}"
-                            class="btn btn-outline-primary ">
-                            Color & Size Options
-                        </a>
-                        <a href="{{ route('product.images', ['product' => $product]) }}"
-                            class="btn btn-outline-primary ">
-                            Images
-                        </a>
-                        <a href="{{ route('product.variant', ['product' => $product]) }}"
-                            class="btn btn-outline-primary ">
-                            Variant & Price
-                        </a>
+                    <div class="mb-3 p-1">
+                        <label for="highlight">Highlight</label>
+                        <select class="form-select @error('highlight') is-invalid @enderror"
+                            id="highlight" name="highlight" aria-label="Default select example">
+                            <option value="y" {{ $product->highlight == 'y' ? 'selected' : '' }}>Yes</option>
+                            <option value="n" {{ $product->highlight == 'n' ? 'selected' : '' }}>No</option>
+                        </select>
+                        @error('highlight')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -203,8 +194,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 col-lg-4 mt-4">
-            <div class="card border-0 shadow components-section">
+        <div class="col-md-12 col-lg-4 ">
+            <div class="card text-center mt-4">
+                <div class="card-body ">
+                    <h5 class="card-title">Manage Options</h5>
+                    <div class="btn-group-vertical d-block">
+                        <a href="{{ route('product.options', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
+                            Color & Size Options
+                        </a>
+                        <a href="{{ route('product.images', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
+                            Images
+                        </a>
+                        <a href="{{ route('product.variant', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
+                            Variant & Price
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card border-0 shadow components-section mt-4">
                 <div class="card-header">
                     Image Thumbnail
                 </div>

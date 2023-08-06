@@ -118,7 +118,7 @@
                             <td>
                                 <span class="badge bg-{{ $row->option_availability == 'y' ? 'success' : 'danger' }}">
                                 {{ $row->option_availability == 'y' ? 'Available' : 'Not Available' }}
-                              </span>
+                                </span>
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
