@@ -77,6 +77,11 @@
                                 Category Name {!! ($column == 'category_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
                         </th>
+                        <th class="border-gray-200">
+                            <a href="{{ route('category.index', ['sort' => 'highlight', 'dir' => ($column == 'highlight' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Highlight {!! ($column == 'highlight') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
                         <th class="border-gray-200">{{ __('Slug') }}</th>
                         <th class="border-gray-200">{{ __('#') }}</th>
                     </tr>
@@ -87,6 +92,11 @@
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
                             <td><span class="fw-normal">{{ $row->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $row->category_name }}</span></td>
+                            <td>
+                                <span class="badge bg-{{ $row->highlight == 'y' ? 'success' : 'warning' }}">
+                                {{ $row->highlight == 'y' ? 'Yes' : 'No' }}
+                                </span>
+                            </td>
                             <td><span class="fw-normal">{{ $row->slug }}</span></td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"

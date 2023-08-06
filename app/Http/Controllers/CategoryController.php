@@ -45,6 +45,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'brand_id' => 'required|not_in:default',
             'category_name' => 'required|string|max:255',
+            'highlight' => 'required'
         ],[
             'brand_id.not_in' => "Please choose brand"
         ]);
@@ -74,6 +75,7 @@ class CategoryController extends Controller
         $validateData = $request->validate([
             'brand_id' => 'required|not_in:default',
             'category_name' => 'required|string|max:255',
+            'highlight' => 'required'
         ],[
             'brand_id.not_in' => "Please choose brand"
         ]);

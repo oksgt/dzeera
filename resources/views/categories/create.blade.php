@@ -65,6 +65,19 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="mb-0 p-1">
+                                    <label for="highlight">Highlight</label>
+                                    <select class="form-select @error('highlight') is-invalid @enderror"
+                                        id="highlight" name="highlight" aria-label="Default select example">
+                                        <option value="y" >Yes</option>
+                                        <option value="n" selected>No</option>
+                                    </select>
+                                    @error('highlight')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <div class="mb-0 p-1 d-flex justify-content-between">
                                     <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ route('category.index') }}">Back</a>
 

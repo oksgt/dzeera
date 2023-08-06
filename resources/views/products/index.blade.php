@@ -112,7 +112,7 @@
                             <td><span class="fw-normal">{{ $product->category_name }}</span></td>
                             <td><span class="fw-normal"><i class="fas fa-star text-warning"></i> {{ $product->rating }}</span></td>
                             <td>
-                                <span class="badge bg-{{ $product->highlight == 'y' ? 'success' : 'danger' }}">
+                                <span class="badge bg-{{ $product->highlight == 'y' ? 'success' : 'warning' }}">
                                 {{ $product->highlight == 'y' ? 'Yes' : 'No' }}
                                 </span>
                             </td>
