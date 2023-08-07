@@ -184,7 +184,7 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-center">
-                                @if ($product_image->is_thumbnail == null)
+                                @if ($product_image->is_thumbnail == null || $product_image->is_thumbnail == 0)
                                     <form action="{{ route('product.images.setThumbnail') }}" method="post">
                                     @csrf
                                     @method('post')
