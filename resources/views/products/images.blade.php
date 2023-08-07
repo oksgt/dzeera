@@ -179,7 +179,7 @@
                         </form>
 
                         <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                            <img src="<?= asset('storage/img_product/'.$product_image->file_name) ?>" class="card-img-top"
+                            <img src="<?= asset('img_product/'.$product_image->file_name) ?>" class="card-img-top"
                             style="max-height: 100%; max-width: 100%; object-fit: contain;">
                         </div>
                         <div class="card-body">

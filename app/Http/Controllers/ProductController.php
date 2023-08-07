@@ -698,7 +698,7 @@ class ProductController extends Controller
         $filename = $product->slug . '_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
 
         $fileType = $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('public/img_product', $filename);
+        $filePath = $file->move('img_product', $filename);
 
         $productImage = new ProductImage([
             'product_id' => $product_id,
