@@ -104,7 +104,7 @@
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center"
-                                    href="{{ route('social-media.edit', ['socialMedia' => $row]) }}">
+                                    href="{{ route('social-media.detail', ['socialMedia' => $row]) }}">
                                     Edit
                                 </a>
                                 <a type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center"

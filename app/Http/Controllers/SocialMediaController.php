@@ -8,10 +8,24 @@ use Illuminate\Validation\Rule;
 
 class SocialMediaController extends Controller
 {
-    public function index()
+    private $perPage = 10;
+
+    public function index(Request $request)
     {
-        // $socialMedia = SocialMedia::all();
-        // return view('social-media.index', compact('socialMedia'));
+        $column = $request->input('sort', 'social_media');
+        $direction = $request->input('dir', 'asc');
+
+        $query = $request->input('q', '');
+
+        $socialMedia = SocialMedia::where('social_media', 'LIKE', "%$query%")
+                    ->orderBy($column, $direction)
+                    ->paginate($this->perPage);
+
+        $page = $request->input('page', 1);
+        $perPage = $request->input('perPage', $this->perPage);
+        $counter = ($page - 1) * $perPage + 1;
+
+        return view('social-media.index', compact('socialMedia', 'column', 'direction', 'counter', 'query'));
     }
 
     public function add()
@@ -25,7 +39,6 @@ class SocialMediaController extends Controller
             'social_media' => 'required',
             'url' => 'required|url',
             'is_active' => 'required|boolean',
-            'is_thumbnail' => 'required|boolean',
             'icon' => 'required',
         ]);
 
@@ -34,9 +47,9 @@ class SocialMediaController extends Controller
         return redirect()->route('social-media.index')->with('success', 'Social media added successfully.');
     }
 
-    public function detail($id)
+    public function detail(SocialMedia $socialMedia)
     {
-        $socialMedia = SocialMedia::findOrFail($id);
+        $socialMedia = SocialMedia::findOrFail($socialMedia->id);
         return view('social-media.detail', compact('socialMedia'));
     }
 
@@ -46,7 +59,6 @@ class SocialMediaController extends Controller
             'social_media' => 'required',
             'url' => 'required|url',
             'is_active' => 'required|boolean',
-            'is_thumbnail' => 'required|boolean',
             'icon' => 'required',
         ]);
 
@@ -56,11 +68,17 @@ class SocialMediaController extends Controller
         return redirect()->route('social-media.index')->with('success', 'Social media updated successfully.');
     }
 
-    public function delete($id)
-    {
-        $socialMedia = SocialMedia::findOrFail($id);
-        $socialMedia->delete();
+    public function delete(SocialMedia $socialMedia){
+        return view('social-media.delete', ['socialMedia' => $socialMedia]);
+    }
 
-        return redirect()->route('social-media.index')->with('success', 'Social media deleted successfully.');
+    public function remove(Request $request, SocialMedia $socialMedia){
+        $action_ = 'delete';
+        if($action_ !== $request->input('action_text')){
+            return redirect()->route('social-media.index')->with('error', 'Delete social media failed due to wrong proceed text value');
+        }
+        $socialMedia = SocialMedia::find($request->input('socialMedia'));
+        $socialMedia->delete();
+        return redirect()->route('social-media.index')->with('success', 'Social media deleted successfully!');
     }
 }

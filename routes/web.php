@@ -126,8 +126,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/social-media', [\App\Http\Controllers\SocialMediaController::class, 'index'])->name('social-media.index');
     Route::get('/social-media/create', [\App\Http\Controllers\SocialMediaController::class, 'add'])->name('social-media.create');
-    Route::post('/social-media/store', [\App\Http\Controllers\SocialMediaController::class, 'store'])->name('social-media.store');
+    Route::post('/social-media/store', [\App\Http\Controllers\SocialMediaController::class, 'store'])->name('social-media.save');
     Route::get('/social-media/{socialMedia}', [\App\Http\Controllers\SocialMediaController::class, 'detail'])->name('social-media.detail');
     Route::post('/social-media/{socialMedia}/update', [\App\Http\Controllers\SocialMediaController::class, 'update'])->name('social-media.update');
-    Route::post('/social-media/{socialMedia}/delete', [\App\Http\Controllers\SocialMediaController::class, 'delete'])->name('social-media.delete');
+    Route::get('/social-media/{socialMedia}/delete', [\App\Http\Controllers\SocialMediaController::class, 'delete'])->name('social-media.delete');
+    Route::delete('/social-media/remove', [\App\Http\Controllers\SocialMediaController::class, 'remove'])->name('social-media.remove');
 });
