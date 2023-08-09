@@ -123,4 +123,11 @@ Route::middleware('auth')->group(function () {
     Route::post('bannerImage/upload', [\App\Http\Controllers\BannerImageController::class, 'images_upload'])->name('bannerImage.upload');
     Route::post('bannerImage/remove', [\App\Http\Controllers\BannerImageController::class, 'deleteImage'])->name('bannerImage.delete');
 
+
+    Route::get('/social-media', [\App\Http\Controllers\SocialMediaController::class, 'index'])->name('social-media.index');
+    Route::get('/social-media/create', [\App\Http\Controllers\SocialMediaController::class, 'add'])->name('social-media.create');
+    Route::post('/social-media/store', [\App\Http\Controllers\SocialMediaController::class, 'store'])->name('social-media.store');
+    Route::get('/social-media/{socialMedia}', [\App\Http\Controllers\SocialMediaController::class, 'detail'])->name('social-media.detail');
+    Route::post('/social-media/{socialMedia}/update', [\App\Http\Controllers\SocialMediaController::class, 'update'])->name('social-media.update');
+    Route::post('/social-media/{socialMedia}/delete', [\App\Http\Controllers\SocialMediaController::class, 'delete'])->name('social-media.delete');
 });

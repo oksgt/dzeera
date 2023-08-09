@@ -147,11 +147,20 @@
                 </li>
 
                 <li class="nav-item ">
+                    <a href="{{ route('social-media.index') }}" class="nav-link">
+                        <span class="sidebar-icon me-3">
+                            <i class="fas fa-laptop fa-fw"></i>
+                        </span>
+                        <span class="sidebar-text">{{ __('Social Media') }}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon me-3">
                             <i class="fas fa-gears fa-fw"></i>
                         </span>
-                        <span class="sidebar-text">{{ __('Settings') }}</span>
+                        <span class="sidebar-text">{{ __('App Settings') }}</span>
                     </a>
                 </li>
             </ul>
