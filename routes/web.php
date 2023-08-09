@@ -62,8 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::get('product/{ProductOption}/variant/delete', [\App\Http\Controllers\ProductController::class, 'variant_delete'])->name('product.variant.delete');
     Route::post('product/variant/remove', [\App\Http\Controllers\ProductController::class, 'variant_remove'])->name('product.variant.remove');
 
-
-
     Route::get('product/{product}/images', [\App\Http\Controllers\ProductController::class, 'images'])->name('product.images');
     Route::post('product/images/upload', [\App\Http\Controllers\ProductController::class, 'images_upload'])->name('product.images.upload');
     Route::post('product/images/setThumbnail', [\App\Http\Controllers\ProductController::class, 'set_thumbnail'])->name('product.images.setThumbnail');
@@ -131,4 +129,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/social-media/{socialMedia}/update', [\App\Http\Controllers\SocialMediaController::class, 'update'])->name('social-media.update');
     Route::get('/social-media/{socialMedia}/delete', [\App\Http\Controllers\SocialMediaController::class, 'delete'])->name('social-media.delete');
     Route::delete('/social-media/remove', [\App\Http\Controllers\SocialMediaController::class, 'remove'])->name('social-media.remove');
+
+    Route::get('/video-embedded', [\App\Http\Controllers\VideoEmbedController::class, 'index'])->name('video-embedded.index');
+    Route::get('/video-embedded/create', [\App\Http\Controllers\VideoEmbedController::class, 'add'])->name('video-embedded.create');
+    Route::post('/video-embedded/store', [\App\Http\Controllers\VideoEmbedController::class, 'store'])->name('video-embedded.save');
+    Route::get('/video-embedded/{videoEmbed}', [\App\Http\Controllers\VideoEmbedController::class, 'detail'])->name('video-embedded.detail');
+    Route::post('/video-embedded/{videoEmbed}/update', [\App\Http\Controllers\VideoEmbedController::class, 'update'])->name('video-embedded.update');
+    Route::get('/video-embedded/{videoEmbed}/delete', [\App\Http\Controllers\VideoEmbedController::class, 'delete'])->name('video-embedded.delete');
+    Route::delete('/video-embedded/remove', [\App\Http\Controllers\VideoEmbedController::class, 'remove'])->name('video-embedded.remove');
 });

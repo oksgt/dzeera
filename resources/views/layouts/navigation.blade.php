@@ -156,6 +156,15 @@
                 </li>
 
                 <li class="nav-item ">
+                    <a href="{{ route('video-embedded.index') }}" class="nav-link">
+                        <span class="sidebar-icon me-3">
+                            <i class="fas fa-film fa-fw"></i>
+                        </span>
+                        <span class="sidebar-text">{{ __('Video Embedded') }}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon me-3">
                             <i class="fas fa-gears fa-fw"></i>

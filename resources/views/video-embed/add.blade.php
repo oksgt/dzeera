@@ -15,12 +15,12 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('social-media.index') }}">Social Media</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('social-media.detail', ['socialMedia' => $socialMedia]) }}">Edit</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('video-embedded.index') }}">Video Embedded</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('video-embedded.create') }}">Create</a></li>
                 </ol>
             </nav>
-            <h2 class="h4">Edit Social Media</h2>
-            <p class="mb-0">Social media data form</p>
+            <h2 class="h4">Add New Video Embedded</h2>
+            <p class="mb-0">Video embedded data form</p>
         </div>
     </div>
 
@@ -42,49 +42,24 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('social-media.update', ['socialMedia' => $socialMedia]) }}" method="post">
+                            <form action="{{ route('video-embedded.save') }}" method="post">
                                 @csrf
                                 <div class="mb-0 p-1">
-                                    <label for="social_media">Social Media Name</label>
-                                    <input type="text" class="form-control @error('social_media') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('social_media')))
-                                            "{{ $socialMedia->social_media }}"
-                                        @else
-                                            "{{ old('social_media') }}"
-                                        @endif
-                                    id="social_media" name="social_media" aria-describedby="social_mediaHelp">
-                                    @error('social_media')
+                                    <label for="title">Video Title</label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                    value="{{ old('title') }}"
+                                    id="title" name="title" aria-describedby="titleHelp">
+                                    @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-0 p-1">
-                                    <label for="url">Social Media URL</label>
+                                    <label for="url">Video URL</label>
                                     <input type="text" class="form-control @error('url') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('url')))
-                                            "{{ $socialMedia->url }}"
-                                        @else
-                                            "{{ old('url') }}"
-                                        @endif
+                                    value="{{ old('url') }}"
                                     id="url" name="url" aria-describedby="urlHelp">
                                     @error('url')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-0 p-1">
-                                    <label for="icon">Icon</label>
-                                    <input type="text" class="form-control @error('icon') is-invalid @enderror"
-                                    value=
-                                        @if(empty(old('icon')))
-                                            "{{ $socialMedia->icon }}"
-                                        @else
-                                            "{{ old('icon') }}"
-                                        @endif
-                                    id="icon" name="icon" aria-describedby="iconHelp">
-                                    @error('icon')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -93,8 +68,8 @@
                                     <label for="is_active">Active</label>
                                     <select class="form-select @error('is_active') is-invalid @enderror"
                                         id="is_active" name="is_active" aria-label="Default select example">
-                                        <option value="1" {{ $socialMedia->is_active == 1 ? 'selected' : '' }}>Yes</option>
-                                        <option value="0" {{ $socialMedia->is_active == 0 ? 'selected' : '' }}>No</option>
+                                        <option value="1" >Yes</option>
+                                        <option value="0" selected>No</option>
                                     </select>
                                     @error('is_active')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -104,7 +79,7 @@
                                 <div class="mb-0 p-1 d-flex justify-content-between">
                                     <a class="btn btn-sm btn-gray-100 float-start" type="button" id="button-back" href="{{ url()->previous() }}">Back</a>
 
-                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Update</button>
+                                    <button class="btn btn-sm btn-primary float-end" type="submit" id="button-save">Save</button>
                                   </div>
                             </form>
                             <!-- End of Form -->
