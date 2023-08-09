@@ -7,6 +7,7 @@ use App\Models\Gift;
 use App\Models\Product;
 use App\Models\ProductOption;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class GiftController extends Controller
 {
@@ -16,6 +17,8 @@ class GiftController extends Controller
     {
         $column = $request->input('sort', 'gift_name');
         $direction = $request->input('dir', 'asc');
+
+        $gift_setting = DB::select("select * from app_settings as2 where `key` = 'gift'")[0]->status;
 
         $query = $request->input('q', '');
 
@@ -39,7 +42,7 @@ class GiftController extends Controller
         $page = $request->input('page', 1);
         $perPage = $request->input('perPage', $this->perPage);
         $counter = ($page - 1) * $perPage + 1;
-        return view('gifts.index', compact('gifts', 'column', 'direction', 'counter', 'query'));
+        return view('gifts.index', compact('gifts', 'column', 'direction', 'counter', 'query', 'gift_setting'));
     }
 
     public function create()
@@ -182,4 +185,12 @@ class GiftController extends Controller
         return redirect()->route('gifts.index')->with('success', 'Gift deleted successfully!');
     }
 
+    public function changeSetting(Request $request){
+        $result = DB::table('app_settings')->where('key', 'gift')->update([
+            'status' => $request->status,
+        ]);
+        $message = ($request->status == 1) ? 'Gift enabled successfully.' : 'Gift disabled successfully.';
+        return redirect()->route('gifts.index')
+            ->with('success', $message);
+    }
 }

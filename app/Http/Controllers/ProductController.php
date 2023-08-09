@@ -740,7 +740,7 @@ class ProductController extends Controller
         $productImage = ProductImage::findOrFail($imageId);
 
         // Delete the associated uploaded file
-        File::delete(asset('storage/img_product/'.$productImage->file_name));
+        File::delete(asset('img_product/'.$productImage->file_name));
 
         // Delete the product image from the database
         $productImage->delete();

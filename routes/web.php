@@ -117,4 +117,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/gifts/{gift}', [\App\Http\Controllers\GiftController::class, 'update'])->name('gifts.update');
     Route::get('/gifts/{gift}/delete', [\App\Http\Controllers\GiftController::class, 'delete'])->name('gifts.delete');
     Route::delete('/gifts/{gift}', [\App\Http\Controllers\GiftController::class, 'destroy'])->name('gifts.destroy');
+    Route::post('/gifts/changeSetting', [\App\Http\Controllers\GiftController::class, 'changeSetting'])->name('gifts.changeSetting');
+
+    Route::get('/bannerImage', [\App\Http\Controllers\BannerImageController::class, 'index'])->name('bannerImage.index');
+    Route::post('bannerImage/upload', [\App\Http\Controllers\BannerImageController::class, 'images_upload'])->name('bannerImage.upload');
+    Route::post('bannerImage/remove', [\App\Http\Controllers\BannerImageController::class, 'deleteImage'])->name('bannerImage.delete');
+
 });

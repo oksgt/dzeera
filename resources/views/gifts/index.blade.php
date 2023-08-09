@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -15,20 +16,38 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('gifts.index') }}">Gifts</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('gifts.index') }}">Gifts </a></li>
                 </ol>
             </nav>
             <h2 class="h4">Gifts</h2>
+            {{-- <form action="{{ route('gifts.changeSetting') }}" method="post" id="form-setting">
+                @csrf
+                <select class="form-select" id="country" aria-label="Default select example">
+                    <option value="1">Enabled</option>
+                    <option value="0">Disabled</option>
+                </select>
+            </form> --}}
+
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('gifts.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                    </path>
-                </svg>
-                New Gift
-            </a>
+            <div class="btn-group">
+                <a role="button" href="{{ route('gifts.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                    <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                        </path>
+                    </svg>
+                    New Gift
+                </a>
+                {{-- <form action="{{ route('gifts.changeSetting') }}" method="post" id="form-setting">
+                    @csrf
+                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                        <option value="1">Enabled</option>
+                        <option value="0">Disabled</option>
+                    </select>
+                </form> --}}
+              </div>
+
         </div>
     </div>
 
@@ -129,3 +148,15 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log( $('#s').val());
+            $('#status').change(function() {
+                $('#form-setting').submit();
+            });
+        });
+    </script>
+@endpush
+@stack('scripts')
