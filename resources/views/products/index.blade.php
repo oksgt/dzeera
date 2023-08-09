@@ -61,7 +61,7 @@
             </form>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover ">
+            <table class="table table-hover table-sm">
                 <thead>
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
@@ -128,8 +128,9 @@
                             </td>
                             <td>
                                 <a type="button" class="btn btn-sm btn-warning border-0 float-end align-items-center"
+                                title="Detail"
                                     href="{{ route('product.detail', ['product' => $product->id]) }}">
-                                    Detail
+                                    <i class="fas fa-edit"></i>
                                 </a>
                             </td>
                         </tr>
