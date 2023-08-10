@@ -45,7 +45,8 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'brand_id' => 'required|not_in:default',
             'category_name' => 'required|string|max:255',
-            'highlight' => 'required'
+            'highlight' => 'required',
+            'file' => 'file|mimes:jpeg,png|max:2048',
         ],[
             'brand_id.not_in' => "Please choose brand"
         ]);
@@ -54,9 +55,15 @@ class CategoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        $file = $request->file('file');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+
+        $filePath = $file->move('images/category/', $filename);
+
         $category = new Category;
         $category->brand_id      = $request->input('brand_id');
         $category->category_name = $request->input('category_name');
+        $category->image         = $filename;
         $saved = $category->save();
 
         if ($saved) {
@@ -72,16 +79,22 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, Category $category){
+        // dd($request);
         $validateData = $request->validate([
             'brand_id' => 'required|not_in:default',
             'category_name' => 'required|string|max:255',
-            'highlight' => 'required'
+            'highlight' => 'required',
         ],[
             'brand_id.not_in' => "Please choose brand"
         ]);
 
         $category = Category::where('id', $category->id);
-        $category->slug = "";
+        if(!empty($request->file('file'))){
+            $file = $request->file('file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->move('images/category/', $filename);
+            $validateData['image'] = $filename;
+        }
         $category->update($validateData);
 
         return redirect()->route('category.index')->with('success', 'Category updated successfully!');

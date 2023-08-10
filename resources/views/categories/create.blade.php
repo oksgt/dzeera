@@ -15,8 +15,8 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('brands.index') }}">Brands</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('brands.create') }}">Create</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Category</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('category.create') }}">Create</a></li>
                 </ol>
             </nav>
             <h2 class="h4">Add New Category</h2>
@@ -42,7 +42,7 @@
                     <div class="row mb-4">
                         <div class="col-lg-4 col-sm-6">
                             <!-- Form -->
-                            <form action="{{ route('category.save') }}" method="post">
+                            <form action="{{ route('category.save') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3 p-1">
                                     <label for="brand_id">Brand Name</label>
@@ -73,6 +73,19 @@
                                         <option value="y" >Yes</option>
                                         <option value="n" selected>No</option>
                                     </select>
+                                    @error('highlight')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-0 p-1">
+                                    <label for="file" class="form-label"> Image</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="file" class="form-control" id="file" name="file" accept="image/*">
+                                    </div>
+                                    @error('file')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                     @error('highlight')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
