@@ -68,6 +68,11 @@
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
                         <th class="border-gray-200">
+                            <a href="{{ route('social-media.index', ['sort' => 'brand_name', 'dir' => ($column == 'brand_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Brand Name {!! ($column == 'brand_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        <th class="border-gray-200">
                             <a href="{{ route('video-embedded.index', ['sort' => 'title', 'dir' => ($column == 'title' && $direction == 'asc') ? 'desc' : 'asc']) }}">
                                 Video Title {!! ($column == 'title') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
@@ -89,6 +94,7 @@
                     @foreach ($VideoEmbed as $row)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
+                            <td><span class="fw-normal">{{ $row->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $row->title }}</span></td>
                             <td><span class="fw-normal">{{ $row->url }}</span></td>
                             <td>

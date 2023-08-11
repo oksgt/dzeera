@@ -45,6 +45,18 @@
                             <form action="{{ route('social-media.save') }}" method="post">
                                 @csrf
                                 <div class="mb-0 p-1">
+                                    <label for="brand_id">Brand Name</label>
+                                    <select class="form-select @error('brand_id') is-invalid @enderror" id="brand_id" name="brand_id" aria-label="Default select example">
+                                        <option value="default">Open this select menu</option>
+                                        @foreach ($brand as $item)
+                                            <option value="{{ $item->id }}">{{$item->brand_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('brand_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-0 p-1">
                                     <label for="social_media">Social Media Name</label>
                                     <input type="text" class="form-control @error('social_media') is-invalid @enderror"
                                     value="{{ old('social_media') }}"

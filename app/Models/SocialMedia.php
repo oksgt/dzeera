@@ -15,6 +15,7 @@ class SocialMedia extends Model
         'is_active',
         'is_thumbnail',
         'icon',
+        'brand_id'
     ];
 
     protected $dates = ['deleted_at'];

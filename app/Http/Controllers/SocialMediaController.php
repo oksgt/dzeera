@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,7 +18,10 @@ class SocialMediaController extends Controller
 
         $query = $request->input('q', '');
 
-        $socialMedia = SocialMedia::where('social_media', 'LIKE', "%$query%")
+        $socialMedia = SocialMedia::
+                    join('brands', 'brands.id', '=', 'social_media.brand_id')
+                    ->select('social_media.*', 'brands.brand_name')
+                    ->where('social_media.social_media', 'LIKE', "%$query%")
                     ->orderBy($column, $direction)
                     ->paginate($this->perPage);
 
@@ -30,7 +34,8 @@ class SocialMediaController extends Controller
 
     public function add()
     {
-        return view('social-media.add');
+        $brand = Brand::all();
+        return view('social-media.add', compact('brand'));
     }
 
     public function store(Request $request)
@@ -40,6 +45,9 @@ class SocialMediaController extends Controller
             'url' => 'required|url',
             'is_active' => 'required|boolean',
             'icon' => 'required',
+            'brand_id' => 'required|not_in:default',
+        ],[
+            'brand_id.not_in' => "Please choose brand"
         ]);
 
         SocialMedia::create($validatedData);
@@ -50,7 +58,8 @@ class SocialMediaController extends Controller
     public function detail(SocialMedia $socialMedia)
     {
         $socialMedia = SocialMedia::findOrFail($socialMedia->id);
-        return view('social-media.detail', compact('socialMedia'));
+        $brand = Brand::all();
+        return view('social-media.detail', compact('socialMedia', 'brand'));
     }
 
     public function update(Request $request, $id)
@@ -60,6 +69,9 @@ class SocialMediaController extends Controller
             'url' => 'required|url',
             'is_active' => 'required|boolean',
             'icon' => 'required',
+            'brand_id' => 'required|not_in:default',
+        ],[
+            'brand_id.not_in' => "Please choose brand"
         ]);
 
         $socialMedia = SocialMedia::findOrFail($id);

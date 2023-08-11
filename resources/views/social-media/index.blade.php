@@ -68,6 +68,11 @@
                     <tr>
                         <th class="border-gray-200">{{ __('No') }}</th>
                         <th class="border-gray-200">
+                            <a href="{{ route('social-media.index', ['sort' => 'brand_name', 'dir' => ($column == 'brand_name' && $direction == 'asc') ? 'desc' : 'asc']) }}">
+                                Brand Name {!! ($column == 'brand_name') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
+                            </a>
+                        </th>
+                        <th class="border-gray-200">
                             <a href="{{ route('social-media.index', ['sort' => 'social_media', 'dir' => ($column == 'social_media' && $direction == 'asc') ? 'desc' : 'asc']) }}">
                                 Social Media Name {!! ($column == 'social_media') ? '<i class="fas fa-sort-' . (($direction == 'asc') ? 'up' : 'down') . '"></i>' : '' !!}
                             </a>
@@ -94,6 +99,7 @@
                     @foreach ($socialMedia as $row)
                         <tr>
                             <td><span class="fw-normal">{{ $counter++ }}</span></td>
+                            <td><span class="fw-normal">{{ $row->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $row->social_media }}</span></td>
                             <td><span class="fw-normal">{{ $row->url }}</span></td>
                             <td><span class="fw-normal">{{ $row->icon }}</span></td>

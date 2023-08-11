@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\VideoEmbed;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,7 +18,10 @@ class VideoEmbedController extends Controller
 
         $query = $request->input('q', '');
 
-        $VideoEmbed = VideoEmbed::where('title', 'LIKE', "%$query%")
+        $VideoEmbed = VideoEmbed::
+                    join('brands', 'brands.id', '=', 'video_embeds.brand_id')
+                    ->select('video_embeds.*', 'brands.brand_name')
+                    ->where('title', 'LIKE', "%$query%")
                     ->orderBy($column, $direction)
                     ->paginate($this->perPage);
 
@@ -30,7 +34,8 @@ class VideoEmbedController extends Controller
 
     public function add()
     {
-        return view('video-embed.add');
+        $brand = Brand::all();
+        return view('video-embed.add', compact('brand'));
     }
 
     public function store(Request $request)
@@ -39,6 +44,9 @@ class VideoEmbedController extends Controller
             'title' => 'required',
             'url' => 'required|url',
             'is_active' => 'required|boolean',
+            'brand_id' => 'required|not_in:default',
+        ],[
+            'brand_id.not_in' => "Please choose brand"
         ]);
 
         VideoEmbed::create($validatedData);
@@ -48,8 +56,9 @@ class VideoEmbedController extends Controller
 
     public function detail(VideoEmbed $videoEmbed)
     {
+        $brand = Brand::all();
         $videoEmbed = VideoEmbed::findOrFail($videoEmbed->id);
-        return view('video-embed.detail', compact('videoEmbed'));
+        return view('video-embed.detail', compact('videoEmbed', 'brand'));
     }
 
     public function update(Request $request, $id)
@@ -58,6 +67,9 @@ class VideoEmbedController extends Controller
             'title' => 'required',
             'url' => 'required|url',
             'is_active' => 'required|boolean',
+            'brand_id' => 'required|not_in:default',
+        ],[
+            'brand_id.not_in' => "Please choose brand"
         ]);
 
         $VideoEmbed = VideoEmbed::findOrFail($id);
