@@ -102,7 +102,7 @@
                             <td><span class="fw-normal">{{ $row->brand_name }}</span></td>
                             <td><span class="fw-normal">{{ $row->social_media }}</span></td>
                             <td><span class="fw-normal">{{ $row->url }}</span></td>
-                            <td><span class="fw-normal">{{ $row->icon }}</span></td>
+                            <td><span class="fw-normal"><i class="{{ $row->icon }} fa-fw"></i> {{ $row->icon }}</span></td>
                             <td>
                                 <span class="badge bg-{{ $row->is_active == 1 ? 'success' : 'warning' }}">
                                 {{ $row->is_active == 1 ? 'Active' : 'Not Active' }}
