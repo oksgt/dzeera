@@ -161,7 +161,7 @@
 
                 <div class="mb-0 p-1 d-flex justify-content-between">
                     <a class="btn btn-sm btn-gray-100 float-end" type="button" id="button-back"
-                        href="{{ url()->previous() }}">
+                        href="{{ route('product.detail', ['product' => $product]) }}">
                         Back</a>
                 </div>
             </form>

@@ -113,7 +113,7 @@
                             <td><span class="fw-normal">{{ $row->color_name }}</span></td>
                             <td><span class="fw-normal">{{ $row->size }}</span></td>
                             <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->base_price)) }}</span></td>
-                            <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->disc)) }}</span></td>
+                            <td style="text-align: right"><span class="fw-normal">{{ intval($row->disc). " %" }}</span></td>
                             <td style="text-align: right"><span class="fw-normal">{{ formatCurrency(intval($row->price)) }}</span></td>
                             <td>
                                 <span class="badge bg-{{ $row->option_availability == 'y' ? 'success' : 'danger' }}">

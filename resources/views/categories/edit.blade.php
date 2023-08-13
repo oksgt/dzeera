@@ -92,10 +92,17 @@
                                 <label for="brand_id">Current Image</label>
                                 <div class="card" >
 
-                                    <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                                        <img src="<?= asset('/images/category/'.$category->image) ?>" class="card-img-top"
-                                        style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                                    </div>
+                                    @if ($category->image !== null)
+                                        <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                            <img src="<?= asset('/images/category/'.$category->image) ?>" class="card-img-top"
+                                            style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                        </div>
+                                    @else
+                                        <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                            <img src="<?= asset('images/no-image.png') ?>" class="card-img-top"
+                                            style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>
