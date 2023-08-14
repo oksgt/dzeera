@@ -55,17 +55,19 @@ class CategoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        $category = new Category;
+
         if(!empty($request->file('file'))){
             $file = $request->file('file');
             $filename = time() . '.' . $file->getClientOriginalExtension();
 
             $filePath = $file->move('images/category/', $filename);
+            $category->image         = $filename;
         }
 
-        $category = new Category;
         $category->brand_id      = $request->input('brand_id');
         $category->category_name = $request->input('category_name');
-        $category->image         = $filename;
+
         $saved = $category->save();
 
         if ($saved) {
