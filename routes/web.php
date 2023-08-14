@@ -85,6 +85,10 @@ Route::middleware('auth')->group(function () {
     Route::get('product/{product}/{ProductSizeOption}/sizeEdit', [\App\Http\Controllers\ProductController::class, 'sizeEdit'])->name('product.size.edit');
     Route::get('product/{product}/{ProductSizeOption}/sizeDelete', [\App\Http\Controllers\ProductController::class, 'sizeDelete'])->name('product.size.delete');
 
+    Route::get('product/{product}/tags', [\App\Http\Controllers\ProductController::class, 'tags'])->name('product.tags');
+    Route::post('product/tags/add_tag', [\App\Http\Controllers\ProductController::class, 'add_tag'])->name('product.tag.add');
+    Route::post('product/tags/remove_tag', [\App\Http\Controllers\ProductController::class, 'remove_tag'])->name('product.tag.remove');
+
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

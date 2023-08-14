@@ -172,6 +172,11 @@
                         @enderror
                     </div>
 
+                    <div class="mb-3 p-1">
+                        <label for="highlight">Tags</label>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -210,6 +215,10 @@
                         <a href="{{ route('product.variant', ['product' => $product]) }}"
                             class="btn btn-outline-primary ">
                             Variant & Price
+                        </a>
+                        <a href="{{ route('product.tags', ['product' => $product]) }}"
+                            class="btn btn-outline-primary ">
+                            Tags
                         </a>
                     </div>
                 </div>

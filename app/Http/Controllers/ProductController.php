@@ -9,6 +9,8 @@ use App\Models\ProductOption;
 use App\Models\ProductColorOption;
 use App\Models\ProductImage;
 use App\Models\ProductSizeOption;
+use App\Models\ProductTag;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -195,6 +197,49 @@ class ProductController extends Controller
         $product = Product::find($request->input('product'));
         $product->delete();
         return redirect()->route('product.index')->with('success', 'Product deleted successfully!');
+    }
+
+    public function tags(Request $request, Product $product){
+        $productId = $product->id;
+        $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
+            ->where('products.id', $productId)->first();
+
+        $available_tag = Tag::all();
+
+        $product_tag = ProductTag::join('products', 'product_tags.product_id', '=', 'products.id')
+        ->join('tags', 'product_tags.tag_id', '=', 'tags.id')
+        ->select('product_tags.*', 'tags.tag_name')
+        ->get();
+        // dd($product_tag);
+        return view($this->view_folder . '.tags', compact('product', 'available_tag', 'product_tag'));
+    }
+
+    public function add_tag(Request $request){
+        $validatedData = $request->validate([
+            'tag_id' => 'required'
+        ]);
+
+        $tagId = $validatedData['tag_id'];
+
+        $productId  = $request->input('product_id');
+
+        $productTag = new ProductTag();
+        $productTag->tag_id     = $tagId;
+        $productTag->product_id = $productId;
+        $productTag->save();
+
+        $product = Product::find($productId);
+
+        return redirect()->route('product.tags', ['product' => $product])->with('success', 'Product tag add successfully!');
+    }
+
+    public function remove_tag(Request $request){
+        $ProductTag = ProductTag::find($request->input('id'));
+        $ProductTag->delete();
+        $product = Product::find($request->input('product_id'));
+        return redirect()->route('product.tags', ['product' => $product])->with('success', 'Product tag remove successfully!');
     }
 
     public function variant(Request $request, Product $product)
