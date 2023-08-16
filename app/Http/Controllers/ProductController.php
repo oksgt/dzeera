@@ -418,7 +418,7 @@ class ProductController extends Controller
             'disc' => 'required',
             'price' => 'required',
             'option_availability' => 'required',
-            'highlight' => 'required',
+            // 'highlight' => 'required',
         ]);
 
         $validator->sometimes('color', 'required|not_in:0,', function ($input) use ($originalData) {
@@ -453,9 +453,9 @@ class ProductController extends Controller
             return $input['option_availability'] !== $originalData['option_availability'];
         });
 
-        $validator->sometimes('highlight', 'required', function ($input) use ($originalData) {
-            return $input['highlight'] !== $originalData['highlight'];
-        });
+        // $validator->sometimes('highlight', 'required', function ($input) use ($originalData) {
+        //     return $input['highlight'] !== $originalData['highlight'];
+        // });
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
