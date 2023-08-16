@@ -1,5 +1,43 @@
 @extends('layouts.app')
+<style>
+    .price-tag {
+      width: auto !important;
+      margin-left: 16px;
+        margin-top: 16px !important;
+      display: flex;
+      align-items: center;
+      background-color: #f2f2f2;
+      padding: 3px;
+      border-radius: 4px;
+      width: fit-content;
+      position: relative;
+    }
 
+    .triangle {
+      width: 0;
+      height: 0;
+      border-top: 7px solid transparent;
+      border-right: 7px solid #f2f2f2;
+      border-bottom: 7px solid transparent;
+      position: absolute;
+      left: -7px;
+    }
+
+    .price {
+      font-weight: normal;
+      color: #555555;
+      margin: 0 8px;
+      font-size: 13px !important;
+    }
+
+    .close-button {
+      border: none;
+      background-color: transparent;
+      color: #999999;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    </style>
 @section('content')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-md-0">
@@ -174,6 +212,14 @@
 
                     <div class="mb-3 p-1">
                         <label for="highlight">Tags</label>
+                        <div class="row">
+                            @foreach ($product_tag as $item)
+                                <div class="price-tag">
+                                    <span class="triangle"></span>
+                                    <span class="price">{{$item->tag_name}}</span>
+                                </div>
+                            @endforeach
+                        </div>
 
                     </div>
 

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 <style>
 .price-tag {
-    width: 110px !important;
-    margin-left: 16px;
+  width: auto !important;
+  margin-left: 16px;
     margin-top: 16px !important;
   display: flex;
   align-items: center;
   background-color: #f2f2f2;
-  padding: 8px;
+  /* padding: 1px; */
   border-radius: 4px;
   width: fit-content;
   position: relative;
@@ -27,7 +27,7 @@
   font-weight: normal;
   color: #555555;
   margin: 0 8px;
-  font-size: 10px !important;
+  font-size: 13px !important;
 }
 
 .close-button {

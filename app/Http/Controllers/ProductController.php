@@ -174,11 +174,21 @@ class ProductController extends Controller
             ->where('is_thumbnail', 1)->first();
 
         $brands = Brand::all();
+
+        $product_tag = ProductTag::join('products', 'product_tags.product_id', '=', 'products.id')
+        ->join('tags', 'product_tags.tag_id', '=', 'tags.id')
+        ->select('product_tags.*', 'tags.tag_name')
+        ->where('products.id', $product->id)
+        ->get();
+
+        // dd($product_tag);
+
         return view($this->view_folder . '.detail', [
             'product' => $product,
             'action'  => 'edit',
             'brands'  => $brands,
             'product_image' => ($product_image) ? $product_image->image : null,
+            'product_tag' => ($product_tag) ? $product_tag : null,
         ]);
     }
 
@@ -211,6 +221,7 @@ class ProductController extends Controller
         $product_tag = ProductTag::join('products', 'product_tags.product_id', '=', 'products.id')
         ->join('tags', 'product_tags.tag_id', '=', 'tags.id')
         ->select('product_tags.*', 'tags.tag_name')
+        ->where('products.id', $productId)
         ->get();
         // dd($product_tag);
         return view($this->view_folder . '.tags', compact('product', 'available_tag', 'product_tag'));
