@@ -410,6 +410,9 @@ class ProductController extends Controller
         $requestData  = $request->all();
         $originalData = $model->toArray();
 
+        // dump($originalData);
+        // dd($requestData);
+
         $keysToRemove = ['_token', '_method'];
         foreach ($keysToRemove as $key) {
             unset($requestData[$key]);
@@ -448,15 +451,15 @@ class ProductController extends Controller
             return $input['weight'] !== $originalData['weight'];
         });
 
-        $validator->sometimes('base_price', 'required|numeric', function ($input) use ($originalData) {
+        $validator->sometimes('base_price', 'required', function ($input) use ($originalData) {
             return $input['base_price'] !== $originalData['base_price'];
         });
 
-        $validator->sometimes('disc', 'required|numeric', function ($input) use ($originalData) {
+        $validator->sometimes('disc', 'required', function ($input) use ($originalData) {
             return $input['disc'] !== $originalData['disc'];
         });
 
-        $validator->sometimes('price', 'required|numeric', function ($input) use ($originalData) {
+        $validator->sometimes('price', 'required', function ($input) use ($originalData) {
             return $input['price'] !== $originalData['price'];
         });
 
@@ -472,16 +475,27 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if ($requestData == $originalData) {
+        ksort($requestData);
+        ksort($originalData);
+
+        $originalData['base_price']  = number_format(str_replace(".00", "", $originalData['base_price']), 0, ',', '.');
+        $originalData['disc']        = number_format(str_replace(".00", "", $originalData['disc']), 0, ',', '.');
+        $originalData['price']       = number_format(str_replace(".00", "", $originalData['price']), 0, ',', '.');
+
+        $originalData = array_map('strval', $originalData);
+
+        if ($requestData === $originalData) {
             return redirect()->route('product.variant', ['product' => $ProductOption->product_id]);
         }
 
-        if ($requestData['color'] == $originalData['color'] || $requestData['size_opt_id'] == $originalData['size_opt_id']) {
+        if ($requestData['color'] == $originalData['color'] && $requestData['size_opt_id'] == $originalData['size_opt_id']) {
+
+        } else {
             $existing_data = ProductOption::where([
-                'product_id'  => $ProductOption->product_id,
-                'color'       => $ProductOption->color,
-                'size_opt_id' => $ProductOption->size_opt_id,
-            ])->first();
+                'product_id'  => $requestData['product_id'],
+                'color'       => $requestData['color'],
+                'size_opt_id' => $requestData['size_opt_id'],
+            ]);
 
             if ($existing_data) {
 
@@ -496,7 +510,10 @@ class ProductController extends Controller
             }
         }
 
-        // update the model with the input data
+        $requestData['base_price']  = (int) str_replace(".", "", $requestData['base_price']);
+        $requestData['disc']        = (int) str_replace(".", "", $requestData['disc']);
+        $requestData['price']       = (int) str_replace(".", "", $requestData['price']);
+
         $model->fill($requestData);
         $model->save();
         return redirect()->route('product.variant', ['product' => $ProductOption->product_id])->with('success', 'Product option updated successfully.');
