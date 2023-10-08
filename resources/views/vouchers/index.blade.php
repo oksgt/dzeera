@@ -115,7 +115,7 @@
                                     {{ $row->is_percent == 'y' ? 'Yes' : 'No' }}
                                 </span>
                             </td>
-                            <td><span class="fw-normal">{{ ($row->is_percent == 'y') ? formatCurrency(intval($row->value)) : intval($row->value)." %"}}</span></td>
+                            <td><span class="fw-normal">{{ ($row->is_percent == 'n') ? formatCurrency(intval($row->value)) : intval($row->value)." %"}}</span></td>
                             <td>
                                 <span class="badge bg-{{ $row->is_active == 'y' ? 'success' : 'danger' }}">
                                     {{ $row->is_active == 'y' ? 'Available' : 'Not Available' }}

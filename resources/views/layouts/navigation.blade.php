@@ -32,7 +32,7 @@
         </a>
     </li>
 
-    <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}"">
+    <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
         <a href="{{ route('category.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-bookmark fa-fw"></i>
@@ -41,7 +41,7 @@
         </a>
     </li>
 
-    <li class="nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}"">
+    <li class="nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}">
         <a href="{{ route('product.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-boxes fa-fw"></i>
@@ -50,7 +50,7 @@
         </a>
     </li>
 
-    <li class="nav-item {{ request()->routeIs('bank-accounts.index') ? 'active' : '' }}"">
+    <li class="nav-item {{ request()->routeIs('bank-accounts.index') ? 'active' : '' }}">
         <a href="{{ route('bank-accounts.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-building fa-fw"></i>
@@ -59,8 +59,8 @@
         </a>
     </li>
 
-    <li class="nav-item ">
-        <a href="{{ route('users.index') }}" class="nav-link">
+    <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+        <a href="{{ route('orders.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-shopping-cart fa-fw"></i>
             </span>
@@ -77,14 +77,14 @@
         </a>
     </li> --}}
 
-    <li class="nav-item ">
+    {{-- <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">
             <span class="sidebar-icon me-3">
                 <i class="fas fa-money-check-alt fa-fw"></i>
             </span>
             <span class="sidebar-text">{{ __('Payments') }}</span>
         </a>
-    </li>
+    </li> --}}
 
     {{-- <li class="nav-item ">
         <a href="{{ route('users.index') }}" class="nav-link">

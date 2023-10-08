@@ -141,4 +141,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/video-embedded/{videoEmbed}/update', [\App\Http\Controllers\VideoEmbedController::class, 'update'])->name('video-embedded.update');
     Route::get('/video-embedded/{videoEmbed}/delete', [\App\Http\Controllers\VideoEmbedController::class, 'delete'])->name('video-embedded.delete');
     Route::delete('/video-embedded/remove', [\App\Http\Controllers\VideoEmbedController::class, 'remove'])->name('video-embedded.remove');
+
+    Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders-details/{trans_number}', [\App\Http\Controllers\OrderController::class, 'details'])->name('orders.details');
 });
