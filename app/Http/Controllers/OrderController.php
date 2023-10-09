@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
@@ -41,9 +42,9 @@ class OrderController extends Controller
             return redirect()->route('orders');
         }
 
-        $transactions = Transaction::where('trans_number', $code)->first();
+        $transaction = Transaction::where('trans_number', $code)->first();
 
-        if (!$transactions) {
+        if (!$transaction) {
             return redirect()->route('home');
         }
 
@@ -64,12 +65,38 @@ class OrderController extends Controller
                 where po.trans_number = ?
             ", [$code]);
 
-        if($transactions->voucher_id !== "-"){
-            $voucher = Voucher::where('code', $transactions->voucher_id)->first();
+        if($transaction->voucher_id !== "-"){
+            $voucher = Voucher::where('code', $transaction->voucher_id)->first();
         } else {
             $voucher = [];
         }
 
-        return view('orders.details', compact('transactions', 'trans_detail', 'voucher'));
+        return view('orders.details', compact('transaction', 'trans_detail', 'voucher'));
+    }
+
+    // Function to update 'shipping_code' on 'transactions' table
+    public function updateShippingCode(Request $request, $transactionId)
+    {
+        $shippingCode = $request->input('shipping_code');
+
+        $transaction = Transaction::findOrFail($transactionId);
+        $transaction->shipping_code = $shippingCode;
+        $transaction->save();
+
+        Session::flash('success', 'Shipping code updated successfully.');
+        return redirect()->back();
+    }
+
+    // Function to update 'trans_status' on 'transactions' table
+    public function updateTransStatus(Request $request, $transactionId)
+    {
+        $transStatus = $request->input('input_trans_status');
+
+        $transaction = Transaction::findOrFail($transactionId);
+        $transaction->trans_status = $transStatus;
+        $transaction->save();
+
+        Session::flash('success', 'Transaction status updated successfully.');
+        return redirect()->back();
     }
 }

@@ -156,7 +156,7 @@
             </table>
         </div>
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-end">
-            {{-- {{ $socialMedia->links() }} --}}
+            {{ $orders->links() }}
         </div>
     </div>
 @endsection

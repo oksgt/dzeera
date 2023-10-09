@@ -144,4 +144,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders-details/{trans_number}', [\App\Http\Controllers\OrderController::class, 'details'])->name('orders.details');
+
+    Route::put('/orders/{transactionId}/update-shipping-code', [\App\Http\Controllers\OrderController::class, 'updateShippingCode'])
+    ->name('orders.updateShippingCode');
+
+    Route::put('/orders/{transactionId}/update-trans-status', [\App\Http\Controllers\OrderController::class, 'updateTransStatus'])
+        ->name('orders.updateTransStatus');
 });
