@@ -122,8 +122,8 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="badge bg-{{ $product->product_status == 'y' ? 'success' : 'warning' }}">
-                                {{ $product->product_status == 'y' ? 'Yes' : 'No' }}
+                                <span class="badge bg-{{ $product->product_availability == 'y' ? 'success' : 'warning' }}">
+                                {{ $product->product_availability == 'y' ? 'Yes' : 'No' }}
                                 </span>
                             </td>
                             <td>

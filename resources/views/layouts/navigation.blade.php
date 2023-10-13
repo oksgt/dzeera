@@ -164,14 +164,14 @@
                     </a>
                 </li>
 
-                <li class="nav-item ">
+                {{-- <li class="nav-item ">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon me-3">
                             <i class="fas fa-gears fa-fw"></i>
                         </span>
                         <span class="sidebar-text">{{ __('App Settings') }}</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </li>

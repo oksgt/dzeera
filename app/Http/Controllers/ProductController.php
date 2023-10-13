@@ -130,7 +130,7 @@ class ProductController extends Controller
             ];
 
             $validateData = $request->validate($rules);
-
+            // dd($request);
             $product = Product::where('id', $product->id);
             if ($product) {
                 $updated = $product->update([
