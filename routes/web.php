@@ -150,4 +150,7 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/orders/{transactionId}/update-trans-status', [\App\Http\Controllers\OrderController::class, 'updateTransStatus'])
         ->name('orders.updateTransStatus');
+
+    Route::get('/modal-popup', [\App\Http\Controllers\ModalController::class, 'index'])->name('modal-popup.index');
+    Route::post('/modal-popup', [\App\Http\Controllers\ModalController::class, 'updateModalPopup'])->name('modal-popup.update');
 });

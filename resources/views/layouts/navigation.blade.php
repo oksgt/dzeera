@@ -164,6 +164,15 @@
                     </a>
                 </li>
 
+                <li class="nav-item ">
+                    <a href="{{ route('modal-popup.index') }}" class="nav-link">
+                        <span class="sidebar-icon me-3">
+                            <i class="fas fa-desktop"></i>
+                        </span>
+                        <span class="sidebar-text">{{ __('Modal Pop Up') }}</span>
+                    </a>
+                </li>
+
                 {{-- <li class="nav-item ">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon me-3">

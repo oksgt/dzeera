@@ -44,6 +44,10 @@
         if (document.getElementById('product_desc') !== null) {
             CKEDITOR.replace('product_desc');
         }
+
+        if (document.getElementById('info_mesasge') !== null) {
+            CKEDITOR.replace('info_mesasge');
+        }
     </script>
 
 </body>
