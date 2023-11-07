@@ -80,7 +80,7 @@
                                         <td><span class="fw-normal">{{ $counter++ }}</span></td>
                                         <td><span class="fw-normal">{{ $row->color_name }}</span></td>
                                         <td>
-                                            <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
+                                            {{-- <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
                                                 href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
                                                 Edit
                                             </a>
@@ -88,7 +88,23 @@
                                                 class="btn btn-sm btn-secondary d-inline-flex align-items-center"
                                                 href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
                                                 Delete
-                                            </a>
+                                            </a> --}}
+
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                                <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
+                                                    href="{{ route('product.images', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                    Image
+                                                </a>
+                                                <a type="button" class="btn btn-sm btn-primary border-0 align-items-center"
+                                                    href="{{ route('product.color.edit', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                    Edit
+                                                </a>
+                                                <a type="button"
+                                                    class="btn btn-sm btn-secondary d-inline-flex align-items-center"
+                                                    href="{{ route('product.color.delete', ['product' => $product, 'ProductColorOption' => $row]) }}">
+                                                    Delete
+                                                </a>
+                                              </div>
                                         </td>
                                     </tr>
                                 @endforeach

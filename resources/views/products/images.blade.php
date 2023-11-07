@@ -114,13 +114,13 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a href="{{ route('product.images', ['product' => $product]) }}">Images</a>
+                    <li class="breadcrumb-item"><a href="{{ route('product.images', ['product' => $product, 'ProductColorOption' => $ProductColorOption]) }}">Images</a>
                     </li>
                 </ol>
             </nav>
             <h2 class="h4">Product Images</h2>
             <p class="mb-0" style="font-weight: 500">{{ $product->brand_name }} > {{ $product->category_name }} >
-                {{ $product->product_name }}</p>
+                {{ $product->product_name }}  >  {{ $ProductColorOption->color_name }}</p>
         </div>
     </div>
 
@@ -148,6 +148,7 @@
                 @csrf
                 @method('post')
                 <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="color_id" id="color_id" value="{{ $ProductColorOption->id }}">
                 <div class="mb-3">
                     <label for="file" class="form-label">Upload Image</label>
                     <div class="input-group">

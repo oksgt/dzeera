@@ -254,10 +254,10 @@
                             class="btn btn-outline-primary ">
                             Color & Size Options
                         </a>
-                        <a href="{{ route('product.images', ['product' => $product]) }}"
+                        {{-- <a href="{{ route('product.images', ['product' => $product]) }}"
                             class="btn btn-outline-primary ">
                             Images
-                        </a>
+                        </a> --}}
                         <a href="{{ route('product.variant', ['product' => $product]) }}"
                             class="btn btn-outline-primary ">
                             Variant & Price

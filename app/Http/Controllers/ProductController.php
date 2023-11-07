@@ -741,18 +741,23 @@ class ProductController extends Controller
         )->with('success', 'Size deleted successfully!');
     }
 
-    public function images(Product $product)
+    public function images(Product $product, ProductColorOption $ProductColorOption)
     {
+        // dump($ProductColorOption);
+        // dd($product);
         $productId = $product->id;
+        $color_id = $ProductColorOption->id;
 
         $product = Product::join('brands', 'products.brand_id', '=', 'brands.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'brands.brand_name as brand_name', 'categories.category_name as category_name')
             ->where('products.id', $productId)->first();
 
-        $product_image = ProductImage::where('product_id', $productId)->get();
+        $product_image = ProductImage::where('product_id', $productId)
+                        ->where('color_id', $color_id)
+                        ->get();
 
-        return view($this->view_folder . '.images', compact('product', 'product_image'));
+        return view($this->view_folder . '.images', compact('product', 'product_image', 'ProductColorOption'));
     }
 
 
@@ -764,6 +769,7 @@ class ProductController extends Controller
 
         $file = $request->file('file');
         $product_id = $request->input('product_id');
+        $color_id = $request->input('color_id');
         $is_thumbnail = $request->input('is_thumbnail') ?? false;
 
         $product = Product::find($product_id)->first();
@@ -775,6 +781,7 @@ class ProductController extends Controller
 
         $productImage = new ProductImage([
             'product_id' => $product_id,
+            'color_id' => $color_id,
             'file_name' => $filename,
             'file_type' => $fileType,
             'file_path' => $filePath,
