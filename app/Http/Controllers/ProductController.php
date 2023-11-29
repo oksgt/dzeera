@@ -796,6 +796,7 @@ class ProductController extends Controller
     {
         // Get the ID of the image to set as the thumbnail
         $imageId = $request->input('image_id');
+        $colorId = $request->input('color_id');
 
         // Find the product image in the database
         $productImage = ProductImage::findOrFail($imageId);
@@ -807,6 +808,7 @@ class ProductController extends Controller
         // Set the is_thumbnail column for all other images of the product to 0
         ProductImage::where('product_id', $productImage->product_id)
             ->where('id', '<>', $productImage->id)
+            ->where('color_id', '<>', $colorId)
             ->update(['is_thumbnail' => 0]);
 
         // Return a success response
