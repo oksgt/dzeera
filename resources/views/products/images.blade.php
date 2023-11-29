@@ -190,6 +190,7 @@
                                     @csrf
                                     @method('post')
                                     <input type="hidden" name="image_id" value="{{$product_image->id}}">
+                                    <input type="hidden" name="color_id" value="{{$ProductColorOption->id}}">
                                     <button class="btn btn-primary btn-sm" type="submit">Set as Thumbnail</button>
                                     </form>
                                 @else
