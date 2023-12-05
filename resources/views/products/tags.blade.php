@@ -55,7 +55,7 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.detail', ['product' => $product]) }}">Detail</a>
-                    <li class="breadcrumb-item"><a href="{{ route('product.images', ['product' => $product]) }}">Tags</a>
+                    <li class="breadcrumb-item"><a href="#">Tags</a>
                     </li>
                 </ol>
             </nav>
@@ -143,23 +143,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        function set_thumbnail(imageId) {
-            $.ajax({
-                url: '{{ url('product/images/setThumbnail') }}',
-                type: 'POST',
-                data: {
-                    image_id: imageId
-                },
-                success: function(response) {
-                    console.log(response.message);
-                    // Do something on success, such as updating the UI or reloading the page
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    // Do something on error, such as displaying an error message
-                }
-            });
-        }
     });
 </script>
 {{-- @endpush
