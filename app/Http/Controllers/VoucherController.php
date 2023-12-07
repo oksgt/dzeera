@@ -125,7 +125,9 @@ class VoucherController extends Controller
 
         $validatedData['start_date'] = date('Y-m-d', strtotime($validatedData['start_date']));
         $validatedData['end_date']   = date('Y-m-d', strtotime($validatedData['end_date']));
-        $validatedData['value'] = (int) str_replace('.', '', $validatedData['value']);
+        if(isset($validatedData['value'])){
+            $validatedData['value'] = (int) str_replace('.', '', $validatedData['value']);
+        }
 
         $voucher->update($validatedData);
 
