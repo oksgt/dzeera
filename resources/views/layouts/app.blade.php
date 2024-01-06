@@ -48,6 +48,16 @@
         if (document.getElementById('info_mesasge') !== null) {
             CKEDITOR.replace('info_mesasge');
         }
+
+        if (document.getElementById('about-us-text') !== null) {
+            CKEDITOR.replace('about-us-text');
+        }
+    </script>
+    <script>
+        function onBrandSelect(selectElement) {
+            var selectedBrandId = selectElement.value;
+            window.location.href = "{{ route('about-us.index') }}?brand_id=" + selectedBrandId;
+        }
     </script>
 
 </body>

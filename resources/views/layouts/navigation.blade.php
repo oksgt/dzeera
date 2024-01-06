@@ -173,6 +173,15 @@
                     </a>
                 </li>
 
+                <li class="nav-item ">
+                    <a href="{{ route('about-us.index') }}" class="nav-link">
+                        <span class="sidebar-icon me-3">
+                            <i class="fas fa-desktop"></i>
+                        </span>
+                        <span class="sidebar-text">{{ __('About Us') }}</span>
+                    </a>
+                </li>
+
                 {{-- <li class="nav-item ">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon me-3">
