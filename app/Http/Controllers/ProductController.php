@@ -125,7 +125,8 @@ class ProductController extends Controller
                             if ($productId) {
                                 $query->where('id', '!=', $productId);
                             }
-                        }),
+                        })
+                        ->whereNull('deleted_at'),
                 ],
             ];
 
