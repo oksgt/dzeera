@@ -153,4 +153,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/modal-popup', [\App\Http\Controllers\ModalController::class, 'index'])->name('modal-popup.index');
     Route::post('/modal-popup', [\App\Http\Controllers\ModalController::class, 'updateModalPopup'])->name('modal-popup.update');
+
+    Route::get('/about-us', [\App\Http\Controllers\ModalController::class, 'index'])->name('about-us.index');
 });
