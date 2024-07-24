@@ -176,9 +176,9 @@
                 <li class="nav-item ">
                     <a href="{{ route('about-us.index') }}" class="nav-link">
                         <span class="sidebar-icon me-3">
-                            <i class="fas fa-user-group"></i>
+                            <i class="fas fa-desktop"></i>
                         </span>
-                        <span class="sidebar-text">{{ __('About us') }}</span>
+                        <span class="sidebar-text">{{ __('About Us') }}</span>
                     </a>
                 </li>
 
