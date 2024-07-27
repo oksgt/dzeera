@@ -62,7 +62,7 @@
             @if ($transaction->payment_method == 'Bank Transfer')
 
 
-                @if ($givenDateTime < $currentDateTime )
+                @if ($givenDateTime < $currentDateTime && $transaction->trans_status != 'paid')
 
                     <div class="col-2 col-offset-5">
                         <div class="alert alert-{{ $transaction->trans_status == 'paid' ? 'success' : 'danger' }} text-center">Cancelled</div>

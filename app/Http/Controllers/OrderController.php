@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $column = $request->input('sort', 'created_at');
-        $direction = $request->input('dir', 'asc');
+        $direction = $request->input('dir', 'desc');
 
         $query = $request->input('q', '');
 

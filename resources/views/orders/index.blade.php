@@ -124,7 +124,7 @@
                                 @endphp
                                 @if ($row->payment_method == 'Bank Transfer')
 
-                                @if ($givenDateTime < $currentDateTime )
+                                @if ($givenDateTime < $currentDateTime && $row->trans_status != 'paid' )
 
                                     <h5><span class="badge bg-danger">Cancelled</span></h5>
 
